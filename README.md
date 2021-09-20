@@ -1,2 +1,2 @@
-# RWorkshop-at-UF
- RWorkshop for UF Marketing Department
+# RWorkshop
+RWorkshop for UF Marketing Department
