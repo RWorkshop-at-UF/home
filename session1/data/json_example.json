@@ -1,0 +1,14 @@
+{
+    "people":[
+        {"name": "Tek",
+            "office": "Stuzin",
+            "email": "songt@ufl.edu",
+            "favorite number": 7
+        },
+        {"name": "Song",
+            "office": "260",
+            "email": "songt@warrington.ufl.edu",
+            "favorite number": 11
+            }
+    ]
+}
