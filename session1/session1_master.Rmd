@@ -27,11 +27,6 @@ knitr::opts_chunk$set(echo=T, eval=F, cache = T)
 <li>**Basic RStudio interface**</li>
 </ol>
 
-Update this outline
-update: Example
-read.csv
-
-
 ## How to install R and RStudio | Download and Install R
 - [`Download R`](https://mirror.las.iastate.edu/CRAN/)
 - [`Download RStudio`](https://www.rstudio.com/products/rstudio/download/)
