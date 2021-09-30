@@ -176,13 +176,19 @@ slide:not(.current) .plotly.html-widget{
           </hgroup>
   </slide>
 
-<slide class=""><hgroup><h2>Session Outline</h2></hgroup><article  id="session-outline">
+<slide class=""><hgroup><h2>Session 1 Outline</h2></hgroup><article  id="session-1-outline">
 
 <ol type="1">
 
 <li>
 
 <strong>How to install R and RStudio</strong>
+
+</li>
+
+<li>
+
+<strong>Basic RStudio interface</strong>
 
 </li>
 
@@ -200,43 +206,31 @@ slide:not(.current) .plotly.html-widget{
 
 <li>
 
-<strong>How to load and save data in R</strong>
+<strong>How to read and write data in R</strong>
 
 </li>
 
 <li>
 
-<strong>Operator Precedence in R</strong>
+<strong>Operator precedence in R</strong>
 
 </li>
 
 <li>
 
-<strong>How to name an object in R</strong>
+<strong>Naming conventions in R</strong>
 
 </li>
 
 <li>
 
-<strong>How to make comments in R</strong>
-
-</li>
-
-<li>
-
-<strong>How to run a line or lines in R</strong>
-
-</li>
-
-<li>
-
-<strong>Basic RStudio interface</strong>
+<strong>Useful hot-keys in R</strong>
 
 </li>
 
 </ol>
 
-</article></slide><slide class=""><hgroup><h2>How to install R and RStudio </h2><h3> Download and Install R</h3></hgroup><article  id="how-to-install-r-and-rstudio-download-and-install-r">
+</article></slide><slide class=""><hgroup><h2>How to Install R and RStudio </h2><h3> Download and Install R</h3></hgroup><article  id="how-to-install-r-and-rstudio-download-and-install-r">
 
 <ul>
 <li><a href='https://mirror.las.iastate.edu/CRAN/' title=''><code>Download R</code></a></li>
@@ -253,7 +247,7 @@ slide:not(.current) .plotly.html-widget{
 
 <!-- </div> -->
 
-</article></slide><slide class=""><hgroup><h2>Before we begin</h2></hgroup><article  id="before-we-begin">
+</article></slide><slide class=""><hgroup><h2>Before We Begin</h2></hgroup><article  id="before-we-begin">
 
 <ol>
 
@@ -333,7 +327,7 @@ Extract the data set to your working directory
 
 </p>
 
-</article></slide><slide class=""><hgroup><h2>How to install R packages </h2><h3> CRAN: Comprehensive R Archive Network</h3></hgroup><article  id="how-to-install-r-packages-cran-comprehensive-r-archive-network">
+</article></slide><slide class=""><hgroup><h2>How to Install R packages </h2><h3> CRAN: Comprehensive R Archive Network</h3></hgroup><article  id="how-to-install-r-packages-cran-comprehensive-r-archive-network">
 
 <ol type="1">
 
@@ -381,7 +375,7 @@ Enter the name of the package(s)
 
 </ol>
 
-</article></slide><slide class=""><hgroup><h2>How to install R packages </h2><h3> CRAN: Comprehensive R Archive Network</h3></hgroup><article  id="how-to-install-r-packages-cran-comprehensive-r-archive-network-1">
+</article></slide><slide class=""><hgroup><h2>How to Install R packages </h2><h3> CRAN: Comprehensive R Archive Network</h3></hgroup><article  id="how-to-install-r-packages-cran-comprehensive-r-archive-network-1">
 
 <ol type="1" start="2">
 
@@ -415,7 +409,7 @@ Install multiple packages
 
 </ol>
 
-</article></slide><slide class=""><hgroup><h2>How to install R packages </h2><h3> GitHub</h3></hgroup><article  id="how-to-install-r-packages-github">
+</article></slide><slide class=""><hgroup><h2>How to Install R packages </h2><h3> GitHub</h3></hgroup><article  id="how-to-install-r-packages-github">
 
 <ol type="1">
 
@@ -459,7 +453,7 @@ username: <code>RWorkshop-at-UF</code><br>repository: <code>pkg_example</code><b
 
 </ol>
 
-</article></slide><slide class=""><hgroup><h2>How to install R packages </h2><h3> Load R packages</h3></hgroup><article  id="how-to-install-r-packages-load-r-packages">
+</article></slide><slide class=""><hgroup><h2>How to Install R packages </h2><h3> Load R packages</h3></hgroup><article  id="how-to-install-r-packages-load-r-packages">
 
 <ol type="1">
 
@@ -479,7 +473,7 @@ Use RStudio
 
 </ol>
 
-</article></slide><slide class=""><hgroup><h2>How to install R packages </h2><h3> Load R packages</h3></hgroup><article  id="how-to-install-r-packages-load-r-packages-1">
+</article></slide><slide class=""><hgroup><h2>How to Install R packages </h2><h3> Load R packages</h3></hgroup><article  id="how-to-install-r-packages-load-r-packages-1">
 
 <ol type="1" start="2">
 
@@ -508,7 +502,7 @@ sapply(pkg, require, character.only = TRUE)</pre>
 
 </ol>
 
-</article></slide><slide class=""><hgroup><h2>Calling a function from an R Package</h2></hgroup><article  id="calling-a-function-from-an-r-package">
+</article></slide><slide class=""><hgroup><h2>Calling a Function from an R Package</h2></hgroup><article  id="calling-a-function-from-an-r-package">
 
 <ol type="1">
 
@@ -535,7 +529,7 @@ Call a function from the package directly
 
 </ol>
 
-</article></slide><slide class=""><hgroup><h2>How to remove R package</h2></hgroup><article  id="how-to-remove-r-package">
+</article></slide><slide class=""><hgroup><h2>How to Remove R package</h2></hgroup><article  id="how-to-remove-r-package">
 
 <ol>
 
@@ -547,7 +541,7 @@ Call a function from the package directly
 
 </ol>
 
-</article></slide><slide class=""><hgroup><h2>Calling R functions defined in other script</h2></hgroup><article  id="calling-r-functions-defined-in-other-script">
+</article></slide><slide class=""><hgroup><h2>Calling Functions from an R Script</h2></hgroup><article  id="calling-functions-from-an-r-script">
 
 Why do we do this? <br> <br>
 
@@ -609,7 +603,7 @@ Check if all packages are successfully installed
 </p></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Structure of directories</h2></hgroup><article  id="structure-of-directories">
+</article></slide><slide class=""><hgroup><h2>Tree Structure of Directories</h2></hgroup><article  id="tree-structure-of-directories">
 
 <p style="text-align:center;">
 
@@ -718,7 +712,7 @@ getwd()</pre>
 <pre class = 'prettyprint lang-r'>setwd(&quot;.&quot;) # Directory where this slide was generated
 getwd()</pre>
 
-<pre >[1] &quot;C:/Users/Tek/Desktop/RWorkshop/session1&quot;</pre>
+<pre >[1] &quot;C:/Users/Tek/Desktop/RWorkshop-at-UF/session1&quot;</pre>
 
 <li>
 
@@ -731,7 +725,7 @@ getwd()</pre>
 <pre class = 'prettyprint lang-r'>setwd(&quot;./..&quot;)  # Note: You can start anywhere
 getwd()        # Does not have to start from &quot;~/&quot; or &quot;./&quot;</pre>
 
-<pre >[1] &quot;C:/Users/Tek/Desktop/RWorkshop&quot;</pre>
+<pre >[1] &quot;C:/Users/Tek/Desktop/RWorkshop-at-UF&quot;</pre>
 
 </ol>
 
@@ -756,7 +750,7 @@ getwd()</pre>
 
 </ol>
 
-</article></slide><slide class=""><hgroup><h2>How to set a working directory</h2></hgroup><article  id="how-to-set-a-working-directory">
+</article></slide><slide class=""><hgroup><h2>How to Set a Working Directory</h2></hgroup><article  id="how-to-set-a-working-directory">
 
 <code>Working directory</code>: <br> A path that sets the default location of any files <br> you read into or write out of R <br> <br>
 
@@ -770,7 +764,7 @@ Check your current working directory
 
 <pre class = 'prettyprint lang-r'>getwd() # My working directory for constructing this presentation slide</pre>
 
-<pre >[1] &quot;C:/Users/Tek/Desktop/RWorkshop/session1&quot;</pre>
+<pre >[1] &quot;C:/Users/Tek/Desktop/RWorkshop-at-UF/session1&quot;</pre>
 
 <p style="text-align:center;">
 
@@ -780,7 +774,7 @@ Check your current working directory
 
 </ol>
 
-</article></slide><slide class=""><hgroup><h2>How to set a working directory</h2></hgroup><article  id="how-to-set-a-working-directory-1">
+</article></slide><slide class=""><hgroup><h2>How to Set a Working Directory</h2></hgroup><article  id="how-to-set-a-working-directory-1">
 
 <ol type="1" start="2">
 
@@ -814,7 +808,7 @@ setwd(choose.dir())</pre>
 
 </ol>
 
-</article></slide><slide class=""><hgroup><h2>How to set a working directory</h2></hgroup><article  id="how-to-set-a-working-directory-2">
+</article></slide><slide class=""><hgroup><h2>How to Set a Working Directory</h2></hgroup><article  id="how-to-set-a-working-directory-2">
 
 <ol type="1" start="2">
 
@@ -848,7 +842,7 @@ RStudio Interface
 
 </ol>
 
-</article></slide><slide class=""><hgroup><h2>Create/modify directories and files in R </h2><h3> List directories and files</h3></hgroup><article  id="createmodify-directories-and-files-in-r-list-directories-and-files">
+</article></slide><slide class=""><hgroup><h2>Create/Modify Directories and Files in R </h2><h3> List Directories and Files</h3></hgroup><article  id="createmodify-directories-and-files-in-r-list-directories-and-files">
 
 <ol type="i">
 
@@ -878,7 +872,7 @@ List files with specific pattern
 <pre class = 'prettyprint lang-r'>list.files(pattern=&quot;.*\\.html&quot;)  # list any file with .html extension
 dir(pattern=&quot;.*\\.html&quot;)         # list any file with .html extension</pre>
 
-<pre >[1] &quot;session1_master.html&quot;</pre>
+<pre >character(0)</pre>
 
 <p class="pnote">
 
@@ -888,7 +882,7 @@ dir(pattern=&quot;.*\\.html&quot;)         # list any file with .html extension<
 
 </ol>
 
-</article></slide><slide class=""><hgroup><h2>Create/modify directories and files in R </h2><h3> Create directory and file</h3></hgroup><article  id="createmodify-directories-and-files-in-r-create-directory-and-file">
+</article></slide><slide class=""><hgroup><h2>Create/Modify Directories and Files in R </h2><h3> Create Directory and File</h3></hgroup><article  id="createmodify-directories-and-files-in-r-create-directory-and-file">
 
 <ol type="i">
 
@@ -903,7 +897,7 @@ file.create(&quot;some_file_with_extension&quot;)</pre>
 dir.create(&quot;new_dir&quot;)
 file.create(&quot;new_dir/new_text_file.txt&quot;)</pre>
 
-</article></slide><slide class=""><hgroup><h2>Create/modify directories and files in R </h2><h3> Delete directory and file</h3></hgroup><article  id="createmodify-directories-and-files-in-r-delete-directory-and-file">
+</article></slide><slide class=""><hgroup><h2>Create/Modify Directories and Files in R </h2><h3> Delete Directory and File</h3></hgroup><article  id="createmodify-directories-and-files-in-r-delete-directory-and-file">
 
 <ol>
 
@@ -923,7 +917,7 @@ unlink(&quot;new_dir&quot;, recursive = T)</pre>
 
 </ol>
 
-</article></slide><slide class=""><hgroup><h2>How to read and write data in R </h2><h3> CSV extension</h3></hgroup><article  id="how-to-read-and-write-data-in-r-csv-extension">
+</article></slide><slide class=""><hgroup><h2>How to Read/Write Data in R </h2><h3> CSV Extension</h3></hgroup><article  id="how-to-readwrite-data-in-r-csv-extension">
 
 <ol type="1">
 
@@ -963,7 +957,7 @@ read.csv(file,                 # Path and file name
 
 </p>
 
-</article></slide><slide class=""><hgroup><h2>How to read and write data in R </h2><h3> CSV extension</h3></hgroup><article  id="how-to-read-and-write-data-in-r-csv-extension-1">
+</article></slide><slide class=""><hgroup><h2>How to Read/Write Data in R </h2><h3> CSV Extension</h3></hgroup><article  id="how-to-readwrite-data-in-r-csv-extension-1">
 
 <ol type="1">
 
@@ -985,17 +979,55 @@ Reading csv file:
 
 # Read csv file name &quot;csv_example&quot; from cwd and name it df
 df&lt;-read.csv(&quot;data/csv_example.csv&quot;)
-# read.csv(&quot;data/semicol.csv&quot;, header = F, sep = &quot;;&quot;)
+# read.csv(&quot;data/semicol.csv&quot;, header = F, sep = &quot;;&quot;)</pre>
 
-# `file` could be a complete URL
+<p style="font-size:18px">
+
+Check data after reading the file
+
+</p>
+
+<pre class = 'prettyprint lang-r'>head(df)      # Returns first n observations (default 6)
+tail(df, 100) # Returns last 100 observations
+View(df)      # uppercase V. Displays the entire data in a new tab</pre>
+
+</ol>
+
+</ol>
+
+</article></slide><slide class=""><hgroup><h2>How to Read/Write Data in R </h2><h3> CSV Extension</h3></hgroup><article  id="how-to-readwrite-data-in-r-csv-extension-2">
+
+<ol type="1">
+
+<li>
+
+Reading csv file:
+
+</li>
+
+<ol type="i">
+
+<li>
+
+<a href='https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/read.table' title=''><code>read.csv()</code></a>
+
+</li>
+
+<pre class = 'prettyprint lang-r'># `file` could be an URL address
 x=&quot;https://raw.githubusercontent.com/nytimes/covid-19-data/master/us.csv&quot;
-read.csv(x)</pre>
+mydata&lt;-read.csv(x) # I am going to name it &quot;mydata&quot; this time</pre>
 
 </ol>
 
+<p class="pnote">
+
+<b>NOTE</b>: Check the newly created object <code>mydata</code> in the Environment pane.
+
+</p>
+
 </ol>
 
-</article></slide><slide class=""><hgroup><h2>How to read and write data in R </h2><h3> CSV extension</h3></hgroup><article  id="how-to-read-and-write-data-in-r-csv-extension-2">
+</article></slide><slide class=""><hgroup><h2>How to Read/Write Data in R </h2><h3> CSV Extension</h3></hgroup><article  id="how-to-readwrite-data-in-r-csv-extension-3">
 
 <ol type="1">
 
@@ -1033,7 +1065,7 @@ data.table::fread(...)</pre>
 
 </p>
 
-</article></slide><slide class=""><hgroup><h2>How to read and write data in R </h2><h3> CSV extension</h3></hgroup><article  id="how-to-read-and-write-data-in-r-csv-extension-3">
+</article></slide><slide class=""><hgroup><h2>How to Read/Write Data in R </h2><h3> CSV Extension</h3></hgroup><article  id="how-to-readwrite-data-in-r-csv-extension-4">
 
 <ol type="1" start="2">
 
@@ -1066,7 +1098,7 @@ write.csv(df, &quot;data/new_csv.csv&quot;, row.names = F)</pre>
 
 </ol>
 
-</article></slide><slide class=""><hgroup><h2>How to read and write data in R </h2><h3> XLSX extension</h3></hgroup><article  id="how-to-read-and-write-data-in-r-xlsx-extension">
+</article></slide><slide class=""><hgroup><h2>How to Read/Write Data in R </h2><h3> XLSX Extension</h3></hgroup><article  id="how-to-readwrite-data-in-r-xlsx-extension">
 
 <p>xlsx format needs a separate library</p>
 
@@ -1105,7 +1137,7 @@ readxl::read_excel(&quot;data/xlsx_example.xlsx&quot;, 2)</pre>
 
 </p>
 
-</article></slide><slide class=""><hgroup><h2>How to read and write data in R </h2><h3> XLSX extension</h3></hgroup><article  id="how-to-read-and-write-data-in-r-xlsx-extension-1">
+</article></slide><slide class=""><hgroup><h2>How to Read/Write Data in R </h2><h3> XLSX extension</h3></hgroup><article  id="how-to-readwrite-data-in-r-xlsx-extension-1">
 
 <ol>
 
@@ -1119,7 +1151,7 @@ openxlsx::write.xlsx(x, &quot;data/new_xlsx.xlsx&quot;)</pre>
 
 </ol>
 
-</article></slide><slide class=""><hgroup><h2>How to read/write in R binary format</h2><h3> .rds and .Rdata(rda) Extension</h3></hgroup><article  id="how-to-readwrite-in-r-binary-format-.rds-and-.rdatarda-extension">
+</article></slide><slide class=""><hgroup><h2>How to Read/Write R Binary Format</h2><h3> .rds and .Rdata(rda) Extension</h3></hgroup><article  id="how-to-readwrite-r-binary-format-.rds-and-.rdatarda-extension">
 
 Binary formats are fast and space efficient
 
@@ -1137,7 +1169,7 @@ thermo_rds&lt;-readRDS(&quot;data/thermostat_amazon.rds&quot;)</pre>
 
 </ol>
 
-</article></slide><slide class=""><hgroup><h2>How to read/write in R binary format</h2><h3> .rds and .Rdata(rda) Extension</h3></hgroup><article  id="how-to-readwrite-in-r-binary-format-.rds-and-.rdatarda-extension-1">
+</article></slide><slide class=""><hgroup><h2>How to Read/Write R Binary Format</h2><h3> .rds and .Rdata(rda) Extension</h3></hgroup><article  id="how-to-readwrite-r-binary-format-.rds-and-.rdatarda-extension-1">
 
 <ol>
 
@@ -1156,7 +1188,7 @@ file.size(&quot;data/thermostat_amazon.rds&quot;)/10^6</pre>
 
 </p>
 
-</article></slide><slide class=""><hgroup><h2>How to load and save in R </h2><h3> Read-in Lines</h3></hgroup><article  id="how-to-load-and-save-in-r-read-in-lines">
+</article></slide><slide class=""><hgroup><h2>How to Read/Write Data in R </h2><h3> Read-in Lines</h3></hgroup><article  id="how-to-readwrite-data-in-r-read-in-lines">
 
 <ol>
 
@@ -1173,7 +1205,7 @@ writeLines(x, &quot;data/new_txt.txt&quot;)</pre>
 
 </ol>
 
-</article></slide><slide class=""><hgroup><h2>How to load and save in R </h2><h3> .json file Extension</h3></hgroup><article  id="how-to-load-and-save-in-r-.json-file-extension">
+</article></slide><slide class=""><hgroup><h2>How to Read/Write Data in R </h2><h3> .json file Extension</h3></hgroup><article  id="how-to-readwrite-data-in-r-.json-file-extension">
 
 <ol>
 
@@ -1433,16 +1465,29 @@ x %/% y        # Integer Division
 
 </ol>
 
-</article></slide><slide class=""><hgroup><h2>Operator Syntax and Precedence </h2><h3> Logical Operators</h3></hgroup><article  id="operator-syntax-and-precedence-logical-operators">
+</article></slide><slide class=""><hgroup><h2>Operator Syntax and Precedence </h2><h3> Relational &amp; Logical Operators</h3></hgroup><article  id="operator-syntax-and-precedence-relational-logical-operators">
 
 <ol type="1">
 
+<li>
+
+Relational Operators
+
+</li>
+
 <pre class = 'prettyprint lang-r'># inequalities &lt;, &lt;=, &gt;, &gt;=
 
-==             # Exactly equal to.
+x == y         # x exactly equal to y
 x %in% y       # What is in x that is also in y (exact match)
-x != y         # x not equal to y 
-!x             # Not x (can be used to negate TRUE to FALSE or vice versa)
+x != y         # x not equal to y </pre>
+
+<li>
+
+Logical Operators
+
+</li>
+
+<pre class = 'prettyprint lang-r'>!x             # Not x (can be used to negate TRUE to FALSE or vice versa)
 x | y          # x or y (vectorized)
 x || y         # x or y (not vectorized)
 x &amp; y          # x and y (vectorized)
@@ -1451,7 +1496,7 @@ x &amp;&amp; y         # x and y (not vectorized)
 
 </ol>
 
-</article></slide><slide class=""><hgroup><h2>Operator Syntax and Precedence </h2><h3> Logical Operators</h3></hgroup><article  id="operator-syntax-and-precedence-logical-operators-1">
+</article></slide><slide class=""><hgroup><h2>Operator Syntax and Precedence </h2><h3> Logical Operators</h3></hgroup><article  id="operator-syntax-and-precedence-logical-operators">
 
 Examples
 
@@ -1474,7 +1519,7 @@ fruits %in% c(&quot;apple&quot;, &quot;banana&quot;); c(&quot;apple&quot;, &quot
 
 </ol>
 
-</article></slide><slide class=""><hgroup><h2>Operator Syntax and Precedence </h2><h3> Logical Operators</h3></hgroup><article  id="operator-syntax-and-precedence-logical-operators-2">
+</article></slide><slide class=""><hgroup><h2>Operator Syntax and Precedence </h2><h3> Logical Operators</h3></hgroup><article  id="operator-syntax-and-precedence-logical-operators-1">
 
 Examples
 
@@ -1502,7 +1547,7 @@ y &lt;= 3 || y &gt; 6</pre>
 
 </p>
 
-</article></slide><slide class=""><hgroup><h2>Operator Syntax and Precedence </h2><h3> Precedence - highest to lowest</h3></hgroup><article  id="operator-syntax-and-precedence-precedence---highest-to-lowest">
+</article></slide><slide class=""><hgroup><h2>Operator Syntax and Precedence </h2><h3> Precedence - Highest to Lowest</h3></hgroup><article  id="operator-syntax-and-precedence-precedence---highest-to-lowest">
 
 <ol type="1">
 
@@ -1623,7 +1668,17 @@ Interrupt R - Esc
 
 </li>
 
-</ol></article></slide>
+</ol>
+
+</article></slide><slide class=""><hgroup><h2>Topics for Session 2</h2></hgroup><article  id="topics-for-session-2">
+
+Data types and structures in R <br> <br> <br> <br> <br>
+
+<center>
+
+Any Questions?
+
+</center></article></slide>
 
 
   <slide class="backdrop"></slide>
