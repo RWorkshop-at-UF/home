@@ -722,8 +722,8 @@ na.me
 # The four basic operators +, - , *, /
 
 ^ or **        # Exponentiation
-x %% y         # Modulus           (returns remainder of a division)
-x %/% y        # Integer Division
+x %% y         # Modular division   (returns remainder of a division)
+x %/% y        # Integer division   (returns integer part of the division)
 
 %*%            # Matrix Multiplication
 %o%            # Outer product

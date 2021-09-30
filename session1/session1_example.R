@@ -245,10 +245,9 @@ na.me
 # There are other base math functions
 sqrt(4)
 sin(pi/2)
-exp(1)
-log(exp(1))
+exp(1)         # Unfortunately there is no 'e'
+log(exp(1))    # log in R is actually natural log
 log10(10)
-
 
 ##### Relational Operators
 # Inequalities
@@ -335,6 +334,13 @@ y >= 3 && y < 6
 
 # a=5
 # c=(a=a-1)*(b=a=a+2)
+
+
+##################  Your Turn (Extra)!  ##################################
+# Extra 1
+# You've ran a survey and it took 7325 seconds for "John" to finish.
+# Change the time (sec) to hours: minutes: Seconds format.
+# Hint: Use integer division (%/%) and modulo (%%)
 
 
 ##################  Useful Hot Keys & More  #######################
