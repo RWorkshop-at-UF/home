@@ -686,13 +686,14 @@ Example
 <li>save</li>
 <li>T or F</li>
 </ul>
+<li>Avoid starting a name with a number</li>
 </ol>
 </ol>
 
 ## Operator Syntax and Precedence | Assignment Operators - Naming Conventions in R
 <ol type="1" start="2">
 <li>Things Not-To-Do</li>
-<ol type="i" start="2">
+<ol type="i" start="3">
 <li>Avoid using period `.` in a name</li>
 <!-- <p style="font-size:18px"> -->
 ```{r eval=T, comment=""}
