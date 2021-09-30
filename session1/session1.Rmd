@@ -51,6 +51,7 @@ knitr::opts_chunk$set(echo=T, eval=F, cache = T)
   <li>Save the R script inside your new folder</li>
 </ul>
 <li> Download <a href="https://rworkshop-at-uf.github.io/session1/data.zip">Session1_Dataset</a></li>
+<li> Download <a href="https://rworkshop-at-uf.github.io/session1/session1_example.R">Session1 Example Script</a></li>
 <ul>
   <li>Extract the data set to your working directory</li>
 </ul>
