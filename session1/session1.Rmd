@@ -18,11 +18,11 @@ knitr::opts_chunk$set(echo=T, eval=F, cache = T)
 <ol type="1">
 <li>**How to install R and RStudio**</li>
 <li>**Basic RStudio interface**</li>
+<li>**Operator precedence in R**</li>
+<li>**Naming conventions in R**</li>
 <li>**How to install R packages**</li>
 <li>**How to set the working directory**</li>
 <li>**How to read and write data in R**</li>
-<li>**Operator precedence in R**</li>
-<li>**Naming conventions in R**</li>
 <li>**Useful hot-keys in R**</li>
 </ol>
 
@@ -59,8 +59,274 @@ knitr::opts_chunk$set(echo=T, eval=F, cache = T)
 </ol>
 
 
+## What is R? | R...
+<ol>
+<li>is a (free) prgramming language -- grammar, vocabulary</li>
+<li>is a (graphic) calculator</li>
+<li>can load, examine, summarize, create data</li>
+</ol>
+
 ## RStudio Interface | Panes
 <p style="text-align:center;"><img src="images/RStudio-panes.png" style="width:100%"></p>
+
+
+## Operator Syntax and Precedence | Assignment Operators
+<ol type="1">
+<p style="font-size:18px">Assign object name into the environment in which they are evaluated</p>
+```{r eval=F}
+# Basic Right to left Assignment Syntax
+
+# x: a variable name. 
+# value: a value to be assigned to `x`
+x<-value
+x=value
+x<<-value # Usually used inside a function. 
+          # Assignment takes place in the global environment
+# Left to right assignment -> and ->> works similarly
+```
+<p class="pnote"><a href="https://cran.r-project.org/doc/manuals/r-release/R-lang.html#Operators">List of base R operators</a></p>
+</ol>
+
+## Operator Syntax and Precedence | Assignment Operators
+<ol>
+Comparison between `<-` and `<<-`<br>
+```{r}
+# Example with <-
+g=function(){
+  not_saved <-"saved inside a function envvironment";
+}
+g()
+```
+
+```{r}
+# Example with <<-
+f=function(){
+  saved<<-"saved to the global environment"
+}
+f()
+```
+</ol>
+<p style="font-size:18px">Check the Environment pane after running each code chunk</p>
+```{r echo=F}
+# Check the Environment pane after running each function
+g=function(){
+  not_saved<-"saved inside a function";
+  # print(environment())
+  # print(ls())
+}
+```
+
+```{r echo=F}
+f=function(){
+  saved<<-"saved to the global environment"
+  # print(environment())
+  # print(ls())
+}
+```
+
+
+## Operator Syntax and Precedence | Assignment Operators - Naming Conventions in R
+<ol type="1">
+<li>Things To-Do</li>
+<ol type="i">
+<li>Remove spaces between words</li>
+```{r}
+# You can do it but...
+`space here`<-"there is a space"
+```
+
+Alternatively...
+<ul>
+<li>snake_case</li>
+<li>camelCase/PascalCase</li>
+</ul>
+<li>Keep it short(er) and consistent</li>
+<li>Try to make it meaningful (avoid generic names)</li>
+</ol>
+
+## Operator Syntax and Precedence | Assignment Operators - Naming Conventions in R
+
+<ol type="1" start="2">
+<li>Things Not-To-Do</li>
+<ol type="i">
+<li>Avoid using special keywords or names already occupied</li>
+Example
+<ul>
+<li>c</li>
+<li>next</li>
+<li>save</li>
+<li>T or F</li>
+</ul>
+<li>Avoid starting a name with a number</li>
+</ol>
+</ol>
+
+## Operator Syntax and Precedence | Assignment Operators - Naming Conventions in R
+<ol type="1" start="2">
+<li>Things Not-To-Do</li>
+<ol type="i" start="3">
+<li>Avoid using period `.` in a name</li>
+<!-- <p style="font-size:18px"> -->
+```{r eval=T, comment=""}
+# You can do it but...
+.<-1
+.+.
+```
+
+```{r eval=T, comment=""}
+# Also avoid having "." within a name
+# You can do it but...
+na.me<-"This type of naming may have a special meaning"
+na.me
+```
+
+<!-- identifier and preceding qualifier, separation of methods and classes in S3, to hide internal functions -->
+
+</ol>
+</ol>
+
+## Operator Syntax and Precedence | Mathematical Operators
+
+<ol type="1">
+```{r eval=F}
+# The four basic operators +, - , *, /
+
+^ or **        # Exponentiation
+x %% y         # Modular division   (returns remainder of a division)
+x %/% y        # Integer division   (returns integer part of the division)
+
+%*%            # Matrix Multiplication
+%o%            # Outer product
+%x%            # Kronecker product
+```
+</ol>
+
+## Operator Syntax and Precedence | Relational & Logical Operators
+<ol type="1">
+<li> Relational Operators</li>
+```{r}
+# inequalities <, <=, >, >=
+
+x == y         # x exactly equal to y
+x %in% y       # What is in x that is also in y (exact match)
+x != y         # x not equal to y 
+```
+
+<li> Logical Operators</li>
+```{r eval=F}
+!x             # Not x (can be used to negate TRUE to FALSE or vice versa)
+x | y          # x or y (vectorized)
+x || y         # x or y (not vectorized)
+x & y          # x and y (vectorized)
+x && y         # x and y (not vectorized)
+# Check the difference between | vs. || and & vs. &&
+```
+</ol>
+
+## Operator Syntax and Precedence | Logical Operators
+Examples
+<ol>
+```{r}
+x<-10; x>10; x>=10
+```
+
+```{r}
+0==F; 1==T
+T+T
+```
+
+```{r}
+a="apple"; b="banana"
+a == b; a != b; !(a != b)
+
+fruits <- c("apple", "banana", "mango")
+fruits == "apple"; "apple" == fruits
+fruits == c("apple", "banana")       # This will not work. Use `%in%` instead of `==`
+# x %in% y   What is in x that is also in y
+fruits %in% c("apple", "banana"); c("apple", "banana") %in% fruits
+# How to code "what is in x but not in y
+```
+</ol>
+
+
+## Operator Syntax and Precedence | Logical Operators
+Examples
+<ol>
+```{r}
+T|T; T|F; F|F             # `|` is the "or" operator
+c(T, T, F) | c(T, F, F)
+```
+
+```{r}
+T&T; T&F; F&F             # `&` is the "and" operator
+c(T, T, F) & c(T, F, F)
+```
+
+```{r}
+x<-5
+x >= 3 & x < 6
+y=c(1, 3, 5, 7)
+y >= 3 & y < 6
+y >= 3 && y < 6     
+y <= 3 | y > 6
+y <= 3 || y > 6
+```
+</ol>
+
+## Operator Syntax and Precedence | Precedence - Highest to Lowest
+<ol type="1">
+```{r eval=F, size=1}
+:: :::            # access variables in a namespace
+$ @               # component / slot extraction
+[ [[              # indexing
+^ **              # exponentiation (right to left)
+- +               # unary minus and plus
+:                 # sequence operator
+%any% |>          # special operators (including %% and %/%)
+* /               # multiply, divide
++ -               # (binary) add, subtract
+< > <= >= == !=   # ordering and comparison
+!                 # negation
+& &&              # and
+| ||              # or
+~                 # as in formulae
+-> ->> <- <<-     # assignment
+=                 # assignment (right to left)
+```
+</ol>
+
+
+## Your Turn! | Operator Syntax and Precedence
+
+<p style="font-size:20px">Predict the output of the following code chunks <b>WITHOUT</b> running the lines</P>
+<ol>
+```{r}
+100 + 200 / 10 - 3 * 10
+```
+
+```{r}
+201 %/% 10 / 5    # Note: %/% is an integer division
+```
+
+```{r}
+!F|T&c(T, F)
+```
+
+```{r}
+a=5
+c=(b=a+2)-(a=a-1)
+```
+
+```{r}
+! c(TRUE, F, FALSE, 1)
+```
+
+```{r}
+x<-1:5
+! x < 3
+```
+</ol>
+
 
 
 ## How to Install R packages | CRAN: Comprehensive R Archive Network
@@ -602,263 +868,6 @@ write(now_json, "data/new_json.json")
 </ol>
 <p class="pnote"><b>NOTE</b>: <a href="https://www.w3schools.com/js/js_json_syntax.asp"> JSON syntax </a></p>
 <p class="pnote">Please check <a href="https://cran.r-project.org/web/packages/jsonlite/jsonlite.pdf">`jsonlite`</a>,  <a href="https://cran.r-project.org/web/packages/rjson/rjson.pdf">`rjson`</a>, and <a href="https://cran.r-project.org/web/packages/RJSONIO/RJSONIO.pdf">`JRSONIO`</a> packages</p>
-
-## Operator Syntax and Precedence | Assignment Operators
-<ol type="1">
-<p style="font-size:18px">Assign object name into the environment in which they are evaluated</p>
-```{r eval=F}
-# Basic Right to left Assignment Syntax
-
-# x: a variable name. 
-# value: a value to be assigned to `x`
-x<-value
-x=value
-x<<-value # Usually used inside a function. 
-          # Assignment takes place in the global environment
-# Left to right assignment -> and ->> works similarly
-```
-<p class="pnote"><a href="https://cran.r-project.org/doc/manuals/r-release/R-lang.html#Operators">List of base R operators</a></p>
-</ol>
-
-## Operator Syntax and Precedence | Assignment Operators
-<ol>
-Comparison between `<-` and `<<-`<br>
-```{r}
-# Example with <-
-g=function(){
-  not_saved <-"saved inside a function envvironment";
-}
-g()
-```
-
-```{r}
-# Example with <<-
-f=function(){
-  saved<<-"saved to the global environment"
-}
-f()
-```
-</ol>
-<p style="font-size:18px">Check the Environment pane after running each code chunk</p>
-```{r echo=F}
-# Check the Environment pane after running each function
-g=function(){
-  not_saved<-"saved inside a function";
-  # print(environment())
-  # print(ls())
-}
-```
-
-```{r echo=F}
-f=function(){
-  saved<<-"saved to the global environment"
-  # print(environment())
-  # print(ls())
-}
-```
-
-
-## Operator Syntax and Precedence | Assignment Operators - Naming Conventions in R
-<ol type="1">
-<li>Things To-Do</li>
-<ol type="i">
-<li>Remove spaces between words</li>
-```{r}
-# You can do it but...
-`space here`<-"there is a space"
-```
-
-Alternatively...
-<ul>
-<li>snake_case</li>
-<li>camelCase/PascalCase</li>
-</ul>
-<li>Keep it short(er) and consistent</li>
-<li>Try to make it meaningful (avoid generic names)</li>
-</ol>
-
-## Operator Syntax and Precedence | Assignment Operators - Naming Conventions in R
-
-<ol type="1" start="2">
-<li>Things Not-To-Do</li>
-<ol type="i">
-<li>Avoid using special keywords or names already occupied</li>
-Example
-<ul>
-<li>c</li>
-<li>next</li>
-<li>save</li>
-<li>T or F</li>
-</ul>
-<li>Avoid starting a name with a number</li>
-</ol>
-</ol>
-
-## Operator Syntax and Precedence | Assignment Operators - Naming Conventions in R
-<ol type="1" start="2">
-<li>Things Not-To-Do</li>
-<ol type="i" start="3">
-<li>Avoid using period `.` in a name</li>
-<!-- <p style="font-size:18px"> -->
-```{r eval=T, comment=""}
-# You can do it but...
-.<-1
-.+.
-```
-
-```{r eval=T, comment=""}
-# Also avoid having "." within a name
-# You can do it but...
-na.me<-"This type of naming may have a special meaning"
-na.me
-```
-
-<!-- identifier and preceding qualifier, separation of methods and classes in S3, to hide internal functions -->
-
-</ol>
-</ol>
-
-## Operator Syntax and Precedence | Mathematical Operators
-
-<ol type="1">
-```{r eval=F}
-# The four basic operators +, - , *, /
-
-^ or **        # Exponentiation
-x %% y         # Modular division   (returns remainder of a division)
-x %/% y        # Integer division   (returns integer part of the division)
-
-%*%            # Matrix Multiplication
-%o%            # Outer product
-%x%            # Kronecker product
-```
-</ol>
-
-## Operator Syntax and Precedence | Relational & Logical Operators
-<ol type="1">
-<li> Relational Operators</li>
-```{r}
-# inequalities <, <=, >, >=
-
-x == y         # x exactly equal to y
-x %in% y       # What is in x that is also in y (exact match)
-x != y         # x not equal to y 
-```
-
-<li> Logical Operators</li>
-```{r eval=F}
-!x             # Not x (can be used to negate TRUE to FALSE or vice versa)
-x | y          # x or y (vectorized)
-x || y         # x or y (not vectorized)
-x & y          # x and y (vectorized)
-x && y         # x and y (not vectorized)
-# Check the difference between | vs. || and & vs. &&
-```
-</ol>
-
-## Operator Syntax and Precedence | Logical Operators
-Examples
-<ol>
-```{r}
-x<-10; x>10; x>=10
-```
-
-```{r}
-0==F; 1==T
-T+T
-```
-
-```{r}
-a="apple"; b="banana"
-a == b; a != b; !(a != b)
-
-fruits <- c("apple", "banana", "mango")
-fruits == "apple"; "apple" == fruits
-fruits == c("apple", "banana")       # This will not work. Use `%in%` instead of `==`
-# x %in% y   What is in x that is also in y
-fruits %in% c("apple", "banana"); c("apple", "banana") %in% fruits
-# How to code "what is in x but not in y
-```
-</ol>
-
-
-## Operator Syntax and Precedence | Logical Operators
-Examples
-<ol>
-```{r}
-T|T; T|F; F|F             # `|` is the "or" operator
-c(T, T, F) | c(T, F, F)
-```
-
-```{r}
-T&T; T&F; F&F             # `&` is the "and" operator
-c(T, T, F) & c(T, F, F)
-```
-
-```{r}
-x<-5
-x >= 3 & x < 6
-y=c(1, 3, 5, 7)
-y >= 3 & y < 6
-y >= 3 && y < 6     
-y <= 3 | y > 6
-y <= 3 || y > 6
-```
-</ol>
-
-## Operator Syntax and Precedence | Precedence - Highest to Lowest
-<ol type="1">
-```{r eval=F, size=1}
-:: :::            # access variables in a namespace
-$ @               # component / slot extraction
-[ [[              # indexing
-^ **              # exponentiation (right to left)
-- +               # unary minus and plus
-:                 # sequence operator
-%any% |>          # special operators (including %% and %/%)
-* /               # multiply, divide
-+ -               # (binary) add, subtract
-< > <= >= == !=   # ordering and comparison
-!                 # negation
-& &&              # and
-| ||              # or
-~                 # as in formulae
--> ->> <- <<-     # assignment
-=                 # assignment (right to left)
-```
-</ol>
-
-
-## Your Turn! | Operator Syntax and Precedence
-
-<p style="font-size:20px">Predict the output of the following code chunks <b>WITHOUT</b> running the lines</P>
-<ol>
-```{r}
-100 + 200 / 10 - 3 * 10
-```
-
-```{r}
-201 %/% 10 / 5    # Note: %/% is an integer division
-```
-
-```{r}
-!F|T&c(T, F)
-```
-
-```{r}
-a=5
-c=(b=a+2)-(a=a-1)
-```
-
-```{r}
-! c(TRUE, F, FALSE, 1)
-```
-
-```{r}
-x<-1:5
-! x < 3
-```
-</ol>
 
 
 ## Useful Hot Keys (RStudio)

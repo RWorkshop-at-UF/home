@@ -16,6 +16,162 @@ plot(x)        # check the 4th pane
 Sys.sleep(60)  # Check the 2nd pane (stop symbol) -- How to interrupt R
 
 
+###############  Operator syntax  #############################
+
+###### Assignment operators
+x<-1
+y=1:5
+c("left", "to", "right")->z
+
+# Difference between <- and <<-
+g=function(){
+  not_saved <-"saved inside a function envvironment";
+}
+g()
+f=function(){
+  saved<<-"saved to the global environment"
+}
+f()
+
+
+##### Naming Conventions
+
+# Remove space(s)
+`space here`<-"there is a space"     # You can do it but...
+space_here<-"this is better"
+
+# Avoid using names that has special meanings or
+`next`<-"you can do it but..."
+next
+`next`
+
+# Avoid having "."
+.<-1                  # You can do it but...
+.+.
+
+na.me<-"This type of naming may have a special meaning"
+na.me
+
+
+##### Mathematical Operators
+# Think R as a calculator
+1+2
+-1*10
+2^2
+17/2
+17%/%2
+17%%2
+
+# There are other base math functions
+sqrt(4)
+sin(pi/2)
+exp(1)         # Unfortunately there is no 'e'
+log(exp(1))    # log in R is actually natural log
+log10(10)
+
+##### Relational Operators
+# Inequalities
+x <- 10        # define x
+x > 10         # try < and <= as well
+x >= 10
+x == 10
+x != 10
+TRUE==FALSE
+FALSE==FALSE
+1:5 %in% 3:10  # Among sequential integers in 1-5, 3, 4, 5 is also in sequence 3-10
+
+0==F; 1==T  # TRUE and FALSE could also be 1 and 0
+T+T
+
+# Some relational Operators also work for strings
+a="apple"; b="banana"
+a == b
+a != b
+!(a != b)
+
+fruits <- c("apple", "banana", "mango")
+fruits == "apple"
+fruits == c("apple", "banana")     # This will not work
+fruits %in% c("apple", "banana")
+c("apple", "banana") %in% fruits
+
+##### Logical Operators
+# Not x (Negate x)
+!T
+!F
+!c(TRUE, F, 0, 1, 6)
+!"chracter"              # Logical operators cannot be used with strings
+
+# OR  (Union)            # Technically, it is "Ladies OR Gentlemen"
+# `|` is the element-wise "OR" operator
+T|T
+T|F
+F|F             
+c(T, T, F) | c(T, F, F)
+
+
+# `||` is the length-one logical "OR"
+c(T, F, F) || c(F, F, F)  # Only compares the first element on either sides
+c(F, T, T) || c(F, T, T)  # FALSE. b/c first two is F when everything else is TRUE
+
+# AND  (Intersection)
+# `&` is the element-wise "AND" operator
+T&T
+T&F
+F&F             
+c(T, T, F) & c(T, F, F)
+
+# `&&` is the length-one logical "AND"
+c(T, F, F) && c(T, F, F)  # Only compares the first element on either sides
+c(T, T, T) && c(F, T, T)  # FALSE. b/c first two is F when everything else is TRUE
+
+# `||` and `&&` is useful when writing the if statement ()
+
+# Examples
+x<-5
+x >= 3 & x < 6
+
+y=c(1, 3, 5, 7)
+y <= 3 | y > 6
+y <= 3 || y > 6
+y >= 3 & y < 6
+y >= 3 && y < 6  
+
+
+###############  Operator Precedence  ############################
+# Basically the order of operations
+# Operators with higher precedence will be evaluated first
+
+# Example
+#* or / will be evaluated before + and -
+
+
+##################  Your Turn!  ##################################
+
+# Try to figure out the answer without running the code
+
+# 71 %/% 4 / 13 %% 10
+
+# a=5
+# c=(a=a-1)*(b=a=a+2)
+
+
+############  Your Turn (Extra) -- More Modulo Op.  ###############
+# Extra 1
+# You've ran a survey and it took 7325 seconds for a person to finish.
+# Change the time (sec) to hours,  minutes, and Seconds format.
+# Hint: Use integer division (%/%) and modulo (%%)
+
+
+# Extra 2
+# Determine if the following three years are leap year: 1900, 2000, 2020
+# Try NOT to use if else statement
+# FYI, what is a leap year?
+# 1. The year number must be divisible by 4.
+# 2. If divisible by 100, must be divisible by 400.
+
+
+
 ###############  How to Install R Packages ############################
 
 install.packages("dplyr")
@@ -194,161 +350,6 @@ nested_list<-list(vec=c(1,2), mat=list(mat1=diag(2), mat2=matrix(0,3,4)))
 now_json<-jsonlite::toJSON(nested_list, pretty=T)
 # save the data as .json extension
 write(now_json, "data/new_json.json")
-
-
-###############  Operator syntax  #############################
-
-###### Assignment operators
-x<-1
-y=1:5
-c("left", "to", "right")->z
-
-# Difference between <- and <<-
-g=function(){
-  not_saved <-"saved inside a function envvironment";
-}
-g()
-f=function(){
-  saved<<-"saved to the global environment"
-}
-f()
-
-
-##### Naming Conventions
-
-# Remove space(s)
-`space here`<-"there is a space"     # You can do it but...
-space_here<-"this is better"
-
-# Avoid using names that has special meanings or
-`next`<-"you can do it but..."
-next
-`next`
-
-# Avoid having "."
-.<-1                  # You can do it but...
-.+.
-
-na.me<-"This type of naming may have a special meaning"
-na.me
-
-
-##### Mathematical Operators
-# Think R as a calculator
-1+2
--1*10
-2^2
-17/2
-17%/%2
-17%%2
-
-# There are other base math functions
-sqrt(4)
-sin(pi/2)
-exp(1)         # Unfortunately there is no 'e'
-log(exp(1))    # log in R is actually natural log
-log10(10)
-
-##### Relational Operators
-# Inequalities
-x <- 10        # define x
-x > 10         # try < and <= as well
-x >= 10
-x == 10
-x != 10
-TRUE==FALSE
-FALSE==FALSE
-1:5 %in% 3:10  # Among sequential integers in 1-5, 3, 4, 5 is also in sequence 3-10
-
-0==F; 1==T  # TRUE and FALSE could also be 1 and 0
-T+T
-
-# Some relational Operators also work for strings
-a="apple"; b="banana"
-a == b
-a != b
-!(a != b)
-
-fruits <- c("apple", "banana", "mango")
-fruits == "apple"
-fruits == c("apple", "banana")     # This will not work
-fruits %in% c("apple", "banana")
-c("apple", "banana") %in% fruits
-
-##### Logical Operators
-# Not x (Negate x)
-!T
-!F
-!c(TRUE, F, 0, 1, 6)
-!"chracter"              # Logical operators cannot be used with strings
-
-# OR  (Union)            # Technically, it is "Ladies OR Gentlemen"
-# `|` is the element-wise "OR" operator
-T|T
-T|F
-F|F             
-c(T, T, F) | c(T, F, F)
-
-
-# `||` is the length-one logical "OR"
-c(T, F, F) || c(F, F, F)  # Only compares the first element on either sides
-c(F, T, T) || c(F, T, T)  # FALSE. b/c first two is F when everything else is TRUE
-
-# AND  (Intersection)
-# `&` is the element-wise "AND" operator
-T&T
-T&F
-F&F             
-c(T, T, F) & c(T, F, F)
-
-# `&&` is the length-one logical "AND"
-c(T, F, F) && c(T, F, F)  # Only compares the first element on either sides
-c(T, T, T) && c(F, T, T)  # FALSE. b/c first two is F when everything else is TRUE
-
-# `||` and `&&` is useful when writing the if statement ()
-
-# Examples
-x<-5
-x >= 3 & x < 6
-
-y=c(1, 3, 5, 7)
-y <= 3 | y > 6
-y <= 3 || y > 6
-y >= 3 & y < 6
-y >= 3 && y < 6  
-
-
-###############  Operator Precedence  ############################
-# Basically the order of operations
-# Operators with higher precedence will be evaluated first
-
-# Example
-#* or / will be evaluated before + and -
-
-
-##################  Your Turn!  ##################################
-
-# Try to figure out the answer without running the code
-
-# 71 %/% 4 / 13 %% 10
-
-# a=5
-# c=(a=a-1)*(b=a=a+2)
-
-
-############  Your Turn (Extra) -- More Modulo Op.  ###############
-# Extra 1
-# You've ran a survey and it took 7325 seconds for a person to finish.
-# Change the time (sec) to hours,  minutes, and Seconds format.
-# Hint: Use integer division (%/%) and modulo (%%)
-
-
-# Extra 2
-# Determine if the following three years are leap year: 1900, 2000, 2020
-# Try NOT to use if else statement
-# FYI, what is a leap year?
-# 1. The year number must be divisible by 4.
-# 2. If divisible by 100, must be divisible by 400.
 
 
 ##################  Useful Hot Keys & More  #######################
