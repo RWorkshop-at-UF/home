@@ -1,0 +1,200 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  ignorenonframetext,
+]{beamer}
+\usepackage{pgfpages}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\beamertemplatenavigationsymbolsempty
+% Prevent slide breaks in the middle of a paragraph
+\widowpenalties 1 10000
+\raggedbottom
+\setbeamertemplate{part page}{
+  \centering
+  \begin{beamercolorbox}[sep=16pt,center]{part title}
+    \usebeamerfont{part title}\insertpart\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{section page}{
+  \centering
+  \begin{beamercolorbox}[sep=12pt,center]{part title}
+    \usebeamerfont{section title}\insertsection\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{subsection page}{
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center]{part title}
+    \usebeamerfont{subsection title}\insertsubsection\par
+  \end{beamercolorbox}
+}
+\AtBeginPart{
+  \frame{\partpage}
+}
+\AtBeginSection{
+  \ifbibliography
+  \else
+    \frame{\sectionpage}
+  \fi
+}
+\AtBeginSubsection{
+  \frame{\subsectionpage}
+}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Session 2},
+  pdfauthor={Tek Song},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\newif\ifbibliography
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{Session 2}
+\subtitle{Data Type and Structure}
+\author{Tek Song}
+\date{}
+
+\begin{document}
+\frame{\titlepage}
+
+\begin{frame}{Session Outline}
+\protect\hypertarget{session-outline}{}
+\textbf{Explore Data Types}
+
+-- Logical, Integer, Numeric, Character,
+
+Factor
+
+How to check data type
+
+How to assign data type
+
+\textbf{Explore Data Structures}
+
+-- Vector, List, Matrix, Data Frame
+
+\textbf{How to create each data structure}
+
+\textbf{How to modify each data structure}
+
+\textbf{How to convert one data structure to another}
+
+\textbf{How to explore/examine a given data}
+\end{frame}
+
+\begin{frame}{Basic Data Types \textbar{} Why are they important?}
+\protect\hypertarget{basic-data-types-why-are-they-important}{}
+Data type\ldots{}
+
+is an attribute associated with a piece of data
+
+tells R how to interpret its value
+
+ensures that data is collected in the preferred format
+
+Value of each property is as expected
+
+Helps to gather clean and consistent data
+\end{frame}
+
+\begin{frame}{Basic Data Types \textbar{} 6 Basix Data Types in R}
+\protect\hypertarget{basic-data-types-6-basix-data-types-in-r}{}
+Logical (Boolean): e.g.~
+
+TRUE
+
+,
+
+FALSE
+
+Integer (positive/negative whole number, zero): e.g.~
+
+1L
+
+(the
+
+L
+
+tells R to store it as an integer)
+
+Numeric (real/decimal): e.g.~
+
+1.0
+
+,
+
+pi
+
+Character (String): e.g.~
+
+``hello''
+
+,
+
+``1''
+
+Complex (Real + Imaginary number): e.g
+
+0+1i
+
+,
+
+3+2i
+
+Raw (Any data stored as raw bytes): e.g.~``hello'' is
+
+68
+
+65
+
+6c
+
+6c
+
+6f
+
+Factor (limited number of different values): Combination of integer and
+character values
+\end{frame}
+
+\end{document}

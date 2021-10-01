@@ -336,11 +336,19 @@ y >= 3 && y < 6
 # c=(a=a-1)*(b=a=a+2)
 
 
-##################  Your Turn (Extra)!  ##################################
+############  Your Turn (Extra) -- More Modulo Op.  ###############
 # Extra 1
-# You've ran a survey and it took 7325 seconds for "John" to finish.
-# Change the time (sec) to hours: minutes: Seconds format.
+# You've ran a survey and it took 7325 seconds for a person to finish.
+# Change the time (sec) to hours,  minutes, and Seconds format.
 # Hint: Use integer division (%/%) and modulo (%%)
+
+
+# Extra 2
+# Determine if the following three years are leap year: 1900, 2000, 2020
+# Try NOT to use if else statement
+# FYI, what is a leap year?
+# 1. The year number must be divisible by 4.
+# 2. If divisible by 100, must be divisible by 400.
 
 
 ##################  Useful Hot Keys & More  #######################

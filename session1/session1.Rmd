@@ -187,15 +187,16 @@ common_data
 
 
 ## Your Turn! | Please install the following packages:
-- [`ggplot2`](https://cran.r-project.org/web/packages/ggplot2/ggplot2.pdf): System for declaratively creating graphics <br>
-- [`dplyr`](https://cran.r-project.org/web/packages/dplyr/dplyr.pdf): Package for working with data frame <br>
-- [`readxl`](https://cran.r-project.org/web/packages/readxl/readxl.pdf): Package for importing excel files into R <br>
+- <p style="display:inline; background-color:#e4f9c4">[`ggplot2`](https://cran.r-project.org/web/packages/ggplot2/ggplot2.pdf)</p>: System for declaratively creating graphics <br>
+- <p style="display:inline; background-color:#e4f9c4">[`dplyr`](https://cran.r-project.org/web/packages/dplyr/dplyr.pdf)</p>: Package for working with data frame <br>
+- <p style="display:inline; background-color:#e4f9c4">[`readxl`](https://cran.r-project.org/web/packages/readxl/readxl.pdf)</p>: Package for importing excel files into R <br>
 - [`rvest`](https://cran.r-project.org/web/packages/rvest/rvest.pdf): Package for scrape data from web pages <br>
 - [`tidyr`](https://cran.r-project.org/web/packages/tidyr/tidyr.pdf): Package for create tidy data <br>
 - [`lubridate`](https://cran.r-project.org/web/packages/lubridate/lubridate.pdf): Package for handling dates/times <br>
-- [`purrr`](https://cloud.r-project.org/web/packages/purrr/purrr.pdf): Package for functional programming toolkit for R <br>
-- [`jsonlite`](https://cran.r-project.org/web/packages/jsonlite/jsonlite.pdf): A Simple JSON Parser and Generator for R <br>
-- [`data.table`](https://cran.r-project.org/web/packages/data.table/data.table.pdf): Package for data manipulation <br>
+<!-- - [`purrr`](https://cloud.r-project.org/web/packages/purrr/purrr.pdf): Package for functional programming toolkit for R <br> -->
+- <p style="display:inline; background-color:#e4f9c4">[`openxlsx`](https://cran.r-project.org/web/packages/openxlsx/openxlsx.pdf)</p>: Read, Write, and Edit xlsx Files <br>
+- <p style="display:inline; background-color:#e4f9c4">[`jsonlite`](https://cran.r-project.org/web/packages/jsonlite/jsonlite.pdf)</p>: A Simple JSON Parser and Generator for R <br>
+- <p style="display:inline; background-color:#e4f9c4">[`data.table`](https://cran.r-project.org/web/packages/data.table/data.table.pdf)</p>: Package for data manipulation <br>
 <!-- <span class="tab1"></span> -->
 <br>
 <p class="pnote">Check if all packages are successfully installed</p>
@@ -368,9 +369,9 @@ unlink("new_dir", recursive = T)
 </ol>
 
 
-## How to Read/Write Data in R | CSV Extension
+## How to Read/Write Data in R | .csv Extension
 <ol type="1">
-<li> Reading csv file: </li>
+<li> Reading a csv file: </li>
 <ol type="i">
 <li> [`read.csv()`](https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/read.table) </li>
 Basic syntax
@@ -393,9 +394,9 @@ read.csv(file,                 # Path and file name
 <b>NOTE</b>: Read [Arguments for read.csv()](https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/read.table) for additional information 
 </p>
 
-## How to Read/Write Data in R | CSV Extension
+## How to Read/Write Data in R | .csv Extension
 <ol type="1">
-<li> Reading csv file: </li>
+<li> Reading a csv file: </li>
 <ol type="i">
 <li> [`read.csv()`](https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/read.table) </li>
 
@@ -416,9 +417,9 @@ View(df)      # uppercase V. Displays the entire data in a new tab
 </ol>
 </ol>
 
-## How to Read/Write Data in R | CSV Extension
+## How to Read/Write Data in R | .csv Extension
 <ol type="1">
-<li> Reading csv file: </li>
+<li> Reading a csv file: </li>
 <ol type="i">
 <li> [`read.csv()`](https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/read.table) </li>
 
@@ -432,9 +433,9 @@ mydata<-read.csv(x) # I am going to name it "mydata" this time
 </ol>
 
 
-## How to Read/Write Data in R | CSV Extension
+## How to Read/Write Data in R | .csv Extension
 <ol type="1">
-<li> Reading csv file: </li>
+<li> Reading a csv file: </li>
 <ol type="i" start="2">
 <li>[`read_csv()`](https://readr.tidyverse.org/reference/read_delim.html)</li>
 <li>[`fread()`](https://www.rdocumentation.org/packages/data.table/versions/1.14.0/topics/fread)</li>
@@ -455,9 +456,9 @@ system.time(data.table::fread(x));
 </ol>
 <p class="pnote"><b>NOTE</b>: Each package/function may have different arguments and output type </p>
 
-## How to Read/Write Data in R | CSV Extension
+## How to Read/Write Data in R | .csv Extension
 <ol type="1" start="2">
-<li> Writing csv file: </li>
+<li> Writing a csv file: </li>
 <ol type="i">
 <li> `write.csv()` </li>
 ```{r}
@@ -476,7 +477,7 @@ write.csv(df, "data/new_csv.csv", row.names = F)
 </ol>
 </ol>
 
-## How to Read/Write Data in R | XLSX Extension
+## How to Read/Write Data in R | .xlsx Extension
 xlsx format needs a separate library
 
 <ol>
@@ -491,13 +492,14 @@ openxlsx::read.xlsx()
 
 ```{r}
 # Example
+openxlsx::read.xlsx("data/xlsx_example.xlsx", 1)
 readxl::read_excel("data/xlsx_example.xlsx", 2)
 ```
 </ol>
 
 <p class="pnote"><b>NOTE</b>: `readxl` is part of the `tidyverse` package </p>
 
-## How to Read/Write Data in R | XLSX extension
+## How to Read/Write Data in R | .xlsx extension
 
 <ol>
 ```{r}
@@ -574,7 +576,7 @@ writeLines(x, "data/new_txt.txt")
 ## How to Read/Write Data in R | .json file Extension
 
 <ol>
-<li>Read .json</li>
+<li>Read a .json</li>
 ```{r}
 # Example
 jsonlite::fromJSON("data/json_example.json")
@@ -589,7 +591,7 @@ readLines("https://api.fda.gov/drug/event.json?limit=3" , n = 12) %>%
   cat()
 ```
 
-<li>Write .json</li>
+<li>Write a .json</li>
 ```{r}
 # Example
 nested_list<-list(vec=c(1,2), mat=list(mat1=diag(2), mat2=matrix(0,3,4)))

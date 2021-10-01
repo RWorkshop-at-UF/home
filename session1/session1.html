@@ -586,15 +586,51 @@ common_data</pre>
 </article></slide><slide class=""><hgroup><h2>Your Turn! </h2><h3> Please install the following packages:</h3></hgroup><article  id="your-turn-please-install-the-following-packages">
 
 <ul>
-<li><a href='https://cran.r-project.org/web/packages/ggplot2/ggplot2.pdf' title=''><code>ggplot2</code></a>: System for declaratively creating graphics <br></li>
-<li><a href='https://cran.r-project.org/web/packages/dplyr/dplyr.pdf' title=''><code>dplyr</code></a>: Package for working with data frame <br></li>
-<li><a href='https://cran.r-project.org/web/packages/readxl/readxl.pdf' title=''><code>readxl</code></a>: Package for importing excel files into R <br></li>
+<li><p style="display:inline; background-color:#e4f9c4">
+
+<a href='https://cran.r-project.org/web/packages/ggplot2/ggplot2.pdf' title=''><code>ggplot2</code></a>
+
+</p>
+
+: System for declaratively creating graphics <br></li>
+<li><p style="display:inline; background-color:#e4f9c4">
+
+<a href='https://cran.r-project.org/web/packages/dplyr/dplyr.pdf' title=''><code>dplyr</code></a>
+
+</p>
+
+: Package for working with data frame <br></li>
+<li><p style="display:inline; background-color:#e4f9c4">
+
+<a href='https://cran.r-project.org/web/packages/readxl/readxl.pdf' title=''><code>readxl</code></a>
+
+</p>
+
+: Package for importing excel files into R <br></li>
 <li><a href='https://cran.r-project.org/web/packages/rvest/rvest.pdf' title=''><code>rvest</code></a>: Package for scrape data from web pages <br></li>
 <li><a href='https://cran.r-project.org/web/packages/tidyr/tidyr.pdf' title=''><code>tidyr</code></a>: Package for create tidy data <br></li>
-<li><a href='https://cran.r-project.org/web/packages/lubridate/lubridate.pdf' title=''><code>lubridate</code></a>: Package for handling dates/times <br></li>
-<li><a href='https://cloud.r-project.org/web/packages/purrr/purrr.pdf' title=''><code>purrr</code></a>: Package for functional programming toolkit for R <br></li>
-<li><a href='https://cran.r-project.org/web/packages/jsonlite/jsonlite.pdf' title=''><code>jsonlite</code></a>: A Simple JSON Parser and Generator for R <br></li>
-<li><a href='https://cran.r-project.org/web/packages/data.table/data.table.pdf' title=''><code>data.table</code></a>: Package for data manipulation <br> <!-- <span class="tab1"></span> --> <br>
+<li><a href='https://cran.r-project.org/web/packages/lubridate/lubridate.pdf' title=''><code>lubridate</code></a>: Package for handling dates/times <br> <!-- - [`purrr`](https://cloud.r-project.org/web/packages/purrr/purrr.pdf): Package for functional programming toolkit for R <br> --></li>
+<li><p style="display:inline; background-color:#e4f9c4">
+
+<a href='https://cran.r-project.org/web/packages/openxlsx/openxlsx.pdf' title=''><code>openxlsx</code></a>
+
+</p>
+
+: Read, Write, and Edit xlsx Files <br></li>
+<li><p style="display:inline; background-color:#e4f9c4">
+
+<a href='https://cran.r-project.org/web/packages/jsonlite/jsonlite.pdf' title=''><code>jsonlite</code></a>
+
+</p>
+
+: A Simple JSON Parser and Generator for R <br></li>
+<li><p style="display:inline; background-color:#e4f9c4">
+
+<a href='https://cran.r-project.org/web/packages/data.table/data.table.pdf' title=''><code>data.table</code></a>
+
+</p>
+
+: Package for data manipulation <br> <!-- <span class="tab1"></span> --> <br>
 
 <p class="pnote">
 
@@ -878,7 +914,7 @@ List files with specific pattern
 <pre class = 'prettyprint lang-r'>list.files(pattern=&quot;.*\\.html&quot;)  # list any file with .html extension
 dir(pattern=&quot;.*\\.html&quot;)         # list any file with .html extension</pre>
 
-<pre >[1] &quot;session1.html&quot;</pre>
+<pre >character(0)</pre>
 
 <p class="pnote">
 
@@ -923,13 +959,13 @@ unlink(&quot;new_dir&quot;, recursive = T)</pre>
 
 </ol>
 
-</article></slide><slide class=""><hgroup><h2>How to Read/Write Data in R </h2><h3> CSV Extension</h3></hgroup><article  id="how-to-readwrite-data-in-r-csv-extension">
+</article></slide><slide class=""><hgroup><h2>How to Read/Write Data in R </h2><h3> .csv Extension</h3></hgroup><article  id="how-to-readwrite-data-in-r-.csv-extension">
 
 <ol type="1">
 
 <li>
 
-Reading csv file:
+Reading a csv file:
 
 </li>
 
@@ -963,13 +999,13 @@ read.csv(file,                 # Path and file name
 
 </p>
 
-</article></slide><slide class=""><hgroup><h2>How to Read/Write Data in R </h2><h3> CSV Extension</h3></hgroup><article  id="how-to-readwrite-data-in-r-csv-extension-1">
+</article></slide><slide class=""><hgroup><h2>How to Read/Write Data in R </h2><h3> .csv Extension</h3></hgroup><article  id="how-to-readwrite-data-in-r-.csv-extension-1">
 
 <ol type="1">
 
 <li>
 
-Reading csv file:
+Reading a csv file:
 
 </li>
 
@@ -1001,13 +1037,13 @@ View(df)      # uppercase V. Displays the entire data in a new tab</pre>
 
 </ol>
 
-</article></slide><slide class=""><hgroup><h2>How to Read/Write Data in R </h2><h3> CSV Extension</h3></hgroup><article  id="how-to-readwrite-data-in-r-csv-extension-2">
+</article></slide><slide class=""><hgroup><h2>How to Read/Write Data in R </h2><h3> .csv Extension</h3></hgroup><article  id="how-to-readwrite-data-in-r-.csv-extension-2">
 
 <ol type="1">
 
 <li>
 
-Reading csv file:
+Reading a csv file:
 
 </li>
 
@@ -1033,13 +1069,13 @@ mydata&lt;-read.csv(x) # I am going to name it &quot;mydata&quot; this time</pre
 
 </ol>
 
-</article></slide><slide class=""><hgroup><h2>How to Read/Write Data in R </h2><h3> CSV Extension</h3></hgroup><article  id="how-to-readwrite-data-in-r-csv-extension-3">
+</article></slide><slide class=""><hgroup><h2>How to Read/Write Data in R </h2><h3> .csv Extension</h3></hgroup><article  id="how-to-readwrite-data-in-r-.csv-extension-3">
 
 <ol type="1">
 
 <li>
 
-Reading csv file:
+Reading a csv file:
 
 </li>
 
@@ -1071,13 +1107,13 @@ data.table::fread(...)</pre>
 
 </p>
 
-</article></slide><slide class=""><hgroup><h2>How to Read/Write Data in R </h2><h3> CSV Extension</h3></hgroup><article  id="how-to-readwrite-data-in-r-csv-extension-4">
+</article></slide><slide class=""><hgroup><h2>How to Read/Write Data in R </h2><h3> .csv Extension</h3></hgroup><article  id="how-to-readwrite-data-in-r-.csv-extension-4">
 
 <ol type="1" start="2">
 
 <li>
 
-Writing csv file:
+Writing a csv file:
 
 </li>
 
@@ -1104,7 +1140,7 @@ write.csv(df, &quot;data/new_csv.csv&quot;, row.names = F)</pre>
 
 </ol>
 
-</article></slide><slide class=""><hgroup><h2>How to Read/Write Data in R </h2><h3> XLSX Extension</h3></hgroup><article  id="how-to-readwrite-data-in-r-xlsx-extension">
+</article></slide><slide class=""><hgroup><h2>How to Read/Write Data in R </h2><h3> .xlsx Extension</h3></hgroup><article  id="how-to-readwrite-data-in-r-.xlsx-extension">
 
 <p>xlsx format needs a separate library</p>
 
@@ -1133,6 +1169,7 @@ xlsx::read.xlsx()
 openxlsx::read.xlsx()</pre>
 
 <pre class = 'prettyprint lang-r'># Example
+openxlsx::read.xlsx(&quot;data/xlsx_example.xlsx&quot;, 1)
 readxl::read_excel(&quot;data/xlsx_example.xlsx&quot;, 2)</pre>
 
 </ol>
@@ -1143,7 +1180,7 @@ readxl::read_excel(&quot;data/xlsx_example.xlsx&quot;, 2)</pre>
 
 </p>
 
-</article></slide><slide class=""><hgroup><h2>How to Read/Write Data in R </h2><h3> XLSX extension</h3></hgroup><article  id="how-to-readwrite-data-in-r-xlsx-extension-1">
+</article></slide><slide class=""><hgroup><h2>How to Read/Write Data in R </h2><h3> .xlsx extension</h3></hgroup><article  id="how-to-readwrite-data-in-r-.xlsx-extension-1">
 
 <ol>
 
@@ -1184,7 +1221,7 @@ file.size(&quot;data/thermostat_amazon.csv&quot;)/10^6
 file.size(&quot;data/thermostat_amazon.rds&quot;)/10^6</pre>
 
 <pre >csv:  0.89351 MB
- rds:  NA MB</pre>
+ rds:  0.25844 MB</pre>
 
 </ol>
 
@@ -1217,7 +1254,7 @@ writeLines(x, &quot;data/new_txt.txt&quot;)</pre>
 
 <li>
 
-Read .json
+Read a .json
 
 </li>
 
@@ -1234,7 +1271,7 @@ Link to the <a href="https://open.fda.gov/">openFDA</a> and <a href="https://api
 
 <li>
 
-Write .json
+Write a .json
 
 </li>
 

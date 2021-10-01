@@ -1,0 +1,659 @@
+---
+title: Session 2
+output:
+  ioslides_presentation:
+    css: cust_css.css
+  slidy_presentation: default
+  beamer_presentation: default
+subtitle: Data Type and Structure
+author: "Tek Song"
+ratio: 16x10
+---
+```{r setup, include=F}
+knitr::opts_chunk$set(echo=T, eval=F, cache = T)
+```
+
+## Session Outline
+
+<ol type="1">
+<li>**Explore Data Types**</li>
+-- Logical, Integer, Double, Character, <p style="color:LightGray; display:inline">Factor</p>, <p style="color:LightGray; display:inline">Date</p>
+<ol>
+<ol type="i">
+<li>How to examine data type</li>
+<li>How to assign data type</li>
+</ol>
+</ol>
+
+<li>**Explore Data Structures**</li>
+-- Vector, List, Matrix, Data Frame
+<ol>
+<ol type="i">
+<li>How to create each data structure</li>
+<li>How to modify each data structure</li>
+<li>How to convert one data structure to another</li>
+<li>How to explore/examine a given data</li>
+</ol>
+</ol>
+</ol>
+
+## Data Types & Structure | Why are they important?
+<br>
+Data type & structure...<br>
+<br>
+<ol type="1">
+<li>is an attribute associated with a piece of data</li>
+<li>tells R how to interpret its value</li>
+<li>ensures that data is collected in the preferred format</li>
+<ul>
+<li>Value of each property is as expected</li>
+<li>Helps to gather clean and consistent data</li>
+</ul>
+<ol>
+
+## 6 Basic Variable Types in R
+<ol type="1">
+<li>Logical (Boolean):<br>
+<p>e.g. <p style="display:inline; background-color:#e0e0e0">TRUE</p>, <p style="display:inline; background-color:#e0e0e0">FALSE</p></p></li>
+<li>Integer:<br>
+<p>e.g. <p style="display:inline; background-color:#e0e0e0">1L</p> (the <p style="display:inline; background-color:#e0e0e0">L</p> tells R to store it as an integer)</p></li>
+<li>Double:<br>
+<p>e.g. <p style="display:inline; background-color:#e0e0e0">1.0</p>, <p style="display:inline; background-color:#e0e0e0">pi</p></p></li>
+<li>Character (String):<br>
+e.g. <p style="display:inline; background-color:#e0e0e0">"hello"</p>, <p style="display:inline; background-color:#e0e0e0">"1"</p></li>
+<li>Complex (Real + Imaginary number):<br>
+<p>e.g <p style="display:inline; background-color:#e0e0e0">0+1i</p>, <p style="display:inline; background-color:#e0e0e0">3+2i</p></p></li>
+<li>Raw (Any data stored as raw bytes):<br>
+<p>e.g. "hello" is <p style="display:inline; background-color:#e0e0e0">68</p> <p style="display:inline; background-color:#e0e0e0">65</p> <p style="display:inline; background-color:#e0e0e0">6c</p> <p style="display:inline; background-color:#e0e0e0">6c</p> <p style="display:inline; background-color:#e0e0e0">6f</p></p></li>
+```{r echo=F}
+sapply(strsplit("hello", "")[[1]], charToRaw)
+```
+<p class="pnote"><b>NOTE</b>: type `numeric` means `integer` or `double`</p>
+</ol>
+
+## Other Variable Types in R | Factor
+<ol type="1">
+<li><p style="font-size:23px; display:inline">Factor variables take on a limited number of different values</p></li>
+<ul>
+<li><p style="font-size:21px; display:inline">Referred as categorical variable</p></li>
+</ul>
+<li><p style="font-size:23px; display:inline">Both numeric and character variables can be made into factors</p></li>
+<ul>
+<li><p style="font-size:21px; display:inline">Factor's levels are in character values</p></li>
+<li><p style="font-size:21px; display:inline">Cannot be used in arithmetic operation</p></li>
+</ul>
+<li><p style="font-size:23px; display:inline">Statistical models treat factor and integer variable differently</p></li>
+<li><p style="font-size:23px; display:inline">Factors can be ordered (ordinal) or with no order (nominal)</p></li>
+<!-- <li>Examples</li> -->
+</ol>
+
+## Other Variable Types in R | Date
+<ol type="1">
+<li><p style="font-size:23px; display:inline">Dates are represented as the number of days since 1970-01-01</p></li>
+<ul>
+<li><p style="font-size:21px; display:inline">Add/subtract days/dates possible</p></li>
+<li><p style="font-size:21px; display:inline">Negative values mean earlier date then the reference date</p></li>
+</ul>
+<li><p style="font-size:21px; display:inline">Character variable can be converted to date variable</p></li>
+<!-- <li>Examples</li> -->
+</ol>
+
+## Other Variable Types in R | Special Values -- NA, Inf, NaN
+<ol type="1">
+<li>`NA` -- represents missing data in R</li>
+</ul>
+<li>`Inf` -- represents infinity in R</li>
+<ul>
+<li><p>Can be either positive or negative</p></li>
+<li><p>e.g. <p style="display:inline; background-color:#e0e0e0">1/0</p></p></li>
+</ul>
+<li>`NaN` --  represents undefined value</li>
+<ul>
+<li><p>`NaN` means "Not a Number"</p></li>
+<li><p>e.g. <p style="display:inline; background-color:#e0e0e0">0/0</p></p></li>
+</ul>
+</ol>
+
+## How to Examine Data Type & Structure
+<ol>
+<li>`is.*()`: Returns <p style="display:inline; background-color:#e0e0e0">TRUE</p> or <p style="display:inline; background-color:#e0e0e0">FALSE</p> depending on the object type</li>
+<p style="font-size:18px"> -- <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/logical">is.logical()</a>,
+<a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/numeric">is.numeric()</a>, 
+<a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/character">is.character()</a>, 
+<a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/factor">is.factor()</a>, 
+etc.
+</p>
+```{r}
+is.logical(TRUE)
+is.logical(1)
+```
+
+<li><p style="font-size:18px"><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/NA">`is.na(), anyNA()`</a>, <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/is.finite">`is.infinite(), is.finite(), is.nan()`</a></p></li>
+```{r}
+is.na(c(1,2,NA, NaN, Inf))
+is.infinite(c(1,2,NA, NaN, Inf))
+is.nan(c(1,2,NA, NaN, Inf))
+```
+
+<li>`as.*()`: Attempts to coerce its argument to be of \* type</li>
+<p style="font-size:18px"> -- as.logical(), as.numeric(),as.character(),as.factor(), etc.</p>
+```{r}
+as.character(5)
+```
+<p class="pnote">Type is `is.` in R Studio and see the list of suggested functions</p>
+</ol>
+
+
+## How to Examine Data Type & Structure
+Examine the type of data <p class="pnote" style="display:inline">(<b>Object</b> to be more specific)</p>
+<br>
+<br>
+<ol type="1">
+<li><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/typeof">`typeof()`</a>: Returns the type of any object <p class="pnote" style="display:inline">(data and code)</p></li>
+<ul>
+<li><p>A type of an object is mutually exclusive --  an object can have only one type</p></li>
+<li><p><b>NOTE</b>: Check <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mode">`mode()/storage.mode()`</a> <br> -- distinctions among the three often blurred in R</p></li>
+</ul>
+<li><a href="https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/str">`str()`</a>: A function for displaying the structure of an object</li>
+<li><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/class">`class()`</a>: A function to access an object's class</li>
+<ul>
+<li><p>An object's class determines how generic functions operate with it</p></li>
+<li><p>A class of an object is <b>NOT</b> mutually exclusive</p></li>
+<li><p>If an object has no specific class assigned, it's class is the same as its `mode`</p></li>
+</ul>
+<li><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/attributes">`attributes()`</a>: A function to access an object's attributes</li>
+</ol>
+<p class="pnote"><b>Note</b>: Hyperlink to an interesting post on <a href="https://stackoverflow.com/questions/35445112/what-is-the-difference-between-mode-and-class-in-r">stackoverflow</a></p>
+
+
+
+
+
+## 5 Basic Data structure in R
+<img  class="centerImage" src="images/diff_structure.png" style="width:80%">
+<br>
+<img  class="centerImage" src="images/data_structure.png" style="width:80%">
+
+
+## 5 Basic Data structure in R
+<ol type="1">
+<li>(Atomic) vector</li>
+<ul>
+<li><p>1D & homogeneous -- All values in a vector have to be of the same data type</p></li>
+<li><p>Workhorse of R</p></li>
+</ul>
+<li>List (generic vector)</li>
+<ul>
+<li><p>1D & heterogeneous  -- Elements of a list can be any mixture of data types</p></li>
+</ul>
+<li>Matrix/Array</li>
+<ul>
+<li><p>2D & homogeneous  -- All values in a matrix/array have to be of the same type</p></li>
+</ul>
+<li>Data Frame</li>
+<ul>
+<li><p>2D & heterogeneous  -- List of vectors of equal length</p></li>
+<li><p>Each item in a column have to be of the same type</p></li>
+</ul>
+</ol>
+
+
+## Vector | How to create a vector
+<ol type="1">
+<li>Creating an empty vector</li>
+```{r}
+vector()                       # the default is an empty logical vector
+vector("numeric", length=3)    # a numeric vector of length 3
+numeric(3)                     # generates the same output as the above
+```
+<p style-"font-size:18px">check -- logical(), integer(), double(), character()</p>
+<li><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/c">`c()`</a> -- Combine values into a vector / list</li>
+```{r}
+c(1,2, 3, 4,5, Inf, NaN)
+c("Stuzin", "Hough", "Bryan", "Heavener", NA)
+c(T, TRUE, F, FALSE)
+# What happens when multiple data types are combined in a single vector?
+c(TRUE, FALSE, NA, Inf)
+c(1, T, "Stuzin", NA, Inf, NaN)                      
+```
+</ol>
+
+## Vector | How to create a vector
+<ol type="1" start="2">
+<li> (continue) <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/c">`c()`</a> -- Combine values into a vector / list</li>
+```{r}
+vect1=c(1,2,3)
+vect2=c(4,5,6)
+c(vect1, vect2)
+```
+
+```{r eval=T, comment=""}
+# Named vectors
+named_vec=c(eastern="Florida", central="Iowa",
+            mountain="Colorado",  pacific="California")
+named_vec
+```
+</ol>
+
+## Vector | How to create a vector
+<ol type="1" start="3">
+<li>Vector as a sequential numbering</li>
+<ul>
+<li><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/Colon">`:`</a> function</li>
+```{r}
+1:5     # from:to
+```
+
+<li><a href="https://www.google.com/search?client=firefox-b-1-d&q=r+document+seq">`seq()`</a> function</li>
+```{r}
+seq(from=1, to=2, by=0.1)
+```
+</ul>
+<br>
+<li><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/rep">`rep()`</a> -- Replicate elements of a vector / list</li>
+```{r}
+rep(1:4, times=2)     # 12341234
+rep(1:4, each=2)      # 11223344
+rep(1:4, c(2,1,2,1))  # 112334
+```
+</ol>
+
+## Vector | Examining vectors
+<ol>
+<li>Check type</li>
+```{r eval=T, results='hide'}
+UF_bldg<-c("Stuzin", "Hough", "Bryan", "Heavener")
+typeof(UF_bldg)
+is.character(UF_bldg)
+str(UF_bldg)
+is.vector(UF_bldg)
+```
+<li><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/length">`length()`</a> -- A function to get/set the length of an object</li>
+
+```{r}
+length(UF_bldg)     # 4
+```
+
+<li><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/names">`names()`</a> -- A function to get/set the names of an object</li>
+```{r eval=T, results='hide'}
+names(UF_bldg)                                  # NULL -- no name
+names(UF_bldg)<-c("STZ", "HGS", "BRY", "HVNR")  # Name with abbreviation
+names(UF_bldg)<-NULL                            # Nullify names
+```
+</ol>
+
+## Vector | How to subset a vector
+Use square brackets `[]` to subset a vector
+
+```{r}
+# Basic Syntax
+vector_name[condition] # The condition is going to be a vector as well
+```
+Possible condition types
+<br>
+<br>
+<ol start="1">
+<li>Logical vector</li>
+<li>Index (integer)</li>
+<li>Names</li>
+</ol>
+
+## Vector | How to subset a vector
+<ol start="1">
+<li>Logical vector</li>
+<ul>
+<li><p style="font-size:18px">Character Example</p></li>
+```{r}
+# UF_bldg was declared from the previous slide
+UF_bldg<-c("Stuzin", "Hough", "Bryan", "Heavener")
+UF_bldg[c(T, F, T, T)]  # subset the values when TRUE
+```
+
+```{r}
+UF_bldg == "Hough"                          # Single match
+UF_bldg %in% c("Stuzin", "Bryan")           # Multiple matches
+UF_bldg[UF_bldg %in% c("Stuzin", "Bryan")]  # Note the use of "%in%"
+```
+<li><p style="font-size:18px">Numeric Example</p></li>
+```{r}
+x<-1:5
+x[x > 2 & x <= 4]  # the output of  "x > 2 & x <= 4" is c(F, F, T, T, F)
+!(x > 2 & x <= 4)  # Negate T/F by adding "!" operator  c(T, T, F, F, T)
+```
+
+</ul>
+</ol>
+
+## Vector | How to subset a vector
+<ol start="2">
+<li>Index (integer)</li>
+```{r}
+UF_bldg[c(1, 3:4)]   # subset the values by indexing
+UF_bldg[-c(1, 3:4)]  # `-` indicates "exclude". Result same as "UF_bldg[2]"
+UF_bldg[1]           # A single index does not require "c()"
+UF_bldg[3:4]         # A sequence can also be used
+```
+
+<br>
+How to convert a logical vector to an index? <br> 
+-- Use the <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/which">`which()`</a> function
+
+```{r}
+x<-1:5
+x > 2 & x <= 4           # the output of  "x > 2 & x <= 4" is c(F, F, T, T, F)
+which(x > 2 & x <= 4)    # the output is c(3, 4)
+x[which(x > 2 & x <= 4)] # equivalent to x[c(3,4)]
+```
+</ol>
+
+## Vector | How to subset a vector
+<ol start="3">
+<li>Names -- only applicable when a vector is named</li>
+```{r eval=T, comment=""}
+# Recall we have named the vector "UF_bldg"
+UF_bldg
+UF_bldg[c("STZ", "HVNR")]
+```
+<li>Other <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/sets.html">set operations</a></li>
+<p class="pnote"><b>Note</b>: <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/subset">`subset()`</a> function</p>
+</ol>
+
+## Vector | How to modify a vector
+
+<ol>
+<li>Adding element(s)</li>
+<p style="font-size:20px">Use `c()` or <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/append">`append()`</a> function</p>
+```{r}
+UF_bldg<-c(UF_bldg, "Matherly")               # Add "Matherly" at the end
+UF_bldg<-c("Matherly", UF_bldg)               # at the begining
+UF_bldg<-append(UF_bldg, "Matherly", after=3) # after the 3rd element
+```
+
+<li>Removing element(s)</li>
+<p style="font-size:20px">Subset vector to remove unwanted elements</p>
+<ul>
+<li><p style="font-size:20px">`x != y`:  x not equal to y</p></li>
+<li><p style="font-size:20px">`! x %in% y`:  What is in x that is not in y</p></li>
+<li><p style="font-size:20px">Exclude index with `-`</p></li>
+<li><p style="font-size:20px">Negate T/F with `!`</p></li>
+</ul>
+</ol>
+
+## Vector | How to modify a vector
+
+<ol start="3">
+<li>Change element(s) in a vector</li>
+<ol type="i">
+<li><p>Locate the element(s) -- by logical/index/name</p></li>
+<li><p>Re-assign element(s) using the `assign` operator</p></li>
+<li><p>Assign names if necessary</p></li>
+</ol>
+```{r eval=T, comment=""}
+# Example
+UF_bldg<-c("Stuzin", "Hough", "Bryan", "Heavener")
+names(UF_bldg)<-c("STZ", "HGS", "BRY", "HVNR")
+
+UF_bldg<-c(UF_bldg, "Matherly")         # "Matherly" was added to the UF_bldg
+# UF_bldg=="Matherly"                   # One way to locate "Matherly"
+UF_bldg[UF_bldg=="Matherly"]<-"Gerson"  # Replace "Matherly" with "Gerson"
+names(UF_bldg)[5]<-"GER"                # Assigning name to the 5th element only
+UF_bldg
+```
+
+## Your Turn! | How to modify a vector
+```{r}
+NA_vec=c("a", "b", "c", NA, NA, "F")
+```
+<ol>
+<li>Remove/omit NAs</li>
+<p style="font-size:18px">Hint: revisit <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/NA">`is.na()`</a> function</p>
+<p style="font-size:18px">Also check <a href="https://www.rdocumentation.org/packages/photobiology/versions/0.10.6/topics/na.omit">`na.omit()`</a> function</p>
+```{r include=F}
+# Answer
+NA_vec[!is.na(NA_vec)]
+NA_vec[is.na(NA_vec)==F]
+na.omit(NA_vec)
+```
+
+<li>Replace `NA` with "Unknown"</li>
+```{r include=F}
+# Answer
+NA_vec[is.na(NA_vec)]<-"unknown"
+```
+
+<li>Replace `NA` with "d" and "e" without hard-coding "d" and "e"</li>
+<p style="font-size:18px">Hint1: `letters` is a built-in sequence of lowercase alphabet vectors in R</p>
+<p style="font-size:18px">Hint2: index the location of NAs</p>
+<p style="font-size:18px">Hint3: extract "d" and "e" from `letters` using the index</p>
+```{r include=F}
+# Answer
+NA_vec[is.na(NA_vec)]<-letters[which(is.na(NA_vec))]
+```
+</ol>
+
+
+## Vector | How to modify a vector
+<ol start="4">
+<li>Re-ordering a Vector</li>
+<ol type="i">
+<li>Use indexing</li>
+```{r}
+x<-c(5,3,4,1,2)  # reorder to c(1, 2, 3, 4, 5)
+x[c(4,5,2,3,1)]  # this is hard coded
+```
+
+<li>Use the <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/order">`order()`</a> function</li>
+```{r}
+order(x); order(x, decreasing=T) # ordering can be ascending/descending
+x[order(x)]
+```
+
+<li>Use the <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/sort">`sort()`</a> function</li>
+```{r}
+sort(x); sort(x, decreasing = T)
+```
+</ol>
+
+## Vector | How to modify a vector
+<ol start="4">
+<li>Re-ordering a Vector</li>
+Ordering is not limited to numeric type
+```{r eval=T, comment=""}
+sort(UF_bldg)
+```
+
+```{r eval=T, comment=""}
+sort(UF_bldg, decreasing=T)
+```
+
+<p class="pnote">Also see <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/rank">`rank()`</a> function <p/>
+</ol>
+
+
+## Vector | How to modify a vector
+<ol start="5">
+<li>Converting Vector Type</li>
+<ol type="i">
+<li>Numeric to Character</li>
+```{r eval=T, comment=""}
+x<-1:5; as.character(x)   # Note the ""
+```
+<li>Character to Numeric</li>
+```{r eval=T, comment=""}
+# NA will be introduced if the string is not a number
+x<-c("1", "2", "not a number", "Inf"); as.numeric(x) # Expect warnings
+```
+</ol>
+</ol>
+
+## Vector | How to modify a vector
+<ol start="5">
+<li>Converting Vector Type</li>
+<ol type="i" start="3">
+<li>Character to Factor -- <p style="font-size:18px" display="inline"><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/factor">`factor()`,  `as.factor`, `ordered()`, `as.ordered()`</a></p></li>
+```{r eval=T, comment=""}
+x<-rep(c("Stuzin", "Hough", "Bryan"), c(2,1,3)) 
+y<-factor(x)    # ordered() if ordinal
+y               # Levels are automatically set in an alphabetical order
+z<-factor(x, levels=c("Stuzin", "Bryan", "Hough"))
+z               # May be important to set your "base"
+```
+
+## Vector | How to modify a vector
+<ol start="5">
+<li>Converting Vector Type</li>
+<ol type="i" start="4">
+<li>Factor to Character</li>
+```{r}
+as.character(y); as.character(z)
+```
+
+```{r eval=T, echo=F, comment=""}
+as.character(y)
+```
+</ol>
+</ol>
+
+## Vector | How to modify a vector
+<ol start="5">
+<li>Converting Vector type</li>
+<ol type="i" start="5">
+<li>Numeric to Factor</li>
+```{r eval=T, comment=""}
+x<-c(0,1,1,0,1,1,0);   y<-factor(x, levels=c(1,0));   y
+```
+
+<li>Factor to Numeric</li>
+```{r eval=T, comment=""}
+as.numeric(y) # What happened? Why not 0, 1, 1, 0, 1, 1, 0?
+```
+
+```{r}
+as.numeric(as.character(y)) # Solution: Convert to character first!
+```
+</ol>
+</ol>
+
+## Vector | How to modify a vector
+<ol start="5">
+<li>Converting Vector type</li>
+<ol type="i" start="6">
+<li>Character to Date</li>
+
+```{r}
+str(as.Date("2021-09-23"))
+as.Date("09/23/2021", format="%m/%d/%Y")
+ISOdate(year="2021", month="09", day="23") # Also has arguments for...
+Lubridate
+```
+
+</ol>
+</ol>
+
+## Vector | How to modify a vector
+<ol start="6">
+<li>Vector Operations -- <p style="font-size:18px" display="inline">Understanding vectorized operations in R</p></li>
+<center>
+<img src="images/vector_op.png" width="80%">
+</center>
+<b>x</b> and <b>y</b> are vectors and `a` is a numeric value <br>
+```{r eval=T, comment=""}
+x<-1:5; x+2
+```
+<p class="pnote"><b>NOTE</b>: Vectorized operations are <b>NOT</b> limited to the four basic asthmatics</p>
+<p class="pnote"><b>NOTE</b>: Vectorization -- operating on all the elements of a vector at once -- is a key to efficient coding in R</p>
+</ol>
+
+
+## Vector | How to modify a vector
+<ol start="6">
+<li>Vector Operations -- <p style="font-size:18px" display="inline">Understanding vectorized operations in R</p></li>
+```{r eval=T, results='hide'}
+x<-1:5; y<-6:10
+```
+
+```{r}
+y+x
+-3*x
+y/x
+x^y
+sqrt(x)
+```
+</ol>
+
+
+## Vector | How to modify a vector
+<ol start="6">
+<li>Vector Operations -- <p style="font-size:18px" display="inline">Understanding vectorized operations in R</p></li>
+```{r eval=T, comment=""}
+UF_bldg
+paste0(UF_bldg, " Hall")
+```
+<p class="pnote">Check <a href="https://www.google.com/search?client=firefox-b-1-d&q=r+paste0">`paste() and paste0()`</a> functions</p>
+<p class="pnote"><b>NOTE</b>:We will cover more about strings in Session 6</p>
+</ol>
+
+## Vector | How to summarize a vector
+<ol>
+<li>Any summary statistics -- <p style="font-size:18px" display="inline">`mean()`, `sd()`, `sum()`, `min()`, `max()`, `range()`, etc.</p></li>
+```{r eval=TRUE, results='hide'}
+x<-1:10;
+mean(x); sd(x); sum(x);
+```
+
+```{r eval=T, echo=F, comment=""}
+print(paste("mean:", mean(x), "std dev:", round(sd(x),2),
+            "sum:", sum(x), sep="  "))
+```
+
+```{r eval=T, comment=""}
+mean(c(1,2,NA,3))          # What if you have NAs?
+mean(c(1,2,NA,3), na.rm=T) # Use  na.rm=" argument
+```
+</ol>
+
+## Vector | How to summarize a vector
+<ol start="2">
+<li><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/summary">`summary()`</a> -- when class is "numeric"</li>
+```{r eval=T, comment=""}
+summary(x)  # Generates 5-number-summary when class is numeric
+```
+</ol>
+
+## Vector | How to summarize a vector
+<ol start="3">
+<li>Count obs. with <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/table">`table()`</a> function</li>
+```{r}
+x<-rep(c("A", "B", "C", "F"), c(3,5,2,1))
+table(x)
+```
+
+```{r echo=F, eval=T, comment=""}
+table(rep(c("A", "B", "C", "D"), c(3,5,2,1)))
+```
+
+```{r}
+prop.table(table(x))   # returns proportion instead of counts
+```
+
+```{r}
+x<-rep(c(1.2,-3,2.13,pi), c(3,5,2,1))
+table(x)
+```
+
+```{r eval=T, echo=F, comment=""}
+table(rep(c(1.2,-3,2.13,round(pi,5)), c(3,5,2,1)))
+```
+</ol>
+
+
+### MOD Basic Data Types | Other types of variables in R
+<ol type="1" star="2">
+<li>Date
+```{r echo=F}
+date() # current day, date, and time
+Sys.time()
+Sys.Date()
+```
+</ol>
+
