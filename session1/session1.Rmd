@@ -44,16 +44,17 @@ knitr::opts_chunk$set(echo=T, eval=F, cache = T)
   <li>Create a new folder</li>
   <li>We will save scripts and data here</li>
 </ul>
-<li>Open R Studio</li>
-<li>Open a new R Script</li>
-<ul>
-  <li>short-cut: ctrl+shift+n</li>
-  <li>Save the R script inside your new folder</li>
-</ul>
 <li> Download <a href="https://rworkshop-at-uf.github.io/session1/data.zip">Session1_Dataset</a></li>
 <li> Download <a href="https://rworkshop-at-uf.github.io/session1/session1_example.R">Session1 Example Script</a></li>
 <ul>
   <li>Extract the data set to your working directory</li>
+</ul>
+<li>Open R Studio</li>
+<li>Open `session1_example.R` script</li>
+<li>Open a new R script</li>
+<ul>
+  <li>short-cut: ctrl+shift+n</li>
+  <li>Save the R script inside your new folder</li>
 </ul>
 </ol>
 
