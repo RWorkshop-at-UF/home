@@ -229,8 +229,11 @@ c(vect1, vect2)
 
 ```{r eval=T, comment=""}
 # Named vectors
-named_vec=c(eastern="Florida", central="Iowa",
+named_vec <- c(eastern="Florida", central="Iowa",       # Note it is "="
             mountain="Colorado",  pacific="California")
+# or
+named_vec <- c("Florida", "Iowa", "Colorado",  "California")
+names(named_vec) <- c("eastern", "central", "mountain", "pacific")
 named_vec
 ```
 </ol>
@@ -249,14 +252,21 @@ named_vec
 seq(from=1, to=2, by=0.1)
 ```
 </ul>
-<br>
 <li><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/rep">`rep()`</a> -- Replicate elements of a vector / list</li>
 ```{r}
-rep(1:4, times=2)     # 12341234
-rep(1:4, each=2)      # 11223344
-rep(1:4, c(2,1,2,1))  # 112334
+rep(1:4, times=2)        # 12341234
+rep(1:4, each=2)         # 11223344
+rep(1:4, each=2, len=4)  # 1122
+rep(1:4, c(2,1,2,1))     # 112334
 ```
 </ol>
+
+## Vector | How to create a vector
+<center>
+<img src="images/vector_create.png" style="width:75%">
+</center>
+<br>
+<p class="pnote"><b>Note</b>: Different colors do NOT indicate different data types; It indicates different value of a same data type</p>
 
 ## Vector | Examining vectors
 <ol>
@@ -287,7 +297,7 @@ Use square brackets `[]` to subset a vector
 
 ```{r}
 # Basic Syntax
-vector_name[condition] # The condition is going to be a vector as well
+a_vector[condition] # The condition is going to be a vector as well
 ```
 Possible condition types
 <br>
@@ -305,7 +315,7 @@ Possible condition types
 <li><p style="font-size:18px">Character Example</p></li>
 ```{r}
 # UF_bldg was declared from the previous slide
-UF_bldg<-c("Stuzin", "Hough", "Bryan", "Heavener")
+# UF_bldg<-c("Stuzin", "Hough", "Bryan", "Heavener")
 UF_bldg[c(T, F, T, T)]  # subset the values when TRUE
 ```
 
@@ -348,18 +358,31 @@ x[which(x > 2 & x <= 4)] # equivalent to x[c(3,4)]
 
 ## Vector | How to subset a vector
 <ol start="3">
-<li>Names -- only applicable when a vector is named</li>
+<li>Names -- Only applicable when a vector is named</li>
+```{r eval=T, echo=F}
+UF_bldg<-c("Stuzin", "Hough", "Bryan", "Heavener")
+names(UF_bldg)<-c("STZ", "HGS", "BRY", "HVNR") 
+```
+
 ```{r eval=T, comment=""}
 # Recall we have named the vector "UF_bldg"
-UF_bldg
 UF_bldg[c("STZ", "HVNR")]
 ```
-<li>Other <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/sets.html">set operations</a></li>
-<p class="pnote"><b>Note</b>: <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/subset">`subset()`</a> function</p>
+<li><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/subset">`subset()`</a>function</li>
+```{r}
+subset(1:5, x > 2 & x <= 4 )  # Recall x<-1:5, output is 3 4
+```
+<p class="pnote"><b>Note</b>:  Other <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/sets.html">set operations</a></p>
 </ol>
 
-## Vector | How to modify a vector
 
+## Vector | Recap so far...
+<center>
+<img src="images/vector_subset.png" style="width:85%">
+</center>
+
+
+## Vector | How to modify a vector
 <ol>
 <li>Adding element(s)</li>
 <p style="font-size:20px">Use `c()` or <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/append">`append()`</a> function</p>
@@ -397,8 +420,10 @@ UF_bldg<-c(UF_bldg, "Matherly")         # "Matherly" was added to the UF_bldg
 # UF_bldg=="Matherly"                   # One way to locate "Matherly"
 UF_bldg[UF_bldg=="Matherly"]<-"Gerson"  # Replace "Matherly" with "Gerson"
 names(UF_bldg)[5]<-"GER"                # Assigning name to the 5th element only
-UF_bldg
 ```
+<p class="pnote">Also consider reading the <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/replace">`replace()`</a> and <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/with">`with()`</a> function</p>
+
+
 
 ## Your Turn! | How to modify a vector
 ```{r}
@@ -406,8 +431,9 @@ NA_vec=c("a", "b", "c", NA, NA, "F")
 ```
 <ol>
 <li>Remove/omit NAs</li>
-<p style="font-size:18px">Hint: revisit <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/NA">`is.na()`</a> function</p>
-<p style="font-size:18px">Also check <a href="https://www.rdocumentation.org/packages/photobiology/versions/0.10.6/topics/na.omit">`na.omit()`</a> function</p>
+<p style="font-size:18px">Hint: Revisit <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/NA">`is.na()`</a> function</p>
+<p style="font-size:18px">Alt. Option1: Check <a href="https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/complete.cases">`complete.cases()`</a> function</p>
+<p style="font-size:18px">Alt. Option2: Check <a href="https://www.rdocumentation.org/packages/photobiology/versions/0.10.6/topics/na.omit">`na.omit()`</a> function</p>
 ```{r include=F}
 # Answer
 NA_vec[!is.na(NA_vec)]
@@ -434,6 +460,29 @@ NA_vec[is.na(NA_vec)]<-letters[which(is.na(NA_vec))]
 
 ## Vector | How to modify a vector
 <ol start="4">
+<li>Check/Remove duplicate observations</li>
+<ol type="i">
+<li><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/unique">`unique()`</a> function</li>
+```{r eval=T, results='hide'}
+x<-c(1, 1, 2, 2, 2, 3)
+unique(x)                      # 1 2 3 -- first unique observation
+unique(x, fromLast = T)        # 1 2 3 -- but last observation
+```
+
+<li><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/duplicated">`duplicated()`</a> function -- Returns <p style="display:inline; background-color:#e0e0e0">TRUE</p> or <p style="display:inline; background-color:#e0e0e0">FALSE</p></li>
+```{r eval=T, comment=""}
+duplicated(x)                  # x[ ! duplicated(x) ]
+```
+
+```{r}
+duplicated(x, fromLast = TRUE) # TRUE FALSE FALSE TRUE TRUE FALSE
+```
+
+</ol>
+
+
+## Vector | How to modify a vector
+<ol start="5">
 <li>Re-ordering a Vector</li>
 <ol type="i">
 <li>Use indexing</li>
@@ -455,7 +504,7 @@ sort(x); sort(x, decreasing = T)
 </ol>
 
 ## Vector | How to modify a vector
-<ol start="4">
+<ol start="5">
 <li>Re-ordering a Vector</li>
 Ordering is not limited to numeric type
 ```{r eval=T, comment=""}
@@ -471,7 +520,7 @@ sort(UF_bldg, decreasing=T)
 
 
 ## Vector | How to modify a vector
-<ol start="5">
+<ol start="6">
 <li>Converting Vector Type</li>
 <ol type="i">
 <li>Numeric to Character</li>
@@ -487,20 +536,20 @@ x<-c("1", "2", "not a number", "Inf"); as.numeric(x) # Expect warnings
 </ol>
 
 ## Vector | How to modify a vector
-<ol start="5">
+<ol start="6">
 <li>Converting Vector Type</li>
 <ol type="i" start="3">
 <li>Character to Factor -- <p style="font-size:18px" display="inline"><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/factor">`factor()`,  `as.factor`, `ordered()`, `as.ordered()`</a></p></li>
 ```{r eval=T, comment=""}
-x<-rep(c("Stuzin", "Hough", "Bryan"), c(2,1,3)) 
-y<-factor(x)    # ordered() if ordinal
-y               # Levels are automatically set in an alphabetical order
+x<-rep(c("Stuzin", "Hough", "Bryan"), c(2,1,3))
+y<-factor(x)    # ordered(x) if ordinal
+y               # Check the levels
 z<-factor(x, levels=c("Stuzin", "Bryan", "Hough"))
 z               # May be important to set your "base"
 ```
 
 ## Vector | How to modify a vector
-<ol start="5">
+<ol start="6">
 <li>Converting Vector Type</li>
 <ol type="i" start="4">
 <li>Factor to Character</li>
@@ -515,7 +564,7 @@ as.character(y)
 </ol>
 
 ## Vector | How to modify a vector
-<ol start="5">
+<ol start="6">
 <li>Converting Vector type</li>
 <ol type="i" start="5">
 <li>Numeric to Factor</li>
@@ -523,35 +572,35 @@ as.character(y)
 x<-c(0,1,1,0,1,1,0);   y<-factor(x, levels=c(1,0));   y
 ```
 
-<li>Factor to Numeric</li>
+<li>Factor to Numeric -- Caution!</li>
 ```{r eval=T, comment=""}
 as.numeric(y) # What happened? Why not 0, 1, 1, 0, 1, 1, 0?
 ```
 
 ```{r}
-as.numeric(as.character(y)) # Solution: Convert to character first!
+as.numeric(as.character(y)) # Sol: Convert to character type first!
 ```
-</ol>
-</ol>
-
-## Vector | How to modify a vector
-<ol start="5">
-<li>Converting Vector type</li>
-<ol type="i" start="6">
-<li>Character to Date</li>
-
-```{r}
-str(as.Date("2021-09-23"))
-as.Date("09/23/2021", format="%m/%d/%Y")
-ISOdate(year="2021", month="09", day="23") # Also has arguments for...
-Lubridate
-```
-
 </ol>
 </ol>
 
 ## Vector | How to modify a vector
 <ol start="6">
+<li>Converting Vector type</li>
+<ol type="i" start="6">
+<li>Character to Date</li>
+
+```{r}
+as.Date("2021-09-23")
+as.Date("09/23/2021", format="%m/%d/%Y")
+ISOdate(year="2021", month="09", day="23") # Also has other arguments
+lubridate::ymd("2021-09-23")
+```
+<p class="pnote"><b>NOTE</b>: Please check the <a href="https://cran.r-project.org/web/packages/lubridate/lubridate.pdf">`lubridate`</a> package</p>
+</ol>
+</ol>
+
+## Vector | How to modify a vector
+<ol start="7">
 <li>Vector Operations -- <p style="font-size:18px" display="inline">Understanding vectorized operations in R</p></li>
 <center>
 <img src="images/vector_op.png" width="80%">
@@ -566,7 +615,7 @@ x<-1:5; x+2
 
 
 ## Vector | How to modify a vector
-<ol start="6">
+<ol start="7">
 <li>Vector Operations -- <p style="font-size:18px" display="inline">Understanding vectorized operations in R</p></li>
 ```{r eval=T, results='hide'}
 x<-1:5; y<-6:10
@@ -583,7 +632,7 @@ sqrt(x)
 
 
 ## Vector | How to modify a vector
-<ol start="6">
+<ol start="7">
 <li>Vector Operations -- <p style="font-size:18px" display="inline">Understanding vectorized operations in R</p></li>
 ```{r eval=T, comment=""}
 UF_bldg
@@ -618,6 +667,9 @@ mean(c(1,2,NA,3), na.rm=T) # Use  na.rm=" argument
 ```{r eval=T, comment=""}
 summary(x)  # Generates 5-number-summary when class is numeric
 ```
+
+<p class="pnote"><b>NOTE</b>: <a href="">`Summary()`</a> function can do more than just summarizing numeric vectors</p>
+
 </ol>
 
 ## Vector | How to summarize a vector
@@ -638,7 +690,7 @@ prop.table(table(x))   # returns proportion instead of counts
 
 ```{r}
 x<-rep(c(1.2,-3,2.13,pi), c(3,5,2,1))
-table(x)
+table(x)               # you can use table w/ numeric-type but...
 ```
 
 ```{r eval=T, echo=F, comment=""}
@@ -646,8 +698,335 @@ table(rep(c(1.2,-3,2.13,round(pi,5)), c(3,5,2,1)))
 ```
 </ol>
 
+## Matrix | How to create a Matrix
+<ol>
+<li>Create an empty matrix of NAs</li>
+```{r eval=T, comment=""}
+matrix(nrow = 2, ncol = 3)
+```
 
-### MOD Basic Data Types | Other types of variables in R
+```{r eval=T, comment=""}
+matrix(nrow = 2, ncol = 3,           # Can assign row and col names
+       dimnames = list(paste0("r", 1:2), paste0("c", 1:3)))
+```
+
+<p class="pnote">Check <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/matrix">`matrix()`</a> function </p>
+</ol>
+
+
+## Matrix | How to create a Matrix
+<ol start="2">
+<li>Create a matrix from a vector</li>
+```{r eval=T, comment=""}
+matrix(1:12, nrow=3)           # column-wise fill
+```
+```{r eval=T, comment=""}
+matrix(1:12, nrow=3, byrow=T)  # row-wise fill
+```
+</ol>
+
+
+## Matrix | How to create a Matrix
+<ol start="3">
+<li>Create a matrix by binding vectors</li>
+<ol type="i">
+<li>`rbind()` -- row bind</li>
+
+```{r eval=T, comment=""}
+rbind(c(1, 2), c(3, 4))
+```
+
+
+<li>`cbind()` -- column bind</li>
+```{r eval=T, comment=""}
+cbind(c(1, 2), c(3, 4))
+```
+</ol>
+</ol>
+
+
+## Matrix | How to create a Matrix
+<ol start="3">
+<li>Create a matrix by binding vectors -- can also bind matrices</li>
+```{r eval=T, comment=""}
+mdat<-matrix(letters[1:4], nrow=2) # a matrix can be of character-type
+rbind(mdat, paste0("new_r", 1:2))  # row-bind a vector to a matrix
+```
+
+```{r}
+mdat<-matrix(letters[1:4], nrow=2)
+Mdat<-matrix(LETTERS[1:4], nrow=2)
+cbind(mdat, Mdat)                  # column-bind two matrices
+```
+
+
+
+</ol>
+</ol>
+
+
+## Matrix | How to create a Matrix
+<ol start="3">
+<li>Create a matrix by binding vectors</li>
+<ul>
+<li>Binding vectors with different length</li>
+```{r eval=T, comment=""}
+rbind(1:5, 6:7) # Warning... 6 7 repeats; cbind also behaves similarly
+```
+</ul>
+</ol>
+
+
+## Matrix | How to create a Matrix
+<ol start="3">
+<li>Create a matrix by binding vectors</li>
+<ul>
+<li>Binding vectors with different length -- fill with NA</li>
+```{r eval=T, comment=""}
+x<-1:5; y<-6:7
+max_length=max(length(x), length(y))
+length(x)<-max_length; length(y)<-max_length  # x/y now same length
+rbind(x, y)
+```
+<p class="pnote"><b>NOTE</b>: There are functions a few pkgs that does the same job -- e.g. <a href="https://cran.r-project.org/web/packages/plyr/plyr.pdf">`plyr::rbind.fill`</a><br><br>
+Btw, `plyr` and `dplyr` pkgs are written by the same author and some functions share the same name.<br>
+Use `::` to distinguish the two packages</p>
+</ul>
+</ol>
+
+
+## Matrix | How to create a Matrix
+<ol start="4">
+<li>Create a matrix merging two matrices -- <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/merge">`merge()`</a> function</li>
+```{r}
+# New Example!
+mdat1<-matrix(1:4, nrow=2, dimnames = list(c("r1", "r2"), c("c1", "c2")))
+mdat2<-matrix(c(3, 5:7), nrow=2, dimnames = list(c("r1", "r3"), c("c2", "c3")))
+# mdat2<-matrix(5:8, nrow=2, dimnames = list(c("r1", "r3"), c("c2", "c3")))
+```
+
+
+```{r}
+# New Example!
+merge(mdat1, mdat2, all=F)
+merge(mdat1, mdat2, by="c2")  # merge by column name
+merge(mdat1, mdat2, all=TRUE)
+# merge(mdat1, mdat2, all=TRUE)[order(names(merge(mdat1, mdat2, all=TRUE)))] 
+```
+
+
+</ol>
+
+## Matrix | Examine a Matrix
+<ol>
+```{r}
+Mdat<-matrix(LETTERS[1:6], nrow=3, 
+             dimnames = list(paste0("r", 1:3), paste0("c", 1:2)))
+```
+
+<li>`str()` -- Check overall structure and type</li>
+```{r}
+str(Mdat)
+```
+<li>Check matrix dimension</li>
+```{r}
+dim(Mdat); nrow(Mdat); ncol(Mdat); length(Mdat) # 3 2; 3; 2; 6 respectively
+```
+
+<li>Check names</li>
+```{r}
+row.names(Mdat); colnames(Mdat) # "r1" "r2" "r3"; "c1" "c2" receptively
+```
+<p class="pnote">Also check the `class`, `typeof`, `attributes`</p>
+
+
+## Matrix | How to subset a Matrix
+Use square brackets [] to subset a matrix
+```{r}
+# Basic Syntax
+a_matrix[row_condition, col_condition] # row/col cond. separated by a comma
+```
+
+Recall... <br><br>
+<ol start="1">
+<li>Logical vector</li>
+<li>Index (integer)</li>
+<li>Names</li>
+</ol>
+
+<p style="font-size:20px">Similar to vector but there are two conditions</p>
+
+## Matrix | How to subset a Matrix
+<ol>
+```{r eval=T, results='hide'}
+mdat<-matrix(1:12, nrow = 3,       # Can assign row and col names
+       dimnames = list(paste0("r", 1:3), paste0("c", 1:4)))
+```
+<li>Index</li>
+```{r}
+mdat[2, 1, drop=F] # row 2 and col 1; drop=F to keep the matrix str
+mdat[, 1:2]        # all rows; col 1 and 2 (blank means everything)
+mdat[c(-2,-4), - c(1, 3)] # rows except 2 and 4; cols except 1 and 3
+```
+<li>Names</li>
+```{r}
+mdat[c("r1", "r3"), c("c2", "c4")]  # Must be a named matrix
+```
+
+<li>Logical</li>
+```{r}
+mdat[c(T,F,T), c(F, T, T, F)] # any Boolean output (relational/logical op.)
+```
+</ol>
+
+
+## Matrix | How to modify a Matrix
+<ol>
+<li>Replace `NA`s with value(s)</li>
+```{r eval=T, results='hide'}
+mdat<-matrix(c(1,1, NA, 3, 3, 2, 4, NA, 4, 3, 3, 2), nrow=3)
+```
+
+```{r eval=T, echo=F, comment=""}
+mdat
+```
+
+
+```{r eval=T, results='hide'}
+mdat[is.na(mdat)]<-999  # What's the differece btw mdat[]<-0 and mdat<-0?
+```
+
+```{r eval=T, echo=F, comment=""}
+mdat
+```
+
+</ol>
+
+
+
+## Matrix | How to modify a Matrix
+<ol start="2">
+<li>Complete Observations</li>
+```{r eval=T, echo=F, results='hide'}
+mdat<-matrix(c(1,1, NA, 3, 3, 2, 4, NA, 4, 3, 3, 2), nrow=3)
+```
+
+```{r eval=T, comment=""}
+# Note: A single row or a column of a matrix is a vector
+mdat[complete.cases(mdat), ]         # a vector; class: "numeric"
+mdat[complete.cases(mdat), , drop=F] # a matrix; class: "matrix" "array"
+```
+```{r echo=F}
+class(mdat[complete.cases(mdat), ] )
+class(mdat[complete.cases(mdat), , drop=F])
+```
+</ol>
+
+
+## Matrix | How to modify a Matrix
+<ol start="3">
+<li>Unique observations</li>
+```{r}
+mdat[is.na(mdat)]<-c(NA,4)
+unique(mdat)               # row-wise operation (remove duplicated rows) 
+mdat[!duplicated(mdat), ]  # Can also use the 'duplicated' function
+```
+
+```{r eval=T, echo=F, comment=""}
+mdat[is.na(mdat)]<-c(NA,4)
+unique(mdat)
+```
+
+```{r eval=T, comment=""}
+t(unique(t(mdat)))        # transpose to remove duplicated columns
+```
+</ol>
+
+
+## Matrix | How to modify a Matrix
+<ol start="4">
+<li>matrix addition and mult</li>
+```{r}
+mdat<-matrix(1:4, nrow=2)
+Mdat<-matrix(LETTERS[1:4], nrow=2)
+
+mdat+2
+mdat*2
+mdat*c(-1,2)
+mdat%*%c(-1,2)
+c(-1,2) %*% mdat
+
+
+```
+
+
+```{r}
+# Estimated parameters of a OLS is:
+# $$\hat{\beta}=(X^TX)^{-1}(X^Ty)$$
+
+summary(lm(mpg~1+cyl+hp+wt, data=mtcars))
+
+y=mtcars$mpg
+x=as.matrix(cbind(intecept=rep(1, nrow(mtcars)), mtcars[c("cyl", "hp", "wt")]))
+y_hat=solve(t(x)%*%x)%*%(t(x)%*%y)
+```
+
+
+</ol>
+
+colnames
+rownames
+drop
+
+```{r}
+<a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/diag">`diag()`</a>
+diag(3)                   # 3x3 identity matrix
+diag(matrix(1:9, nrow=3)) # Diagonal elements of a matrix
+upper.tri(); lower.tri()
+t()
+
+```
+
+
+## Array
+
+## List | How to create a list
+<ol>
+<li>Creating an empty list</li>
+```{r}
+vector("list", length=3) # Empty list of length 3
+# Note: list is also called a generic vector
+```
+
+<li>Creating a list with <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/list">`list()`</a> function</li>
+```{r}
+list(vect=c(1,2,3), another_list=list(a=c("apple", "avocado"), b=1:5), mat=matrix(c(1,2,3,4), ncol=2), df=data.frame(v1=1:3, v2=c("a", "b", "c")))
+```
+</ol>
+
+
+<a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/subset">`subset()`</a>
+
+## Agg
+```{r}
+# aggregate(mdat, by=list(c1, c2), mean)
+# 2.0aggregate(c1~., data=mdat, mean)
+# aggregate(weight ~ feed, data = chickwts, mean)
+# aggregate(. ~ Species, data = iris, mean)
+# aggregate(state.x77, list(Region = state.region), mean)
+
+testDF <- data.frame(v1 = c(1,3,5,7,8,3,5,NA,4,5,7,9),
+                     v2 = c(11,33,55,77,88,33,55,NA,44,55,77,99) )
+by1 <- c("red", "blue", 1, 2, NA, "big", 1, 2, "red", 1, NA, 12)
+by2 <- c("wet", "dry", 99, 95, NA, "damp", 95, 99, "red", 99, NA, NA)
+aggregate(x = testDF, by = list(by1, by2), FUN = "mean")
+
+ag <- aggregate(len ~ ., data = ToothGrowth, mean)
+xtabs(len ~ ., data = ag)
+```
+
+
+## MOD Basic Data Types | Other types of variables in R
 <ol type="1" star="2">
 <li>Date
 ```{r echo=F}
