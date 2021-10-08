@@ -393,16 +393,24 @@ Create a matrix merging two matrices – <a href="https://www.rdocumentation.org
 
 </li>
 
-<pre class = 'prettyprint lang-r'># New Example!
-mdat1&lt;-matrix(1:4, nrow=2, dimnames = list(c(&quot;r1&quot;, &quot;r2&quot;), c(&quot;c1&quot;, &quot;c2&quot;)))
-mdat2&lt;-matrix(c(3, 5:7), nrow=2, dimnames = list(c(&quot;r1&quot;, &quot;r3&quot;), c(&quot;c2&quot;, &quot;c3&quot;)))
-# mdat2&lt;-matrix(5:8, nrow=2, dimnames = list(c(&quot;r1&quot;, &quot;r3&quot;), c(&quot;c2&quot;, &quot;c3&quot;)))</pre>
+<pre class = 'prettyprint lang-r'>mdat1&lt;-matrix(c(1,1,2,3,1,2,1,2,1,1,2,2), nrow=4, 
+              dimnames = list(paste0(&quot;r&quot;, 1:4), paste0(&quot;c&quot;, 1:3)))
+mdat2&lt;-matrix(c(1,2,3,4,1,1,2,2,1,2,1,2), nrow=4, 
+              dimnames = list(paste0(&quot;r&quot;, 1:4), paste0(&quot;c&quot;, c(1,2,5))))</pre>
 
-<pre class = 'prettyprint lang-r'># New Example!
-merge(mdat1, mdat2, all=F)
-merge(mdat1, mdat2, by=&quot;c2&quot;)  # merge by column name
+<pre class = 'prettyprint lang-r'>merge(mdat1, mdat2, all=F)
 merge(mdat1, mdat2, all=TRUE)
-# merge(mdat1, mdat2, all=TRUE)[order(names(merge(mdat1, mdat2, all=TRUE)))] </pre>
+merge(mdat1, mdat2, by=&quot;c2&quot;)                 # merge by column name
+merge(mdat1, mdat2, by=c(&quot;c1&quot;, &quot;c2&quot;))        # Same as all = F
+merge(mdat1, mdat2, by.x=&quot;c1&quot;, by.y=&quot;c2&quot;)    # when by is different for x &amp; y
+merge(mdat1, mdat2, by = &quot;c1&quot;, all.x = TRUE) # Left join
+merge(mdat1, mdat2, by = NULL)               # Outer join</pre>
+
+<p class="pnote">
+
+check family of <a href="https://www.rdocumentation.org/packages/dplyr/versions/0.7.8/topics/join">join</a> functions
+
+</p>
 
 </ol>
 

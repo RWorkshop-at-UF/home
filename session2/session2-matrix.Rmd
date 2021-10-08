@@ -122,21 +122,23 @@ Btw, `plyr` and `dplyr` pkgs are written by the same author and some functions s
 <ol start="4">
 <li>Create a matrix merging two matrices -- <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/merge">`merge()`</a> function</li>
 ```{r}
-# New Example!
-mdat1<-matrix(1:4, nrow=2, dimnames = list(c("r1", "r2"), c("c1", "c2")))
-mdat2<-matrix(c(3, 5:7), nrow=2, dimnames = list(c("r1", "r3"), c("c2", "c3")))
-# mdat2<-matrix(5:8, nrow=2, dimnames = list(c("r1", "r3"), c("c2", "c3")))
+mdat1<-matrix(c(1,1,2,3,1,2,1,2,1,1,2,2), nrow=4, 
+              dimnames = list(paste0("r", 1:4), paste0("c", 1:3)))
+mdat2<-matrix(c(1,2,3,4,1,1,2,2,1,2,1,2), nrow=4, 
+              dimnames = list(paste0("r", 1:4), paste0("c", c(1,2,5))))
 ```
-
 
 ```{r}
-# New Example!
 merge(mdat1, mdat2, all=F)
-merge(mdat1, mdat2, by="c2")  # merge by column name
 merge(mdat1, mdat2, all=TRUE)
-# merge(mdat1, mdat2, all=TRUE)[order(names(merge(mdat1, mdat2, all=TRUE)))] 
+merge(mdat1, mdat2, by="c2")                 # merge by column name
+merge(mdat1, mdat2, by=c("c1", "c2"))        # Same as all = F
+merge(mdat1, mdat2, by.x="c1", by.y="c2")    # when by is different for x & y
+merge(mdat1, mdat2, by = "c1", all.x = TRUE) # Left join
+merge(mdat1, mdat2, by = NULL)               # Outer join
 ```
 
+<p class="pnote">check family of <a href="https://www.rdocumentation.org/packages/dplyr/versions/0.7.8/topics/join">join</a> functions</p>
 
 </ol>
 

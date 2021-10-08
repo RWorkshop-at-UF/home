@@ -676,7 +676,6 @@ paste0(UF_bldg, " Hall")
 
 ## Vector | How to summarize a vector
 <ol>
-round()
 <li>Any summary statistics -- <p style="font-size:18px" display="inline">`mean()`, `sd()`, `sum()`, `min()`, `max()`, `range()`, etc.</p></li>
 ```{r eval=TRUE, results='hide'}
 x<-1:10;
