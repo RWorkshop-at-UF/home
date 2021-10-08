@@ -1,0 +1,35 @@
+[
+  {
+    "First_Name": "Tek",
+    "Last_Name": "Song",
+    "Age": 33,
+    "Interests": ["coding", "gym", "driving"],
+    "Expertise": {
+      "R": 1,
+      "Python": 2,
+      "html": 3
+    }
+  },
+  {
+    "First_Name": "Imaginary",
+    "Last_Name": "Friend",
+    "Age": 30,
+    "Interests": ["Cooking", "music"],
+    "Expertise": {
+      "R": 3,
+      "Java": 2,
+      "Cpp": 1
+    }
+  },
+  {
+    "First_Name": "Person",
+    "Last_Name": "Nextdoor",
+    "Age": 24,
+    "Interests": ["Singing", "Shower"],
+    "Expertise": {
+      "R": 2,
+      "Cpp": 3,
+      "Python": 1
+    }
+  }
+]

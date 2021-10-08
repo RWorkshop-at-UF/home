@@ -1,0 +1,132 @@
+---
+title: Session 2
+output:
+  ioslides_presentation:
+    css: cust_css.css
+  slidy_presentation: default
+  beamer_presentation: default
+subtitle: Data Type and Structure
+author: "Tek Song"
+ratio: 16x10
+---
+```{r setup, include=F}
+knitr::opts_chunk$set(echo=T, eval=F, cache = T)
+```
+
+## Session Outline
+
+<ol type="1">
+<li>**Explore Data Types**</li>
+-- Logical, Integer, Double, Character, <p style="color:LightGray; display:inline">Factor</p>, <p style="color:LightGray; display:inline">Date</p>
+<ol>
+<ol type="i">
+<li>How to examine data type</li>
+<li>How to assign data type</li>
+</ol>
+</ol>
+
+<li>**Explore Data Structures**</li>
+-- Vector, List, Matrix, Data Frame
+<ol>
+<ol type="i">
+<li>How to create each data structure</li>
+<li>How to modify each data structure</li>
+<li>How to convert one data structure to another</li>
+<li>How to explore/examine a given data</li>
+</ol>
+</ol>
+</ol>
+
+
+## Data Frame | How to create a data frame
+<ol>
+<li>Use vectors as building blocks -- <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/data.frame">`data.frame()` function</a></li>
+```{r eval=T, results='hide'}
+# Data frame is Heterogeneous!
+MKT_dept <- data.frame(
+  ID=1:7,
+  Name=c("Felipe", "Guangzhi", "Minzhe", "SooYon", "Tek", "Yvonne", "Xiang"),
+  Year=c(4, 1, 5, 2, NA, 1, 5),
+  RA=factor(c("CB","Qt", "CB","CB", "Qt", "CB", "CB"), levels=c("CB", "Qt"))
+) # str(MKT_dept)
+```
+
+```{r eval=T, echo=F, comment=""}
+str(MKT_dept)
+```
+</ol>
+
+## Data Frame | How to create a data frame
+<ol start="2">
+<li>Import data as data.frame</li>
+<p style="font-size:18px">Data frame is the <em>de facto</em> data structure for most rectangular data set</p>
+<ol type="i">
+<li>`.csv()` extension</li>
+```{r eval=T, comment=""}
+df_csv <- read.csv("data/csv_example.csv")# csv example from Session 1
+str(df_csv)
+```
+
+```{r}
+readr::read_csv("data/csv_example.csv")  # Class: ... "data.frame" 
+data.table::fread("data/csv_example.csv")# Class: ... "data.frame"
+```
+</ol>
+</ol>
+
+
+## Data Frame | How to create a data frame
+<ol start="2">
+<li>Import data as data.frame</li>
+<ol type="i" start="2">
+<li>`.xlsx()` extension</li>
+```{r}
+openxlsx::read.xlsx("data/xlsx_example.xlsx", 1)# class: "data.frame"
+readxl::read_excel("data/xlsx_example.xlsx", 2) # class:..."data.frame"
+```
+</ol>
+</ol>
+
+
+## Data Frame | How to create a data frame  
+<ol start="3">
+<li>Convert a matrix to a data.frame -- <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/data.frame">`as.data.frame()`</a></li>
+```{r eval=T, comment=""}
+mdat=matrix(1:9, nrow=3, 
+            dimnames = list(paste0("r", 1:3), paste0("c", 1:3)))
+df <- as.data.frame(mdat)
+c("is.data.frame" = is.data.frame(df),
+  "is.list"       = is.list(df),
+  "is.matrix"     = is.matrix(df),
+  "is.atomic"     = is.atomic(df))
+```
+</ol>
+
+## Data Frame | How to create a data frame  
+<ol start="4">
+<li>Convert a list to a data.frame</li>
+<ol type="i">
+<ol>Column Bind</ol>
+```{r eval=T, comment=""}
+a_list<-list(a=1:3, b=c("a", "b", "c"), c=factor(c(1,1,2)))
+data.frame(a_list)
+```
+
+<ol>Row Bind</ol>
+```{r}
+do.call("rbind", a_list)
+
+
+rng=function(x){
+ sample(1:10, 5)
+}
+set.seed(1)
+l<-lapply(1:5, rng)
+data.table::rbindlist(l)
+
+a_list<-list(1:3, c("a", "b", "c"), factor(c(1,1,2)))
+data.table::rbindlist(a_list, fill=T)
+# data.frame(Reduce("rbind", a_list))
+# do.call("rbind", a_list)
+```
+</ol>

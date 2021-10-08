@@ -1,0 +1,587 @@
+---
+title: Session 2
+output:
+  ioslides_presentation:
+    css: cust_css.css
+  slidy_presentation: default
+  beamer_presentation: default
+subtitle: Data Type and Structure -- Matrix
+author: "Tek Song"
+ratio: 16x10
+---
+```{r setup, include=F}
+knitr::opts_chunk$set(echo=T, eval=F, cache = T)
+```
+
+
+## Matrix | How to create a Matrix
+<ol>
+<li>Create an empty matrix of NAs</li>
+```{r eval=T, comment=""}
+matrix(nrow = 2, ncol = 3)
+```
+
+```{r eval=T, comment=""}
+matrix(nrow = 2, ncol = 3,           # Can assign row and col names
+       dimnames = list(paste0("r", 1:2), paste0("c", 1:3)))
+```
+
+<p class="pnote">Check <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/matrix">`matrix()`</a> function </p>
+</ol>
+
+
+## Matrix | How to create a Matrix
+<ol start="2">
+<li>Create a matrix from a vector</li>
+```{r eval=T, comment=""}
+matrix(1:12, nrow=3)           # column-wise fill
+```
+```{r eval=T, comment=""}
+matrix(1:12, nrow=3, byrow=T)  # row-wise fill
+```
+</ol>
+
+
+## Matrix | How to create a Matrix
+<ol start="3">
+<li>Create a matrix by binding vectors</li>
+<ol type="i">
+<li>`rbind()` -- row bind</li>
+
+```{r eval=T, comment=""}
+rbind(c(1, 2), c(3, 4))
+```
+
+
+<li>`cbind()` -- column bind</li>
+```{r eval=T, comment=""}
+cbind(c(1, 2), c(3, 4))
+```
+</ol>
+</ol>
+
+
+## Matrix | How to create a Matrix
+<ol start="3">
+<li>Create a matrix by binding vectors -- can also bind matrices</li>
+```{r eval=T, comment=""}
+mdat<-matrix(letters[1:4], nrow=2) # a matrix can be of character-type
+rbind(mdat, paste0("new_r", 1:2))  # row-bind a vector to a matrix
+```
+
+```{r}
+mdat<-matrix(letters[1:4], nrow=2)
+Mdat<-matrix(LETTERS[1:4], nrow=2)
+cbind(mdat, Mdat)                  # column-bind two matrices
+```
+
+
+
+</ol>
+</ol>
+
+
+## Matrix | How to create a Matrix
+<ol start="3">
+<li>Create a matrix by binding vectors</li>
+<ul>
+<li>Binding vectors with different length</li>
+```{r eval=T, comment=""}
+rbind(1:5, 6:7) # Warning... 6 7 repeats; cbind also behaves similarly
+```
+</ul>
+</ol>
+
+
+## Matrix | How to create a Matrix
+<ol start="3">
+<li>Create a matrix by binding vectors</li>
+<ul>
+<li>Binding vectors with different length -- fill with NA</li>
+```{r eval=T, comment=""}
+x<-1:5; y<-6:7
+max_length=max(length(x), length(y))
+length(x)<-max_length; length(y)<-max_length  # x/y now same length
+rbind(x, y)
+```
+<p class="pnote"><b>NOTE</b>: There are functions/pkgs that do the same job -- e.g. <a href="https://cran.r-project.org/web/packages/plyr/plyr.pdf">`plyr::rbind.fill`</a><br><br>
+Btw, `plyr` and `dplyr` pkgs are written by the same author and some functions share the same name.<br>
+&#8658; Use `::` to distinguish the two packages</p>
+</ul>
+</ol>
+
+## Matrix | How to create a Matrix
+<center>
+<img src="images/matrix_create.png" style="width:80%">
+</center>
+<br>
+<p class="pnote">Make sure the dimensions are correct! </p>
+
+
+## Matrix | How to create a Matrix
+<ol start="4">
+<li>Create a matrix merging two matrices -- <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/merge">`merge()`</a> function</li>
+```{r}
+# New Example!
+mdat1<-matrix(1:4, nrow=2, dimnames = list(c("r1", "r2"), c("c1", "c2")))
+mdat2<-matrix(c(3, 5:7), nrow=2, dimnames = list(c("r1", "r3"), c("c2", "c3")))
+# mdat2<-matrix(5:8, nrow=2, dimnames = list(c("r1", "r3"), c("c2", "c3")))
+```
+
+
+```{r}
+# New Example!
+merge(mdat1, mdat2, all=F)
+merge(mdat1, mdat2, by="c2")  # merge by column name
+merge(mdat1, mdat2, all=TRUE)
+# merge(mdat1, mdat2, all=TRUE)[order(names(merge(mdat1, mdat2, all=TRUE)))] 
+```
+
+
+</ol>
+
+## Matrix | Examine a Matrix
+<ol>
+```{r}
+Mdat<-matrix(LETTERS[1:6], nrow=3, 
+             dimnames = list(paste0("r", 1:3), paste0("c", 1:2)))
+```
+
+<li>`str()` -- Check overall structure and type</li>
+```{r}
+str(Mdat)
+```
+<li>Check matrix dimension</li>
+```{r}
+dim(Mdat); nrow(Mdat); ncol(Mdat); length(Mdat) # 3 2; 3; 2; 6 respectively
+```
+
+<li>Check names</li>
+```{r}
+row.names(Mdat); colnames(Mdat) # "r1" "r2" "r3"; "c1" "c2" receptively
+```
+<p class="pnote">Also check the `class`, `typeof`, `attributes`</p>
+
+
+## Matrix | How to subset a Matrix
+Use square brackets [] to subset a matrix
+```{r}
+# Basic Syntax
+a_matrix[row_condition, col_condition] # row/col cond. separated by a comma
+```
+
+Recall... condition types<br><br>
+<ol start="1">
+<li>Logical vector</li>
+<li>Index (integer)</li>
+<li>Names</li>
+</ol>
+
+<p style="font-size:20px">Similar to vector but there are two conditions -- row and column</p>
+
+## Matrix | How to subset a Matrix
+<ol>
+```{r eval=T, results='hide'}
+mdat<-matrix(1:12, nrow = 3,       # Can assign row and col names
+       dimnames = list(paste0("r", 1:3), paste0("c", 1:4)))
+```
+<li>Index</li>
+```{r}
+mdat[2, 1, drop=F] # row 2 and col 1; drop=F to keep the matrix structure
+mdat[, 1:2]        # all rows; col 1 and 2 (blank means everything)
+mdat[c(-2,-4), - c(1, 3)] # rows except 2 and 4; cols except 1 and 3
+```
+<li>Names</li>
+```{r}
+mdat[c("r1", "r3"), c("c2", "c4")]  # Must be a named matrix
+```
+
+<li>Logical</li>
+```{r}
+mdat[c(T,F,T), c(F, T, T, F)] # any Boolean output (relational/logical op.)
+```
+</ol>
+
+match
+df[setdiff(names(df), "z")]
+De Morgan's laws
+!(X & Y) is the same as !X | !Y
+!(X | Y) is the same as !X & !Y
+!(X & !(Y | Z)) simplifies to !X | !!(Y|Z), and then to !X | Y | Z.
+
+
+## Matrix | How to subset a Matrix
+<ol>
+<li>Application</li>
+```{r eval=T}
+olympic = rbind(
+  USA=c(39, 41, 33, 113, 1, 1),
+  China=c(38, 32, 18, 88, 2, 2),
+  Japan=c(27, 14, 17, 58, 3, 5),
+  GB=c(22, 21, 22, 65, 4, 4),
+  ROC=c(20, 28, 23, 71, 5, 3),
+  Netherlands=c(10, 12, 14, 36, 7, 9),
+  France=c(10, 12, 11, 33, 8, 10))
+colnames(olympic)<-c("gold", "silver", "bronze", 
+                     "Total", "Rank_by_gold", "Rank_by_total")
+```
+
+```{r eval=T, echo=F, comment=""}
+head(olympic, 3)
+```
+</ol>
+
+
+## Matrix | How to subset a Matrix
+<ol>
+<li>Application</li>
+<ol type="i">
+<li>filter matrix</li>
+```{r eval=T, comment=""}
+olympic[olympic[, "gold"] > 30,]
+```
+
+
+```{r}
+olympic[olympic[, "gold"] > 30 & olympic[, "silver"]>40,]
+```
+</ol>
+</ol>
+
+
+## Matrix | How to subset a Matrix
+<ol>
+<li>Application</li>
+<ol type="i" start="2">
+<li>sort matrix</li>
+```{r}
+# sort/order
+sort(olympic[, "Rank_by_total"])            # Returns Value
+order(olympic[, "Rank_by_total"])           # Returns order
+olympic[order(olympic[, "Rank_by_total"]),]
+```
+
+```{r eval=T, echo=F, comment=""}
+head(olympic[order(olympic[, "Rank_by_total"]),], 5)
+```
+
+</ol>
+</ol>
+
+
+## Matrix | How to subset a Matrix
+<ol>
+<li>Application</li>
+<ol type="i" start="2">
+<li>sort matrix</li>
+```{r}
+olympic[order(olympic[, "gold"], decreasing=F),]
+```
+
+```{r eval=T, echo=F, comment=""}
+head(olympic[order(olympic[, "gold"], decreasing=F),], 2)
+```
+
+```{r}
+olympic[order(olympic[, "gold"], olympic[, "Total"], decreasing=F),]
+```
+
+```{r eval=T, echo=F, comment=""}
+head(olympic[order(olympic[, "gold"], olympic[, "Total"], decreasing=F),], 2)
+```
+
+</ol>
+</ol>
+
+
+## Matrix | How to modify a Matrix
+<ol>
+<li>Replace element(s) in a matrix</li>
+```{r eval=T, results='hide'}
+mdat<-matrix(1:9, nrow=3)
+```
+
+<div class="column">
+```{r eval=T, comment=""}
+# replace with a value
+mdat[mdat>5]<-999   
+```
+
+```{r eval=T, echo=F, comment=""}
+mdat
+```
+</div>
+<div class="column">
+```{r eval=T, comment=""}
+# replace with a vector
+mdat[mdat>5]<-c(1,2)
+```
+
+```{r eval=T, echo=F, comment=""}
+mdat<-matrix(1:9, nrow=3)
+mdat[mdat>5]<-c(1,2)
+mdat
+```
+</div>
+</ol>
+
+
+## Matrix | How to modify a Matrix
+<ol start="2">
+<li>Replace rows/columns in a matrix</li>
+```{r eval=T, results='hide'}
+mdat<-matrix(1:9, nrow=3)
+```
+
+<div class="column">
+```{r eval=T, comment=""}
+# replace with a value
+mdat[1,]<-999   
+```
+
+```{r eval=T, echo=F, comment=""}
+mdat
+```
+</div>
+<div class="column">
+```{r eval=T, comment=""}
+# This time.. length must match!
+mdat[c(1,3), ]<-c(100, 200, 300)
+```
+
+```{r eval=T, echo=F, comment=""}
+mdat<-matrix(1:9, nrow=3)
+mdat[c(1,3), ]<-c(100, 200, 300)
+mdat
+```
+</div>
+<p class="pnote"> Use the column index to change the column(s)</p>
+</ol>
+
+
+
+## Matrix | How to modify a Matrix
+<ol  start="3">
+<li>Replace `NA`s with value(s)</li>
+```{r eval=T, results='hide'}
+mdat<-matrix(c(1,1, NA, 3, 3, 2, 4, NA, 4, 3, 3, 2), nrow=3)
+```
+
+```{r eval=T, echo=F, comment=""}
+mdat
+```
+
+
+```{r eval=T, results='hide'}
+mdat[is.na(mdat)]<-999  # What's the differece btw mdat[]<-0 and mdat<-0?
+```
+
+```{r eval=T, echo=F, comment=""}
+mdat
+```
+
+</ol>
+
+
+
+## Matrix | How to modify a Matrix
+<ol start="4">
+<li>Complete Observations</li>
+```{r eval=T, echo=F, results='hide'}
+mdat<-matrix(c(1,1, NA, 3, 3, 2, 4, NA, 4, 3, 3, 2), nrow=3)
+```
+
+```{r eval=T, comment=""}
+# Note: A single row or a column of a matrix is a vector
+mdat[complete.cases(mdat), ]         # a vector;  class: "numeric"
+mdat[complete.cases(mdat), , drop=F] # a matrix;  class: "matrix" "array"
+```
+
+```{r echo=F}
+class(mdat[complete.cases(mdat), ] )
+class(mdat[complete.cases(mdat), , drop=F])
+```
+</ol>
+
+
+## Matrix | How to modify a Matrix
+<ol start="5">
+<li>Unique observations</li>
+```{r}
+mdat[is.na(mdat)]<-c(NA,4) # in the prev. slide replaced with 999. But...
+unique(mdat)               # row-wise operation (remove duplicated rows) 
+mdat[!duplicated(mdat), ]  # Can also use the 'duplicated' function
+```
+
+```{r eval=T, echo=F, comment=""}
+mdat[is.na(mdat)]<-c(NA,4)
+unique(mdat)
+```
+
+```{r eval=T, comment=""}
+t(unique(t(mdat)))        # transpose to remove duplicated columns
+```
+</ol>
+
+
+## Matrix | How to modify a Matrix
+<ol start="6">
+<li>Row and column names of a matrix</li>
+<ul>
+<li>Get/Set names -- <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/row.names">`row.names()`</a> and <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/row%2Bcolnames">`colnames()`</a> functions</li>
+
+```{r}
+mdat                                      # dim(mdat);  3 4
+row.names(mdat)                           # NULL; no row name assigned
+colnames(mdat)                            # NULL; no column name either
+row.names(mdat)<-c("r1", "r2", "r3")      # Assign row names
+colnames(mdat)<-c("c1", "c2", "c3", "c4") # Assign column names
+```
+</ul>
+</ol>
+<p class="pnote">cf. <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/dimnames">`dimnames()`</a></p>
+
+## Matrix | How to modify a Matrix
+<ol start="7">
+<li>Get/Set Row and Column Names of a matrix</li>
+<ul>
+<li>Name vectors while using them as building blocks</li>
+```{r eval=T, comment=""}
+rbind(r1=1:3, r2=4:6, r3=7:9)     # Note: difference btw = vs. <-
+```
+
+```{r}
+cbind(c1=1:3, c2=4:6, c3=7:9)     # With column names
+```
+
+</ul>
+</ol>
+
+
+## Matrix | Useful matrix-related functions
+<ol>
+<li>`head()`; `tail()`</li>
+```{r eval=T, results='hide'}
+long_mat<-matrix(1:1000, ncol=5)
+head(long_mat, 3)    # Also check tail()
+```
+
+```{r eval=T, comment=""}
+head(long_mat, 3)  
+```
+
+<li>`summary()`</li>
+```{r}
+summary(mdat)  # summary ov each column
+```
+</ol>
+
+
+
+## Matrix | Useful matrix-related functions
+<ol>
+<li><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/diag">`diag()`</a></li>
+```{r}
+diag(3)                   # (1) create 3x3 identity matrix
+diag(matrix(1:9, nrow=3)) # (2) extract diagonal elements of a matrix
+```
+
+<li><a href="https://www.rdocumentation.org/packages/Ryacas/versions/1.1.3.1/topics/upper.tri">`upper.tri()`</a> & <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/lower.tri">`lower.tri()`</a></li>
+
+```{r}
+upper.tri(mdat, diag=T)  # Returns T/F
+```
+
+```{r echo=F}
+mdat[upper.tri(mdat, diag=T)]
+which(upper.tri(mdat, diag=T), arr.ind = T)
+```
+
+
+<li><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/t">`t()`</a> -- transpose matrix or data.frame</li>
+```{r}
+t(mdat)
+```
+
+<li><a href="https://www.rdocumentation.org/packages/Matrix/versions/0.3-19/topics/det">`det()`</a> -- calculate determinant of a matrix</li>
+```{r}
+det(matrix(c(1,2,3,4), ncol=2))
+```
+
+</ol>
+
+<!-- order() -->
+<!-- plot() -->
+<!-- vector:: [] keeps the name attribute, while [[]] drops them all -->
+<!-- # ```{r} -->
+<!-- # plot(); matplot(); image(); contour(); filled.contour(); -->
+<!-- # data(volcano) -->
+<!-- # image(volcano, main = "Image Plot") -->
+<!-- # contour(volcano) -->
+<!-- # ``` -->
+
+
+
+<!-- ## Array -->
+
+<!-- <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/subset">`subset()`</a> -->
+
+<!-- ## Agg -->
+<!-- ```{r} -->
+<!-- # aggregate(mdat, by=list(c1, c2), mean) -->
+<!-- # 2.0aggregate(c1~., data=mdat, mean) -->
+<!-- # aggregate(weight ~ feed, data = chickwts, mean) -->
+<!-- # aggregate(. ~ Species, data = iris, mean) -->
+<!-- # aggregate(state.x77, list(Region = state.region), mean) -->
+
+<!-- testDF <- data.frame(v1 = c(1,3,5,7,8,3,5,NA,4,5,7,9), -->
+<!--                      v2 = c(11,33,55,77,88,33,55,NA,44,55,77,99) ) -->
+<!-- by1 <- c("red", "blue", 1, 2, NA, "big", 1, 2, "red", 1, NA, 12) -->
+<!-- by2 <- c("wet", "dry", 99, 95, NA, "damp", 95, 99, "red", 99, NA, NA) -->
+<!-- aggregate(x = testDF, by = list(by1, by2), FUN = "mean") -->
+
+<!-- ag <- aggregate(len ~ ., data = ToothGrowth, mean) -->
+<!-- xtabs(len ~ ., data = ag) -->
+<!-- ``` -->
+
+
+<!-- ## MOD Basic Data Types | Other types of variables in R -->
+<!-- <ol type="1" star="2"> -->
+<!-- <li>Date -->
+<!-- ```{r echo=F} -->
+<!-- date() # current day, date, and time -->
+<!-- Sys.time() -->
+<!-- Sys.Date() -->
+<!-- ``` -->
+<!-- </ol> -->
+
+
+<!-- ## Matrix | How to modify a Matrix -->
+<!-- <ol start="4"> -->
+<!-- <li>vector/matrix Asthmatics</li> -->
+<!-- ```{r} -->
+<!-- mdat<-matrix(1:4, nrow=2) -->
+
+<!-- mdat+2          # Vectorization also works -->
+<!-- mdat*2 -->
+<!-- mdat*c(-1,2) -->
+
+<!-- c(1,2,3) * c(4,5,6)     -->
+<!-- c(1,2,3) %*% c(4,5,6)  # Inner product -->
+
+<!-- mdat%*%c(-1,2) -->
+<!-- c(-1,2) %*% mdat -->
+
+<!-- # Estimated parameters of a OLS is: -->
+<!-- # $$\hat{\beta}=(X^TX)^{-1}(X^Ty)$$ -->
+
+<!-- summary(lm(mpg~1+cyl+hp+wt, data=mtcars)) -->
+
+<!-- y=mtcars$mpg -->
+<!-- # x=as.matrix(cbind(intecept=rep(1, nrow(mtcars)), mtcars[c("cyl", "hp", "wt")])) -->
+<!-- mtcars$intercept=1 -->
+<!-- x<-as.matrix(mtcars[c("intercept", "cyl", "hp", "wt")]) -->
+<!-- beta_hat=solve(t(x)%*%x)%*%(t(x)%*%y) -->
+<!-- ``` -->
+
+<!-- </ol> -->
