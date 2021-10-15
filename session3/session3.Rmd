@@ -389,7 +389,7 @@ f(2)
 ## How to Write a Function | Setting Default Arguments
 <!-- <div style="float:left; width: 50%"> -->
 ```{r eval=T, comment=""}
-g <- function(x=1, y = 2){ # set defaults to x and y
+g <- function(x=1, y = 2){ # set default values for x and y
   x+y
 }
 g()       # 1 + 2
@@ -413,7 +413,8 @@ g(5, 10)  # 5 + 10
 
 ## How to Write a Function | Passing Additional Arguments
 ... (dot-dot-dot)
-<p style="font-size: 20px">Need to call functions in a function and additional arguments must be passed down</p>
+<p style="font-size: 20px">
+Additional arguments can be passed out to function(s) embedded in a function</p>
 
 <ol>
 ```{r eval=T, comment=""}
@@ -612,11 +613,6 @@ for(i in a_list){
 <p class="pnote"><b>NOTE</b>: Note there are other condition handling method including <a href="withCallingHandlers">`withCallingHandlers()`</a> function.</p>
 <p class="pnote"><b>NOTE</b>: How to ignore <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/warning">warnings</a> and <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/message">messages</a></p>
 <p class="pnote"><b>NOTE</b>: Use <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/options">`options()`</a> function to supress error meesages</p>
-
-```{r}
-# ignores error messages (global)
-options(error = expression(NULL)) 
-```
 
 
 ## Error Handling in R | <a href="https://rdrr.io/github/Dans-labs/R-package_EmilMisc/man/tryCatch.html">`tryCatch()`</a>  -- basic syntax

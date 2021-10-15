@@ -681,7 +681,7 @@ f(2)</pre>
 
 <!-- <div style="float:left; width: 50%"> -->
 
-<pre class = 'prettyprint lang-r'>g &lt;- function(x=1, y = 2){ # set defaults to x and y
+<pre class = 'prettyprint lang-r'>g &lt;- function(x=1, y = 2){ # set default values for x and y
   x+y
 }
 g()       # 1 + 2</pre>
@@ -728,7 +728,7 @@ g()       # 1 + 2</pre>
 
 <p style="font-size: 20px">
 
-Need to call functions in a function and additional arguments must be passed down
+Additional arguments can be passed out to function(s) embedded in a function
 
 </p>
 
@@ -999,9 +999,6 @@ Use <code>tryCatch()</code> function to handle conditions as you want
 <b>NOTE</b>: Use <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/options"><code>options()</code></a> function to supress error meesages
 
 </p>
-
-<pre class = 'prettyprint lang-r'># ignores error messages (global)
-options(error = expression(NULL)) </pre>
 
 </article></slide><slide class=""><hgroup><h2>Error Handling in R </h2><h3> <a href="https://rdrr.io/github/Dans-labs/R-package_EmilMisc/man/tryCatch.html"><code>tryCatch()</code></a> – basic syntax</h3></hgroup><article  id="error-handling-in-r-trycatch-basic-syntax">
 
