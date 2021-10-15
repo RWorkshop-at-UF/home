@@ -127,6 +127,7 @@ df <- subset(df, verfied=="yes")
 </ol>
 
 ```{r}
+library(dplyr)
 df<- read.csv("data/example.csv")
 df %>% 
   dplyr::select(-c(title, info_2, info_3)) %>%    # Use "select" include/exclude columns
@@ -211,10 +212,42 @@ as.data.frame.matrix(tab) %>%
 </ol>
 
 ## Task list 3
+Using the data set generated after task list 1
+<br>
+<br>
 <ol>
+<li>Remove any observations with NAs</li>
+```{r}
+df [complete.cases(df),]->df
+```
+
+<li>Reorder data frame based on "date_diff"</li>
 
 ```{r}
+df %>%
+  arrange(date_diff)->df
 
 ```
+
+<li><p>Create a new column "count" and count the number of obs. for each "product"</p></li>
+<p style="font-size:20px"> Hint: check the <a href="https://www.rdocumentation.org/packages/dplyr/versions/0.7.8/topics/group_by">`group_by()`</a> function in the dplyr package</p>
+<p style="font-size:20px"> Hint2: check the <a href="https://www.rdocumentation.org/packages/dplyr/versions/0.7.8/topics/n">`n()`</a> function in the dplyr package</p>
+
+```{r}
+df %>%
+  group_by(product) %>%
+  summarize(count=n())
+  # mutate(avg_rating=mean(star_rating))
+```
+<li><p>Create a new column "avg_rating" and calculate the average "star_rating" for each "product"</p></li>
+
+```{r}
+df %>%
+  group_by(product) %>%
+  # summarize(avg_rating=mean(star_rating))
+  mutate(avg_rating=mean(star_rating))
+```
+
+
 
 </ol>

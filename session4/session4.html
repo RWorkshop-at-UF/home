@@ -281,13 +281,31 @@ select
 
 <li>
 
-mutate / transmute
+mutate / transmute / summarize
 
 </li>
 
 <li>
 
 filter
+
+</li>
+
+<li>
+
+group_by / ungroup
+
+</li>
+
+<li>
+
+arrange
+
+</li>
+
+<li>
+
+slice
 
 </li>
 
@@ -370,6 +388,58 @@ Hint4: check <code>rowSums()</code> function
 <li>
 
 Replace raw count with percentage
+
+</li>
+
+</ol>
+
+</article></slide><slide class=""><hgroup><h2>Task list 3</h2></hgroup><article  id="task-list-3">
+
+Using the data set generated after task list 1 <br> <br>
+
+<ol>
+
+<li>
+
+Remove any observations with NAs
+
+</li>
+
+<li>
+
+Reorder data frame based on &ldquo;date_diff&rdquo;
+
+</li>
+
+<li>
+
+<p>
+
+Create a new column &ldquo;count&rdquo; and count the number of obs. for each &ldquo;product&rdquo;
+
+</p>
+
+</li>
+
+<p style="font-size:20px">
+
+Hint: check the <a href="https://www.rdocumentation.org/packages/dplyr/versions/0.7.8/topics/group_by"><code>group_by()</code></a> function in the dplyr package
+
+</p>
+
+<p style="font-size:20px">
+
+Hint2: check the <a href="https://www.rdocumentation.org/packages/dplyr/versions/0.7.8/topics/n"><code>n()</code></a> function in the dplyr package
+
+</p>
+
+<li>
+
+<p>
+
+Create a new column &ldquo;avg_rating&rdquo; and calculate the average &ldquo;star_rating&rdquo; for each &ldquo;product&rdquo;
+
+</p>
 
 </li>
 
