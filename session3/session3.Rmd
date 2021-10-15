@@ -1,0 +1,860 @@
+---
+title: Session 3 & 4
+output:
+  ioslides_presentation:
+    css: cust_css.css
+  slidy_presentation: default
+  beamer_presentation: default
+subtitle: Control Stuructures, Loops, and Functions
+author: "Tek Song"
+ratio: 16x10
+---
+```{r setup, include=F}
+knitr::opts_chunk$set(echo=T, eval=F, cache = T)
+```
+
+## Session Outline
+
+<ol type="1">
+<li>**How to Write Control Structures**</li>
+<ol type="i">
+<li>`if-else` statement</li>
+<li>`ifelse()` function</li>
+</ol>
+<li>**How to Write Loops**</li>
+<ol type="i">
+<li>`for` and `while` loops</li>
+<li>Family of `apply` functions</li>
+</ol>
+<li>**How to Write a Function**</li>
+</ol>
+
+
+## How to Write Control Structures| `if-else` Statement
+What is if and else?
+<p style="font-size:20px"> -- To test a condition and act depending on whether it is TRUE or FALSE</p>
+<ol>
+<li>if statement</li>
+<div class="column">
+```{r}
+if(condition){
+  statement
+}
+# If condition TRUE, 
+# then execute the statement
+# If FALSE, do nothing
+```
+
+</div>
+<div class="column">
+<img src="images/if.png" style="width:70%">
+</div>
+</ol>
+
+
+## How to Write Control Structures| `if-else` Statement
+<ol start="2">
+<li>if-else statement</li>
+<div class="column">
+```{r}
+if(condition){
+  statement1
+} else {
+  statement2
+}
+# If condition TRUE, 
+# then execute statement 1
+# If FALSE,
+# then execute statement 2
+```
+
+</div>
+<div class="column">
+<img src="images/ifelse.png" style="width:100%">
+</div>
+</ol>
+
+
+## How to Write Control Structures| `if-else` Statement
+<ol start="3">
+<li>else-if statement</li>
+<div style="float:left; width: 37%">
+```{r}
+if(condition1){
+  statement1
+} else if(condition2) {
+  statement2
+} else {
+  statement3
+}
+```
+</div>
+<div style="float:left; width: 63%">
+<img src="images/ifelseif.png" style="width:100%">
+</div>
+</ol>
+
+
+## How to Write Control Structures| `ifelse()` Function
+<ol start="4">
+<li><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/ifelse">`ifelse()`</a> function</li>
+```{r}
+# Syntax
+ifelse(condition, value_for_true, value_for_false)
+```
+
+```{r eval=T, comment=""}
+x <- 5
+ifelse(x>2, "x is greater than 2", "x is less or equal to 2")
+```
+
+```{r}
+x <- 1
+ifelse(x>2, "x is greater than 2", "x is less or equal to 2")
+```
+
+</ol>
+<p class="pnote">`ifelse()` function is vectorized</p>
+
+
+## How to Write Control Structures| `if-else` Statement
+Compare if-else statement and `ifelse()` function
+```{r eval=T, results='hide'}
+x<-1:5
+```
+
+<div style="float:left; width: 42%">
+```{r}
+if(x >= 4){
+  paste0(x, " is high-rated")
+} else if (x >= 2){
+  paste0(x, " is mediocre")
+} else{
+  paste0(x, " is low-rated")
+}  # NOT the desired output
+```
+</div>
+<div style="float:left; width: 58%">
+```{r eval=F, comment=""}
+ifelse(x >= 4, paste0(x, " is high-rated"),
+  ifelse(x >= 2, paste0(x, " is mediocre"), 
+    paste0(x, " is low-rated")
+  ) # close the 2nd ifelse function
+)   # close the 1st ifelse function
+
+# Vectorized!
+```
+</div>
+
+
+## How to Write Control Structures| `Switch` Statement
+
+```{r}
+# Syntax
+switch(expression, list_of_values)
+```
+
+```{r}
+# Example
+switch("b", "a"="alpha", "b"="beta", "zeta")  # match by character
+switch(1, "a"="alpha", "b"="beta", "zeta")    # match by index
+switch("c", "a"="alpha", "b"="beta", "zeta")  # returns "zeta" if no match
+```
+
+```{r echo=F}
+sapply(1:5, function(x){switch(x, 
+       `1`="x is low-rated",
+       `2`="x is mediocre",
+       `3`="x is mediocre",
+       `4`="x is high-rated",
+       `5`="x is high-rated")
+  }
+)
+```
+
+
+
+## How to Write Loops | `for` Loops
+What is a for loop?
+<p style="font-size:20px"> -- To repeat a specific statement for a known number of iteration</p>
+<br>
+<ol>
+<div style="float:left; width: 40%">
+```{r}
+# Syntax
+for(index in vector){
+  statement
+}
+```
+</div>
+<div style="float:left; width: 60%">
+<img src="images/for.png" style="width:100%">
+</div>
+</ol>
+
+
+## How to Write Loops | `for` Loops
+<ol>
+```{r}
+# Example: How to count and save using the for loop
+# Count the number of leap years between 1900 and 2000
+# Save the leap years
+
+count <- 0
+leap_years=NULL
+
+for(x in 1900:2000){
+  if( (x %% 4 == 0) & ((x %% 100 !=0) | (x %% 400 == 0)) ){
+    count = count+1   # R does not have += or ++
+    leap_years = c(leap_years, x)
+  }
+}
+count                 # 25
+leap_years            # 1904, 1908, 1912, ..., 2000 
+```
+</ol>
+
+
+## How to Write Loops | `for` Loops
+Nested for loops
+```{r eval=T, comment=""}
+for (i in 1:2){                       # indexing iterations is very common
+  for(j in c("apple", "banana"))      # but... can be any vector or list
+    print(paste(i, j , collapse=" ")) # without {}. Not recommended
+}
+```
+
+
+## How to Write Loops | `for` Loops
+<ol>
+<div class="column">
+<li>break -- stop & exit loop</li>
+```{r eval=T, comment=""}
+for(i in 1:5){
+  if(i == 3) break 
+  print(i)
+}
+```
+</div>
+<div class="column">
+<li>next -- skip to the next iter.</li>
+```{r eval=T, comment=""}
+for(i in 1:5){
+  if(i == 3) next
+  print(i)
+}
+```
+</div>
+</ol>
+
+
+## How to Write Loops | `for` Loops
+When the length of output is known...
+<div style="float:left; width: 60%">
+```{r eval=T, comment=""}
+proc.time() -> ptm  # Sys.time() works
+x <- NULL
+for(i in 1:10^4){
+  set.seed(i)       # to replicate
+  x = c(x, rnorm(1))# new x after ea. iter.
+  # print(i)        # to check progress
+}
+proc.time() - ptm
+```
+</div>
+<div style="float:left; width: 40%">
+```{r eval=T, comment=""}
+proc.time() -> ptm
+y <- numeric(10^4)
+for(i in 1:length(y)){
+  set.seed(i)
+  y[i] = rnorm(1) # fill-in x
+  # print(i)
+}
+proc.time() - ptm
+```
+</div>
+
+
+## How to Write Loops | `while` Loops
+What is a while loop?
+<p style="font-size:20px"> -- To repeat a specific statement until a condition is FALSE</p>
+<br>
+<ol>
+<div style="float:left; width: 40%">
+```{r}
+# Syntax
+while(condition){
+  statement
+}
+```
+</div>
+<div style="float:left; width: 60%">
+<img src="images/while.png" style="width:100%">
+</div>
+</ol>
+
+
+## How to Write Loops | `while` loops
+```{r}
+# Example
+count <- 1
+while(count < 4){
+  print(paste0(count, " mississippi ... "))
+  count=count+1
+}
+print("zzZ")
+```
+
+```{r eval=T, echo=F, comment=""}
+# Example
+count <- 1
+while(count < 4){
+  print(paste0(count, " mississippi ... "))
+  count=count+1
+}
+print("zzZ")
+```
+
+
+
+## How to Write a Function
+<ol>
+<li>What is a function?</li>
+<p style="font-size:20px"> -- A block of code/instruction that take-in argument(s) and returns its result</p>
+<li>Why do we write functions?</li>
+<ol type="i">
+<li>Allow us to reuse code</li>
+<ul>
+<li>Write abstract code! Avoid hard coding</li>
+</ul>
+<li>Allow us to make a complex code into steps</li>
+<ul>
+<li>Test small part of a larger code and isolate the rest</li>
+<li>Chain functions</li>
+</ul>
+<li>Keeping the namespace clean</li>
+<ul> 
+<li>Recall the difference between `<-` and `<<-` assignments</li>
+</ul>
+</ol>
+</ol>
+
+<p class="pnote"><b>NOTE</b>: Functions are also objects in R!</p>
+
+
+## How to Write a Function | Basic Syntax
+<ol>
+```{r}
+func_name <- function(arguments){
+  body                                 
+}
+```
+
+<div style="float:left; width: 29%">
+```{r eval=T, comment=""}
+f <- function(x){
+  x+2
+}
+# func name: f
+# argument: x
+# body: x+2
+f(2)
+```
+</div>
+<div style="float:left; width: 36%">
+```{r eval=T, comment=""}
+f <- function(x){
+  return(x+2)
+  print("not printed")
+}
+# Use return function
+# o.w. last line
+f(2)
+```
+</div>
+<div style="float:right; width: 35%">
+```{r eval=T, comment=""}
+f <- function(x){
+  x+2
+  print("not printed")
+}
+#
+#
+f(2)
+```
+</div>
+</ol>
+
+## How to Write a Function | Setting Default Arguments
+<!-- <div style="float:left; width: 50%"> -->
+```{r eval=T, comment=""}
+g <- function(x=1, y = 2){ # set defaults to x and y
+  x+y
+}
+g()       # 1 + 2
+g(x=3)    # 3 + 2
+g(5, 10)  # 5 + 10
+```
+<!-- </div> -->
+<!-- <div style="float:left; width: 50%"> -->
+<!-- ```{r eval=T, comment=""} -->
+<!-- g<-function(y = 2){ -->
+<!--   if(y>3){ -->
+<!--     print("y is large") -->
+<!--   } else { -->
+<!--     print("y is small") -->
+<!--   } -->
+<!-- } -->
+<!-- g(5) -->
+<!-- ``` -->
+<!-- </div> -->
+
+
+## How to Write a Function | Passing Additional Arguments
+... (dot-dot-dot)
+<p style="font-size: 20px">Need to call functions in a function and additional arguments must be passed down</p>
+
+<ol>
+```{r eval=T, comment=""}
+f1 <- function(x, y){
+  x+y
+}
+```
+
+<div style="float:left; width: 36%">
+```{r eval=T, comment=""}
+f2 <- function(a, x, y){
+  a * f1(x, y) 
+}
+
+f2(5, 1, 2)
+```
+</div>
+<div style="float:left; width: 36%">
+```{r eval=T, comment=""}
+f2 <- function(a, ...){
+  a * f1(...) 
+}
+# f2(5, 1, 2)
+f2(5, x=1, y=2)
+```
+</div>
+<div style="float:right; width: 28%">
+```{r eval=T, comment=""}
+f2 <- function(a, ...){
+  a * f1(x=..1, y=..2) 
+}
+# ..N to refer position
+f2(5, 1, 2)
+```
+</div>
+</ol>
+
+
+## Compose Multiple Functions 
+<ul>
+<li>Method1: Save intermediate results</li>
+<li>Method2: Nest function calls</li>
+<li>Method3: Use pipe operators</li>
+</ul>
+<br>
+<br>
+<ul>
+```{r eval=T}
+x <- 1:10
+```
+<div style="float:left; width: 33%">
+<li>Method1</li>
+```{r}
+step1 <- sqrt(x)
+step2 <- log(step1)
+mean(step2)
+#Creates new objects
+```
+
+```{r eval=T, echo=F, comment=""}
+step1 <- sqrt(x)
+step2 <- log(step1)
+mean(step2)
+```
+</div>
+<div style="float:left; width: 33%">
+<li>Method2</li>
+```{r}
+mean(log(sqrt(x)))
+# Compact but...
+# Can stretch out
+# Diff. to read
+```
+
+```{r eval=T, echo=F, comment=""}
+mean(log(sqrt(x)))
+```
+</div>
+<div style="float:left; width: 33%">
+<li>Method3</li>
+```{r eval=T, comment=""}
+x |>
+  sqrt() |>
+  log() |>
+  mean()
+```
+</div>
+</ul>
+
+
+## Pipe Operator
+<ol>
+<li><a href="https://www.r-bloggers.com/2021/05/the-new-r-pipe/">`|>`</a> is R's base pipe operator</li>
+<li>`%>%` is a pipe operator from the <a href="https://cran.r-project.org/web/packages/magrittr/magrittr.pdf">`magrittr`</a> package</li>
+<p style="font-size:20px">Or any packages that uses the `magrittr` package as a dependent package<br> e.g. `tidyverse`</p>
+</ol>
+<ul>
+<div style="float:left; width: 33%">
+```{r eval=T, comment=""}
+# without a pipe
+x <- c(1, 10, 100)
+log10(x)
+```
+</div>
+<div style="float:left; width: 33%">
+```{r eval=T, echo=T, comment="", warning=F, message=F}
+# base pipe |>
+x |>
+  log10()
+```
+</div>
+<div style="float:left; width: 33%">
+```{r eval=T, echo=T, comment="", warning=F, message=F}
+library(magrittr)
+x %>%
+  log10()
+```
+</div>
+</ul>
+
+<p class="pnote"><b>NOTE</b>: The base pipe `|>` is faster, but `%>%` can use placeholder</p>
+
+
+## Pipe Operator | `.` as a Placeholder for `%>%`
+<ol>
+```{r}
+f(x, y) # "roughly" equivalent to
+y %>%
+  f(x, .)
+```
+
+<div class="row">
+<div class="column">
+```{r eval=T, comment=""}
+f<-function(x,y) x^y
+1 %>%
+  f(2)    # 1^2
+```
+</div>
+<div class="column">
+```{r eval=T, comment=""}
+# compare the difference
+1 %>%
+  f(2,.)  # 2^1
+```
+</div>
+</div>
+
+```{r eval=T, comment=""}
+1:10 %>%
+  {c(avg=mean(.), stdev=sd(.))}
+```
+
+```{r echo=F}
+c(4, 2) %>%      # l = 4; w =w
+  {.[1] * .[2]}  # Area of a Rectangle
+```
+</ol>
+
+
+## Error Handling in R | Motivation ...
+<ul>
+Example
+```{r}
+a_list=list(1, 2, "a", 4)
+# Note: a list can have different object types
+
+for(i in a_list){
+  print(i+2)
+}
+# Error Introduced b/c of "a"+2
+# the for loop breaks and exits
+```
+
+```{r error=T, eval=T, echo=F, comment=""}
+a_list=list(1,2,3,"a",4,5)
+# Note: a list can have different object types
+
+for(i in a_list){
+  print(i+2)
+} # Error introduced b/c of "a"+2
+```
+</ul>
+
+## Error Handling in R | <a href="https://rdrr.io/github/Dans-labs/R-package_EmilMisc/man/tryCatch.html">`tryCatch()`</a> and <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/try">`try()`</a> functions
+
+<ol>
+<li><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/try">`try()`</a> -- Returns an error object when there is error</li>
+<p style="font-size:20px">Use `try()` function to ignore errors and continue the execution</p>
+<li><a href="https://rdrr.io/github/Dans-labs/R-package_EmilMisc/man/tryCatch.html">`tryCatch()`</a> -- Call condition handling function(s)</li>
+<p style="font-size:20px">Use `tryCatch()` function to handle conditions as you want</p>
+</ol>
+<br>
+<br>
+<br>
+<p class="pnote"><b>NOTE</b>: Note there are other condition handling method including <a href="withCallingHandlers">`withCallingHandlers()`</a> function.</p>
+<p class="pnote"><b>NOTE</b>: How to ignore <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/warning">warnings</a> and <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/message">messages</a></p>
+<p class="pnote"><b>NOTE</b>: Use <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/options">`options()`</a> function to supress error meesages</p>
+
+```{r}
+# ignores error messages (global)
+options(error = expression(NULL)) 
+```
+
+
+## Error Handling in R | <a href="https://rdrr.io/github/Dans-labs/R-package_EmilMisc/man/tryCatch.html">`tryCatch()`</a>  -- basic syntax
+<ol>
+```{r}
+tryCatch({
+    statements
+  },
+  error=function(e){
+    error-handling-code
+  },
+  warning=function(w){
+    warning-handling-code
+  },
+  message=function(m){
+    message-handling-code
+  },
+  finally={
+    statements
+  })
+```
+</ol>
+
+
+## <a href="https://www.rdocumentation.org/packages/R.oo/versions/1.2.7/topics/trycatch">`tryCatch()`</a> | Example
+<ol>
+```{r eval=T, results='hide'}
+tc <- function(x){
+  tryCatch({
+    x+2
+  },
+  error=function(...){
+    if(is.character(x))
+      paste0(x, " is a character")
+  })
+}
+```
+<div style="float:left; width: 33%">
+```{r eval=T, comment=""}
+tc(2)
+```
+</div>
+<div style="float:left; width: 33%">
+```{r eval=T, comment=""}
+tc("2")
+```
+</div>
+<div style="float:left; width: 33%">
+```{r eval=T, comment=""}
+tc(NA)
+```
+</div>
+</ol>
+
+
+## <a href="https://www.rdocumentation.org/packages/R.oo/versions/1.2.7/topics/trycatch">`tryCatch()`</a> | Example -- tryCatch in a loop
+<ol>
+```{r error=T, eval=T, comment=""}
+# Recall previous example
+a_list=list(1,2,"a",4)
+for(i in a_list){
+  print(
+    tryCatch(
+      {i+2}, 
+      error=function(e){NA}  # If error, return NA
+    )
+  )
+}
+```
+</ol>
+
+
+## <a href="https://www.rdocumentation.org/packages/R.oo/versions/1.2.7/topics/trycatch">`tryCatch()`</a> | Another Example -- run at your leisure
+<ol>
+```{r}
+tc <- function(x){
+  tryCatch({x},
+    error=function(e){print("error-handling-code")},
+    warning=function(w){print("warning-handling-code")},
+    message=function(m){print("message-handling-code")},
+    finally = {message("final message")}
+)}
+
+# Check how to generate messages when writing a function
+good_f <- function(){print("good")}
+err_f  <- function(){stop("this is an error")}
+warn_f <- function(){warning("this is a warning")}
+msg_f  <- function(){message("this is a message")}
+
+tc(good_f()); tc(err_f()); tc(warn_f()); tc(msg_f())
+```
+</ol>
+
+
+## Family of Apply Functions
+Apply functions are more efficient than loops<br>
+ --  use it to avoid explicit uses of loops
+<br>
+<br>
+<ol>
+<li><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/apply">`apply()`</a> function</li>
+```{r}
+# Basic Syntax
+apply(x, margin, FUN, ...)
+# x: a matrix/array (important!)
+# margin: 1 <- row, 2 <- column, 1:2 <- each cell
+# FUN: a function to apply
+# ...: additional arguments for the FUN
+```
+<li><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/lapply">`lapply()`</a></li>
+</ol>
+
+## `apply` Function | Example
+<ol>
+```{r eval=T, error=T, comment=""}
+df<-data.frame(col1=1:4, col2=c(1,2, NA, NA), col3=c(NA, "2", "3", "4"))
+
+# Take the avg. of column 1 & 2
+# apply(df[, 1:2], 2, mean)          # NA in 2nd col
+apply(df[, 1:2], 2, mean, na.rm=T)
+
+# Count the number of NAs in each column
+apply(df, 2, function(x){sum(is.na(x))})
+```
+</ol>
+
+
+## `apply` Function | Example
+<ol>
+```{r}
+# Sum each column
+# Desired output: 10 3 9
+df<-data.frame(
+  col1=1:4,
+  col2=c(1,2, NA, NA),
+  col3=c("N/A", "2", "3", "4"))
+
+# Recall tryCatch
+apply(df, 2, function(x){tryCatch({sum(x)}, error=function(e)NA)})
+# At least we expect the result to be 10 NA NA
+# But why all NA?
+
+apply(df, 2, function(x, ...){sum(as.numeric(x), ...)}, na.rm=T)
+# Read the warnings msg. What was the trigger?
+```
+</ol>
+
+
+## `lapply` Function | Examples
+<li><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/lapply">`lapply()`</a> function</li>
+<li>`sapply()` function</li>
+<br>
+```{r}
+lapply(x, FUN, ...)  # "list" apply
+# x: a vector or a list
+# lapply function returns a list
+
+sapply(x, FUN, ...)  # "simple" apply.
+# A wrapper for lapply()
+# Simplify the output if possible
+```
+<p class="pnote"><b>NOTE</b>: There are other apply functions -- e.g. <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/tapply">`tapply()`</a>, <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/mapply">`mapply()`</a>, and a whole lot more...</p>
+</ol>
+
+## `lapply` Function | Examples
+<ol>
+```{r eval=T, comment=""}
+l=list(a=matrix(1:9, nrow=3), b=matrix(7:10, nrow=2), c=matrix(4:15, nrow=4))
+```
+
+<div class="column">
+```{r eval=T, comment=""}
+options(digits = 2)
+lapply(l, function(x){
+  c(avg=mean(x), std=sd(x))
+})
+```
+</div>
+
+<div class="column">
+```{r eval=T, comment=""}
+options(digits = 2)
+sapply(l, function(x){
+  c(avg=mean(x), std=sd(x))
+})
+```
+</div>
+</ol>
+
+
+## `lapply` Function | Examples
+<ol>
+<div class="row">
+<div class="column">
+<img src="images/lapply_ex1.png">
+</div>
+<div class="column">
+```{r eval=T, comment=""}
+# 1st row
+lapply(l, "[", 1, )
+```
+</div>
+</div>
+```{r}
+lapply(l, "[", , 2)   # 2nd col
+lapply(l, "[", 1, 2)  # 1st row, 2nd column
+# "[[" can also be used as an argument 
+```
+</ol>
+
+```{r echo=F}
+ll=list(A=list(a=matrix(1:9, nrow=3), b=matrix(7:10, nrow=2)), c=matrix(4:15, nrow=4))
+lapply(ll, "[", 1)
+lll=list(A=list(a=matrix(1:9, nrow=3), b=list(matrix(7:10, nrow=2), c(1,2,3))), c=matrix(4:15, nrow=4))
+lapply(lll, "[[", 2)
+lapply(lll, "[", 2)
+```
+
+
+<!-- ## other interesting func related to runc -->
+<!-- ```{r} -->
+<!-- on.exit() -->
+<!-- ``` -->
+
+
+<!-- ## JUNK -->
+<!-- ```{r echo=F} -->
+<!-- lv=function(x){ -->
+<!--   if(x >= 4){ -->
+<!--   paste0(x, " is high-rated") -->
+<!-- } else if (x >= 2){ -->
+<!--   paste0(x, " is mediocre") -->
+<!-- } else{ -->
+<!--   paste0(x, " is low-rated") -->
+<!-- } -->
+<!-- } -->
+
+<!-- lvv=Vectorize(lv) -->
+<!-- lvv(1:5) -->
+<!-- ``` -->
+
