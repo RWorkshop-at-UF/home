@@ -725,6 +725,8 @@ apply(x, margin, FUN, ...)
 <li><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/lapply">`lapply()`</a></li>
 </ol>
 
+<p class="pnote"><b>NOTE</b>: There are many variations of apply function. We will cover `apply()`, `lapply()`, and `sapply()`</p>
+
 ## `apply` Function | Example
 <ol>
 ```{r eval=T, error=T, comment=""}
