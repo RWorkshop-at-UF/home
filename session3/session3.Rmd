@@ -173,6 +173,38 @@ sapply(1:5, function(x){switch(x,
 ```
 
 
+## How to Write Control Structures | <a href="https://www.rdocumentation.org/packages/dplyr/versions/0.7.8/topics/case_when">`case_when()`</a> function
+<ol>
+```{r}
+# Basic Syntax
+
+case_when(
+  LHS ~ RHS,  # LHS: determines which values to match
+  LHS ~ RHS,  # RHS: provides the replacement value  
+  TRUE ~ RHS
+)
+```
+
+<p class="pnote"><b>NOTE</b>: `case_when()` is a function from the `dplyr` package</p>
+</ol>
+
+
+
+## How to Write Control Structures | <a href="https://www.rdocumentation.org/packages/dplyr/versions/0.7.8/topics/case_when">`case_when()`</a> function
+<ol>
+```{r eval=T, comment=""}
+# Example
+x <- 1:5
+case_when(
+  x %% 2==0 ~ paste0(x, " is an even number"),
+  TRUE  ~ paste0(x, " is an odd number"),
+)
+
+```
+</ol>
+
+
+
 
 ## How to Write Loops | `for` Loops
 What is a for loop?

@@ -1,0 +1,220 @@
+---
+title: Session 3 & 4
+output:
+  ioslides_presentation:
+    css: cust_css.css
+  slidy_presentation: default
+  beamer_presentation: default
+subtitle: Exercise
+author: "Tek Song"
+ratio: 16x10
+---
+```{r setup, include=F}
+knitr::opts_chunk$set(echo=F, eval=F, cache = T)
+```
+
+## Setup
+<ol>
+<li>Create a working director on you Desktop</li>
+<li>Download the data set and extract</li>
+<li>Open the data set in R</li>
+<li>Explore the data set</li>
+<ul>
+<li>Check the structure of the data set</li>
+<li>Check the variable types</li>
+<li>What is the dimension?</li>
+<li>"View" the data</li>
+<li>Anything strange with the data?</li>
+<li>NAs?</li>
+<li>Any duplicated observations?</li>
+```{r}
+table(df[duplicated(df2$author)|duplicated(df2$author, fromLast = T), "author"])
+```
+</ul>
+</ol>
+
+
+## Task list 1
+<ol>
+```{r}
+setwd("C:\\Users\\Tek\\Desktop\\RWorkshop\\session4")
+df<- read.csv("data/example.csv")
+str(df)
+```
+
+<li>Drop the following columns: "title", "info_2", and "info_3"</li>
+```{r}
+colnames(df)
+df <- df[, -c(2, 5, 6)]
+# OR
+df <- df[, !colnames(df) %in% c("title", "info_2", "info_3")]
+# OR
+df <- subset(df, select = -c(title, info_2, info_3))
+
+# cf) df[c("title", "info_2", "info_3")]
+```
+
+<li>Create a new index column and name it "id"</li>
+```{r}
+df <- cbind(id=1:nrow(df), df)
+```
+
+<li>Format "date" and "date_scraped" as date</li>
+```{r}
+df$date<-lubridate::mdy(df$date)
+df$date_scraped<-lubridate::ymd(df$date_scraped)
+```
+
+<li>Subtract "date" from "date_scraped" and name it "date_diff"</li>
+```{r}
+df$date_diff=df$date_scraped-df$date
+```
+
+<li>Create a new column "rate_cat"</li>
+<ul>
+<li>Step1: Write a function</li>
+<img src="images/img1.png" style="width:60%">
+<li>Step2: Run a loop to create a new column</li>
+<li>Alt: Use ifelse function</li>
+</ul>
+```{r}
+# Step 1
+rate_2_cat = function(star_rating){
+  if(star_rating >= 4){
+    return("high")
+  } else if(star_rating == 3){
+    return("med")
+  } else {
+    return("low")
+  }
+}
+# Step 2 -- Run a loop
+df$rating_cat <- sapply(df$star_rating, rate_2_cat)
+
+# Step 2 alt -- vectorize a function
+# NOTE: rate_2_cat(df$star_rating) Will not work. Not vectorized
+rate_2_cat_vect=Vectorize(rate_2_cat)
+df$rating_cat <-rate_2_cat_vect(df$star_rating)
+
+# Alt
+df$rating_cat <- ifelse(df$star_rating >= 4, "high",
+  ifelse(df$star_rating==3, "med", "low")
+)
+
+```
+
+<li>Filter verified purchases only</li>
+```{r}
+df <- df[df$verfied=="yes", ]
+# OR
+df <- subset(df, verfied=="yes")
+```
+
+</ol>
+
+## <a href="https://cran.r-project.org/web/packages/dplyr/dplyr.pdf">`dplyr`</a> package
+<ol>
+
+<li><a href="https://www.rdocumentation.org/packages/dplyr/versions/0.5.0/topics/mutate">`mutate()`</a> function</li>
+<p style="font-size:20px"> -- Mutate adds new variables and preserves existing variables</p>
+<ol type="i">
+<li>select</li>
+<li>mutate / transmute / summarize</li>
+<li>filter</li>
+<li>group_by / ungroup</li>
+<li>arrange</li>
+<li>slice</li>
+</ol>
+
+```{r}
+df<- read.csv("data/example.csv")
+df %>% 
+  dplyr::select(-c(title, info_2, info_3)) %>%    # Use "select" include/exclude columns
+  dplyr::mutate(                                  # Use "mutate" to create new columns
+  # dplyr::transmute(                             # cf) "transmute" drops existing variables
+    id=1:nrow(df),                                
+    date = lubridate::mdy(date),
+    date_scraped = lubridate::ymd(date_scraped),
+    date_diff = date_scraped - date,
+    rating_cat =                                  # Similar to ifelse
+      case_when(
+        star_rating >= 4 ~ "high",
+        star_rating==3 ~ "med",
+        TRUE ~ "low"
+      )
+  ) %>%
+  dplyr::filter(                                  # Use filter to subset rows
+    verfied=="yes"
+  ) -> df                                         # Careful!
+
+# str(new_df)
+# View(new_df)
+```
+
+
+
+## Task list 2
+<ol>
+<li>What are the unique products in the data set?</li>
+```{r}
+unique(df$product)
+```
+
+<li>Create a "product" x "rating_cat" table -- contingency table</li>
+<p style="font-size:20px"> Hint: Use the `table()` function. Put each vector as a separate argument</p>
+<p style="font-size:20px"> Hint2: Make "rating_cat" into a factor and introduce levels</p>
+```{r}
+table(df$product, df$rating_cat)  # without making rating_cat a factor
+tab <- table(df$product, ordered(df$rating_cat, levels=c("low", "med", "high")))
+```
+<li>Create a "total" column and compute column total</li>
+<ol type="i">
+<li>with loop</li>
+```{r}
+sapply(1:nrow(tab), function(x){
+  sum(tab[x, ])
+  }) %>%
+  cbind(tab, total=.)
+```
+<li>`dplyr` setting</li>
+<p style="font-size:20px"> Hint: Might be easier to change format into a matrix or a data frame</p>
+<p style="font-size:20px"> Hint2: check `as.data.frame.matrix()` function</p>
+<p style="font-size:20px"> Hint3: check `across()` function</p>
+<p style="font-size:20px"> Hint4: check `rowSums()` function</p>
+</ol>
+```{r}
+as.data.frame.matrix(tab) %>%
+  mutate(total=rowSums(across(low:high)))
+```
+
+<li>Replace raw count with percentage</li>
+
+```{r}
+sapply(1:nrow(tab), function(x){
+    sum(tab[x, ])
+  }) %>%
+  cbind(tab, total=.)->tab
+
+apply(tab, 1, function(x){
+    x/x["total"]
+  }) %>%
+  t()
+```
+
+```{r}
+as.data.frame.matrix(tab) %>%
+  mutate(
+    total=rowSums(across(low:high)),
+    across(low:total, ~ .x / total)
+  )
+```
+</ol>
+
+## Task list 3
+<ol>
+
+```{r}
+
+```
+
+</ol>
