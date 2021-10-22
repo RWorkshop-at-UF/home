@@ -1,0 +1,762 @@
+---
+title: Session 5
+output:
+  ioslides_presentation:
+    css: cust_css.css
+  slidy_presentation: default
+  beamer_presentation: default
+subtitle: Data Visualization in R
+author: "Tek Song"
+ratio: 16x10
+---
+```{r setup, include=F}
+knitr::opts_chunk$set(echo=F, eval=F, cache = T)
+```
+
+```{r eval=T, results='hide'}
+library(ggplot2)
+library(dplyr)
+```
+
+
+## Session outline
+<ol>
+<li>Base R plots</li>
+<li>`ggplot2` package</li>
+<li>Other useful packages</li>
+</ol>
+
+## Base R plots
+<ol>
+<li>Generic plot types in R</li>
+<div class="row">
+<div class="column">
+<ul>
+<li>Scatter plots</li>
+<li>Histogram / density plots</li>
+<li>Bar plots</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li>Box plots</li>
+<li>Line plots</li>
+<li>Pie charts</li>
+</ul>
+</div>
+</div>
+<!-- http://www.sthda.com/english/wiki/r-base-graphs -->
+</ul>
+<li>Combining multiple plots</li>
+<ul>
+<li>How to add a new layer on top of an existing plot</li>
+<li>How to create a matrix of plots</li>
+</ul>
+<li>Saving graphs</li>
+<ul>
+<li>Format output</li>
+</ul>
+</ol>
+
+## Base R plots | Scatter Plot -- <a href="https://www.rdocumentation.org/packages/graphics/versions/3.6.2/topics/plot">`plot()`</a> function
+<div class="row">
+<ol>
+<div style="float:left; width: 62%">
+<ol>
+```{r echo=T}
+# Data set
+df_i <-read.csv("data/finance_example.csv")
+# Plot Cost of Revenue on Revenue
+# Note: there are outliers
+df_i %>%
+  filter(
+    Revenue < quantile(Revenue, 0.9, 
+      na.rm = T)) -> df
+
+plot(df$Revenue, df$Cost.of.Revenue,
+     main="This is a scatter plot",
+     ylab="Cost of Revenue",
+     xlab="Revenue")
+     # xlim=c(lower_bound, upper_bound)
+     # ylim=c(lower_bound, upper_bound)
+```
+</ol>
+</div>
+<div style="float:left; width: 38%">
+```{r echo=F, eval=T, out.width = '120%'}
+# Data set
+df_i <-read.csv("data/finance_example.csv")
+# Plot Cost of Revenue on Revenue
+# Note: There are outliers
+df_i %>%
+  filter(
+    Revenue < quantile(Revenue, 0.9, 
+      na.rm = T)) -> df
+
+plot(df$Revenue, df$Cost.of.Revenue,
+     main="This is a scatter plot",
+     ylab="Cost of Revenue",
+     xlab="Revenue")
+     # xlim=c(lower_bound, upper_bound)
+     # ylim=c(lower_bound, upper_bound)
+```
+</div>
+</div>
+
+## Base R plots | Histogram -- <a href="https://www.rdocumentation.org/packages/graphics/versions/3.6.2/topics/hist">`hist()`</a> function
+<div class="row">
+<ol>
+<div style="float:left; width: 62%">
+<ol>
+```{r echo=T}
+# Plot histogram of Revenue
+hist(df$Revenue,
+     breaks = 30,
+     freq = F,
+     # if freq = F -> prob. density
+     # if freq = T -> count
+     main="This is a histogram",
+     xlab="Revenue")
+```
+</ol>
+</div>
+<div style="float:left; width: 38%">
+```{r echo=F, eval=T, out.width = '120%'}
+hist(df$Revenue,
+     breaks = 30,
+     freq = F,
+     # freq = F -> prob. density. if T -> count
+     main="This is a histogram",
+     xlab="Revenue")
+```
+</div>
+</div>
+
+
+
+<!-- ## hrefs -->
+<!-- <a href="https://www.rdocumentation.org/packages/graphics/versions/3.6.2/topics/pairs">`pairs()`</a> function -->
+<!-- <a href="https://www.rdocumentation.org/packages/graphics/versions/3.6.2/topics/plot">`plot()`</a> function -->
+<!-- <a href="https://www.rdocumentation.org/packages/graphics/versions/3.6.2/topics/lines">`lines()`</a> function -->
+<!-- <a href="https://www.rdocumentation.org/packages/alineR/versions/1.1.4/topics/aline">`aline()`</a> function -->
+<!-- <a href="https://www.rdocumentation.org/packages/graphics/versions/3.6.2/topics/hist">`hist()`</a> function -->
+<!-- <a href="https://www.rdocumentation.org/packages/graphics/versions/3.6.2/topics/boxplot">`boxplot()`</a> function -->
+<!-- <a href="https://www.rdocumentation.org/packages/graphics/versions/3.6.2/topics/barplot">`barplot()`</a> function -->
+<!-- <a href="https://www.rdocumentation.org/packages/graphics/versions/3.6.2/topics/pie">`pie()`</a> function -->
+<!-- <a href="https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/density">`density()`</a> function -->
+<!-- text -->
+
+<!-- ## args -->
+<!-- main -- title of the plot -->
+<!-- xlab / ylab -->
+<!-- xlim / ylim -->
+<!-- pch -->
+<!-- frame -->
+<!-- col  hex -->
+<!-- break -->
+<!-- horizontal -->
+
+
+## Base R plots | Composing Multiple Plots 1
+<div class="row">
+<ol>
+<div style="float:left; width: 62%">
+<ol>
+```{r echo=T}
+# Plot regression Line over a scatter plot
+lmodel = lm(df$Cost.of.Revenue ~ df$Revenue)
+# Bottom layer
+plot(df$Revenue, df$Cost.of.Revenue,
+     main="This is a scatter plot",
+     ylab="Cost of Revenue",
+     xlab="Revenue")
+# Add a line Layer
+abline(lmodel, col="red", lty=2, lwd=3)
+# Add a legend layer
+legend("topright",
+       legend=c("obs cost of rev", "pred cost of rev"),
+       col=c("black", "red"),
+       pch=c(1,26),  # point character
+       lty=c(0, 2)   # line types
+       )
+```
+</ol>
+</div>
+<div style="float:left; width: 38%">
+```{r echo=F, eval=T, out.width = '100%', warning=F}
+# Plot regression Line over a scatter plot
+lmodel = lm(df$Cost.of.Revenue ~ df$Revenue)
+# Bottom layer
+plot(df$Revenue, df$Cost.of.Revenue,
+     main="This is a scatter plot",
+     ylab="Cost of Revenue",
+     xlab="Revenue")
+# Add a line Layer
+abline(lmodel, col="red", lty=2, lwd=3)
+# Add a legend layer
+legend("topright",
+       legend=c("obs cost of rev", "pred cost of rev"),
+       col=c("black", "red"),
+       pch=c(1,26),  # point character
+       lty=c(0, 2)   # line types
+       )
+```
+</div>
+</div>
+
+
+## Base R plots | Composing Multiple Plots 2.1
+<div class="row">
+<ol>
+<div style="float:left; width: 62%">
+<ol>
+```{r echo=T}
+# Change the figure margins
+par(mar=c(1,1,1,1))
+
+# Set layout
+layout(matrix(c(1,1,2,3), nrow=2, byrow=T), 
+       widths=c(3,1), heights = c(1,2))
+# plot1: Horizontal boxplot of revenue
+boxplot(df$Revenue, horizontal=T)
+# plot2: Plot of rev. vs. cost of rev.
+plot(df$Revenue, df$Cost.of.Revenue)
+# plot3: vertical boxplot of cost of rev.
+boxplot(df$Cost.of.Revenue)
+```
+</ol>
+</div>
+<div style="float:left; width: 38%">
+```{r echo=F, eval=T, out.width = '100%', warning=F}
+# Change the figure margins
+par(mar=c(1,1,1,1))
+# Set layout
+layout(matrix(c(1,1,2,3), nrow=2, byrow=T), 
+       widths=c(3,1), heights = c(1,2))
+# plot1: Horizontal boxplot of revenue
+boxplot(df$Revenue, horizontal=T)
+# plot2: Plot of rev. vs. cost of rev.
+plot(df$Revenue, df$Cost.of.Revenue)
+# plot3: vertical boxplot of cost of rev.
+boxplot(df$Cost.of.Revenue)
+```
+</div>
+</div>
+
+## Base R plots | Composing Multiple Plots 2.2
+<div class="row">
+<ol>
+<div style="float:left; width: 62%">
+<ol>
+```{r echo=T}
+# fig=c(x1,x2, y1, y2) x & y range from 0 - 1
+plot.new()
+par(mar=c(1,1,1,1))
+
+# plot1: Horizontal boxplot of revenue
+par(fig=c(0,0.8,0.8,1), new=TRUE)
+boxplot(df$Revenue, horizontal=T)
+
+# plot2: Plot of rev. vs. cost of rev.
+par(fig=c(0,0.8,0,0.8), new=TRUE)
+plot(df$Revenue, df$Cost.of.Revenue)
+
+# plot3: vertical boxplot of cost of rev.
+par(fig=c(0.8,1,0,0.8), new=TRUE)
+boxplot(df$Cost.of.Revenue)
+```
+</ol>
+</div>
+<div style="float:left; width: 38%">
+```{r echo=F, eval=T, out.width = '100%', warning=F}
+# fig=c(x1,x2, y1, y2) x & y range from 0 - 1
+
+plot.new()
+par(mar=c(1,1,1,1))
+# plot1: Horizontal boxplot of revenue
+par(fig=c(0,0.8,0.8,1), new=TRUE)
+boxplot(df$Revenue, horizontal=T)
+
+# plot2: Plot of rev. vs. cost of rev.
+par(fig=c(0,0.8,0,0.8), new=TRUE)
+plot(df$Revenue, df$Cost.of.Revenue)
+
+# plot3: vertical boxplot of cost of rev.
+par(fig=c(0.8,1,0,0.8), new=TRUE)
+boxplot(df$Cost.of.Revenue)
+```
+</div>
+</div>
+
+## Base R plots | Composing Multiple Plots 2.3
+<div class="row">
+<ol>
+<div style="float:left; width: 62%">
+<ol>
+```{r echo=T}
+par(mfrow=c(2,2))
+
+# plot1: boxplot of revenue
+boxplot(df$Revenue, horizontal = T)
+# plot2: boxplot of cost of rev.
+boxplot(df$Cost.of.Revenue, horizontal = T)
+# plot3: histogram of revenue
+hist(df$Revenue, breaks = 30, main="rev")
+# plot4: histogram of cost of rev.
+hist(df$Cost.of.Revenue, breaks=30, 
+     main="cost. rev")
+```
+</ol>
+</div>
+<div style="float:left; width: 38%">
+```{r echo=F, eval=T, out.width = '100%', warning=F}
+par(mfrow=c(2,2))
+
+# plot1: boxplot of revenue
+boxplot(df$Revenue, horizontal = T)
+# plot2: boxplot of cost of rev.
+boxplot(df$Cost.of.Revenue, horizontal = T)
+# plot3: histogram of revenue
+hist(df$Revenue, breaks = 30, main="rev")
+# plot4: histogram of cost of rev.
+hist(df$Cost.of.Revenue, breaks=30, 
+     main="cost. rev")
+```
+</div>
+</div>
+
+## ggplot2 | The Grammar of Graphics
+Decomposing graphics
+
+<div class="row">
+<img src="images/gg_scheme.png" style="width:60%">
+</div>
+
+
+## ggplot2 | Data
+<div class="row">
+<ol>
+<div style="float:left; width: 80%">
+<li><p style="font-size:23px">Defines what we can be visualized</p></li>
+<li><p style="font-size:23px">`ggplot` requires the data to be in  a `data.frame` format</p></li>
+</div>
+<div style="float:right; width: 20%">
+<img src="images/DATA.png" style="width:80%">
+</div>
+</ol>
+</div>
+
+## ggplot2 | Mapping
+<div class="row">
+<ol>
+<div style="float:left; width: 80%">
+<li><p style="font-size:23px">Aesthetic mapping `aes()`: <br>
+Variables (Data) &harr; Graphical Properties (Geometries) </p></li>
+<ul>
+<li><p style="font-size:23px">Mapping requirements by geoms</p></li>
+</ul>
+<li><p style="font-size:23px">Facet mapping: <br>
+Variables (Data) &harr; Panels (Facet) </p></li>
+</div>
+<div style="float:right; width: 20%">
+<img src="images/MAPPINGD.png" style="width:120%">
+</div>
+</ol>
+</div>
+
+## ggplot2 | Geometries
+<div class="row">
+<ol>
+<div style="float:left; width: 80%">
+<li><p style="font-size:23px">Interprets aesthetics as graphical representation</p></li>
+<li><p style="font-size:23px">Determines the plot type</p></li>
+</div>
+<div style="float:right; width: 20%">
+<img src="images/GEOMETRIESD.png" style="width:80%">
+</div>
+</ol>
+</div>
+<ol>
+```{r echo=T}
+# Basic Syntax
+ggplot() +       # Note: `+` is used to add ggplot elements!
+  <geom_function>(data=<DATA>, mapping=aes(<mappings>))
+
+# Global data
+ggplot(data=<DATA>) +
+  <geom_function>(mapping=aes(<mappings>))
+
+# Global data and Mapping
+ggplot(data=<DATA>, mapping=aes(<mappings>)) +
+  <geom_function>()
+```
+</ol>
+
+## ggplot2 | Example
+<div class="row">
+<div style="float:left; width: 60%">
+<ol>
+```{r echo=T}
+df<-read.csv("data/finance_example.csv")
+# str(df)
+library(ggplot2)
+ggplot(data=df,
+  # data: which dataset to plot
+  mapping=aes(
+    x=Revenue,
+    y=Cost.of.Revenue)) +
+  # aes: variables for x and y
+  geom_point()                              
+  # geom_point: scatter plot
+```
+</div>
+</ol>
+<div style="float:left; width: 40%">
+```{r echo=F, eval=T, warning=F, out.width = '120%'}
+df<-read.csv("data/finance_example.csv")
+# str(df)
+ggplot(data=df,
+  # data: which dataset to plot
+  mapping=aes(x=Revenue,y=Cost.of.Revenue)) +
+  # aes: variables for x and y
+  geom_point()                              
+  # geom_point: scatter plot
+```
+</div>
+</div>
+
+## ggplot2 | Example
+<div class="row">
+<div style="float:left; width: 60%">
+<ol>
+```{r echo=T}
+df %>%
+  ggplot(mapping=aes(
+    x=Revenue,
+    y=Cost.of.Revenue,
+    color=Revenue > quantile(df$Revenue,0.97, na.rm=T))) +
+  # Other commonly used aes args
+  # fill, size, shape, alpha
+  geom_point()+ 
+  guides(color=guide_legend(title="> 97% percentile"))                              
+```
+</div>
+</ol>
+<div style="float:left; width: 40%">
+```{r echo=F, eval=T, results='hide'}
+library(dplyr)
+```
+
+```{r echo=F, eval=T, warning=F, out.width = '120%'}
+df %>%
+  ggplot(mapping=aes(
+    x=Revenue,
+    y=Cost.of.Revenue,
+    color=Revenue > quantile(df$Revenue,0.97, na.rm=T))) +
+  geom_point()+ 
+  guides(
+    color=guide_legend(title="> 97% percentile")) 
+```
+</div>
+</div>
+
+
+## ggplot2 | Mapping vs. Setting
+<ol>
+<div class="row">
+<div class="column">
+```{r echo=T}
+# Mapping
+ggplot(data=df,
+  mapping=aes(
+    x=Revenue,
+    y=Cost.of.Revenue, 
+    color= Sector)) +
+  # color within aes
+  geom_point()  
+```
+
+```{r echo=T}
+# Setting
+ggplot(data=df,
+  mapping=aes(
+    x=Revenue,
+    y=Cost.of.Revenue),
+  color= Sector) +
+  # color outside aes
+  geom_point()
+```
+</div>
+<div class="column">
+```{r echo=F, eval=T, warning=F, out.width="90%"}
+# Mapping
+ggplot(data=df,
+  mapping=aes(x=Revenue,
+    y=Cost.of.Revenue, 
+    color= Sector)) + # within aes
+  geom_point()  
+```
+
+```{r echo=F, eval=T, warning=F, out.width="90%"}
+# Setting
+ggplot(data=df,
+  mapping=aes(x=Revenue,
+    y=Cost.of.Revenue),
+  color= Sector) + # outside aes
+  geom_point()
+```
+</div>
+</div>
+</ol>
+
+## ggplot2 | Mapping and Geometries
+
+Produces the same output
+
+<div style="float:left; width: 60%">
+```{r echo=T}
+# Plot1
+ggplot(data = df) + 
+  stat_count(mapping = aes(x = Sector))
+# Plot2
+ggplot(data = df) + 
+  geom_bar(mapping = aes(x = Sector))
+# Plot3
+df %>%
+  group_by(Sector) %>%
+  summarize(freq=n()) %>%
+  ggplot() +
+  geom_bar(mapping = aes(x = Sector, y = freq), 
+           stat = "identity")
+```
+</div>
+<div style="float:left; width: 40%">
+```{r echo=F, eval=T, warning=F, out.width="90%"}
+ggplot(data = df) + 
+  stat_count(mapping = aes(x = Sector))+ 
+  theme(axis.text.x = element_text(
+    angle = 90, vjust = 0.5, hjust=1))
+# ggplot(data = df) + 
+#   geom_bar(mapping = aes(x = Sector))+ 
+#   theme(axis.text.x = element_text(
+#     angle = 90, vjust = 0.5, hjust=1))
+# 
+# df %>%
+#   group_by(Sector) %>%
+#   summarize(freq=n()) %>%
+#   ggplot() +
+#   geom_bar(mapping = aes(x = Sector, y = freq), stat = "identity")+ 
+#   theme(axis.text.x = element_text(
+#     angle = 90, vjust = 0.5, hjust=1))
+```
+</div>
+
+## ggplot2 | Statistics
+<ol>
+<li>Linked to Geometries (usually has a default stat)</li>
+<li>Transform input variables</li>
+<li>Can be done prior to plotting</li>
+
+```{r echo=T}
+df %>%
+  count(Sector, name="freq") %>%
+  ggplot() + 
+  geom_col(aes(x=Sector, y=freq))
+```
+
+```{r echo=T}
+df %>%
+  ggplot() + 
+  geom_bar(aes(
+    x=Sector, 
+    y=after_stat( count / sum(count)*100))
+  )
+```
+</ol>
+
+## ggplot2 | Scales
+<ol>
+<li>Everything inside aes have scales</li>
+<li>Scales have the following naming format</li>
+```{r echo=T}
+scale_<aes>_<type>()
+# Example
+scale_x_continuous()
+```
+</ol>
+
+
+## ggplot2 | Scales - Examples
+<div class="row">
+```{r echo=T}
+df<-read.csv("data/finance_example.csv")
+# Recall that df has many outliers
+```
+</div>
+<div class="row">
+<div class="column">
+```{r echo=T}
+ggplot(data=df,
+  aes(x=Revenue,
+    y=Cost.of.Revenue)) +
+  geom_point()
+```
+</div>
+<div class="column">
+```{r echo=T}
+df<-read.csv("data/finance_example.csv")
+# Recall that df has many outliers
+ggplot(data=df,
+  mapping=aes(x=Revenue,y=Cost.of.Revenue)) +
+  geom_point()+
+  scale_x_continuous(
+    limits=c(0, 2.5*10^11),
+    breaks=seq(0, 2.5*10^11, by=10^11)
+  )+ 
+  ylim(0, 2*10^11)
+```
+</div>
+</div>
+
+
+## ggplot2 | Scales - Examples2
+<div class="row">
+```{r echo=T}
+df<-read.csv("data/finance_example.csv")
+# Recall that df has many outliers
+```
+</div>
+<div class="row">
+<div class="column">
+```{r echo=T}
+df<-read.csv("data/finance_example.csv")
+# Recall that df has many outliers
+ggplot(data=df,
+  mapping=aes(x=Revenue,y=Cost.of.Revenue,
+              color=Sector)) +
+  geom_point()+
+  scale_x_continuous(
+    trans="log10"
+  )+ 
+  ylim(0, 2*10^11)
+```
+</div>
+</div>
+
+
+## ggplot2 | Facets
+<ol>
+<li>Split data by categories into multiple panels</li>
+<li>Each panel has the same underlying mechanism</li>
+<li>Can also be used to avoid overplotting</li>
+
+```{r echo=T}
+df %>%
+  ggplot()+
+  geom_point(aes(x=Revenue, y=Cost.of.Revenue))+
+  # facet_wrap(~ Sector)                     # Facet is often the best way to avoid overplotting
+  # facet_wrap(~ Sector, scales='free')      # free_y or free_x
+  # facet_grid(partition ~ Sector)           # facet_grid graphic pivots
+  # facet_wrap(~ drv+year)                   # Subsetting data
+```
+
+```{r echo=F}
+read.csv("data/finance_example.csv") %>%
+  filter(Revenue < quantile(Revenue, 0.9, 
+      na.rm = T)) %>%
+  mutate(partition = rep(c(1, 1, 0, -1), len=nrow(.)))-> df
+
+df %>%
+  ggplot()+
+  geom_point(aes(x=Revenue, y=Cost.of.Revenue))+
+  # facet_wrap(~ Sector)                     # Facet is often the best way to avoid overplotting
+  # facet_wrap(~ Sector, scales='free')      # free_y or free_x
+  # facet_grid(partition ~ Sector)           # facet_grid graphic pivots
+  # facet_wrap(~ drv+year)                   # Subsetting data
+```
+
+
+
+```{r echo=T}
+ggplot(df)+
+  geom_bar(aes(y=Sector))+
+  # facet_grid(Sector ~ .)
+  facet_grid(Sector ~ ., scale="free_y" , space="free_y")
+```
+
+</ol>
+
+
+## ggplot2 | Coordinates
+<ol>
+<li>Positional aesthetics are interpreted by a coordinate system<br>
+ -- How x and y should be interpreted</li>
+<li>Defines physical mapping</li>
+</ol>
+
+## ggplot2 | Coordinates - Examples
+<ol>
+```{r echo=T}
+# Polar coordinates
+df %>%
+  ggplot()+
+  geom_bar(aes(x=Sector))+
+  coord_polar()
+# Coord flip
+df %>%
+  ggplot()+
+  geom_bar(aes(x=Sector))+
+  coord_flip()
+# Zoom-in
+df %>%
+  ggplot()+
+  geom_bar(aes(x=Sector))+
+  # scale_y_continuous(limits=c(0, 300))      
+  coord_cartesian(ylim=c(0, 300))  
+```
+</ol>
+
+## ggplot2 | Themes
+<ol>
+<li>Visuals of the plot -- Stylistic changes</li>
+<li>Not linked to data</li>
+<li>Elements for the themese could be modified separately</li>
+</ol>
+
+## ggplot2 | Themes -- Example
+<ol>
+```{r echo=T}
+df %>%
+  ggplot()+
+  geom_bar(aes(x=Sector))+
+  facet_wrap(~ partition)+
+  theme_minimal()          # There are built-in themes
+```
+</ol>
+
+## ggplot2 | Themes -- Example
+<ol>
+```{r echo=T}
+df %>%
+  ggplot()+
+  geom_bar(aes(x=Sector))+
+  facet_wrap(~ partition)+
+  theme_minimal()+
+  labs(
+    title="this is a title",
+    caption="this is a caption",
+    x="this is x-axis label",
+    y="this is y-axis label"
+       )+
+  theme(
+    axis.text = element_text(colour = "red", size = rel(1.5), family = "serif"),
+    panel.grid.major = element_line("steelblue"),
+    # panel.grid.major.y = element_blank(),
+    panel.grid.major.x = element_blank()
+  )
+```
+</ol>
+
+<!-- ## ggplot2 topics -->
+<!-- https://r4ds.had.co.nz/data-visualisation.html -->
+<!-- facet_wrap / facet_grid -->

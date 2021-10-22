@@ -1,0 +1,266 @@
+---
+title: Session 5
+output:
+  ioslides_presentation:
+    css: cust_css.css
+  slidy_presentation: default
+  beamer_presentation: default
+subtitle: Data Visualization in R
+author: "Tek Song"
+ratio: 16x10
+---
+```{r setup, include=F}
+knitr::opts_chunk$set(echo=F, eval=F, cache = T)
+```
+
+## Session outline
+<ol>
+<li>Base R plots</li>
+<li>`ggplot2` package</li>
+<li>Other useful packages</li>
+</ol>
+
+## Base R plots
+<ol>
+<li>Generic plot types in R</li>
+<div class="row">
+<div class="column">
+<ul>
+<li>Scatter plots</li>
+<li>Histogram / density plots</li>
+<li>Bar plots</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li>Box plots</li>
+<li>Line plots</li>
+<li>Pie charts</li>
+</ul>
+</div>
+</div>
+<!-- http://www.sthda.com/english/wiki/r-base-graphs -->
+</ul>
+<li>Combining multiple plots</li>
+<ul>
+<li>How to add a new layer on top of an existing plot</li>
+<li>How to create a matrix of plots</li>
+</ul>
+<li>Saving graphs</li>
+<ul>
+<li>Format output</li>
+</ul>
+</ol>
+
+
+## hrefs
+<a href="https://www.rdocumentation.org/packages/graphics/versions/3.6.2/topics/pairs">`pairs()`</a> function
+<!-- <a href="https://www.rdocumentation.org/packages/graphics/versions/3.6.2/topics/plot">`plot()`</a> function -->
+<!-- <a href="https://www.rdocumentation.org/packages/graphics/versions/3.6.2/topics/lines">`lines()`</a> function -->
+<!-- <a href="https://www.rdocumentation.org/packages/alineR/versions/1.1.4/topics/aline">`aline()`</a> function -->
+<!-- <a href="https://www.rdocumentation.org/packages/graphics/versions/3.6.2/topics/hist">`hist()`</a> function -->
+<!-- <a href="https://www.rdocumentation.org/packages/graphics/versions/3.6.2/topics/boxplot">`boxplot()`</a> function -->
+<!-- <a href="https://www.rdocumentation.org/packages/graphics/versions/3.6.2/topics/barplot">`barplot()`</a> function -->
+<!-- <a href="https://www.rdocumentation.org/packages/graphics/versions/3.6.2/topics/pie">`pie()`</a> function -->
+<!-- <a href="https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/density">`density()`</a> function -->
+text
+
+## args
+main -- title of the plot
+xlab / ylab
+xlim / ylim
+pch
+frame
+col  hex
+break
+horizontal
+
+
+## layout
+layout()
+par() mfrow
+
+
+## ggplot2
+Template
+```{r}
+ggplot(data=<DATA>) + 
+  <geom_function>(mapping=aes(<mappings>))
+```
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
+
+# vs.
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
+```
+
+
+
+```{r}
+ggplot(data = diamonds) + 
+  stat_count(mapping = aes(x = cut))
+
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut))
+
+diamonds %>%
+  group_by(cut) %>%
+  summarize(freq=n()) %>%
+  ggplot() +
+  geom_bar(mapping = aes(x = cut, y = freq), stat = "identity")
+```
+
+```{r}
+df1<- read.csv("data/thermostat_amazon.csv")
+scoring<- read.csv("data/Non_Smart_Thermostat.csv")
+library(dplyr)
+library(ggplot2)
+df1$id=1:nrow(df1)
+scoring %>%
+  group_by(X1, topic) %>%
+  summarise(avg_score=mean(sentiment2)) %>%
+  tidyr::spread(key="topic", value="avg_score") %>%
+  # scale() %>%
+  select(X1, Costs, `Easy/Hard`, Feelings, Installation, NO)->score2
+score2[score2==0]<-NA
+left_join(df1, score2, by=c("id"="X1"))->df
+# apply(score2, 2, function(x){sum(is.na(x))})
+
+df %>%
+  ggplot()+
+  # geom_histogram(aes(x=Costs, fill=product), position = "stack")+
+  # geom_histogram(aes(x=Costs, fill=product), position = "identity")+
+  geom_histogram(aes(x=NO, fill=product), position = "dodge")+
+  scale_y_continuous(labels = scales::percent)
+
+df %>%
+  ggplot()+
+  geom_point(aes(x=`Costs`, y=`NO`))
+
+mpg %>%
+  group_by(class) %>%
+  summarize(count=n())
+
+# Bar Chart
+mpg %>%
+  count(class, name="count") %>%
+  ggplot()+
+  # geom_bar(aes(x=class, y=count), stat="identity")
+  geom_col(aes(x=class, y=count))
+
+mpg %>%
+  ggplot()+
+  stat_count(aes(x=class))
+
+mpg %>%
+  ggplot()+
+  geom_bar(aes(x=class))
+
+mpg %>%
+  ggplot()+
+  geom_bar(aes(
+    x=class,
+    y=after_stat(count/sum(count))*100    # Use after_stat() to modify mapping from stats
+    ))
+
+mpg %>%
+  ggplot()+
+  geom_density(
+    aes(
+      x=hwy,
+      # y=after_stat(scaled)
+      )
+  )
+??geom_density
+
+
+mpg %>%
+  ggplot(aes(x=class, y=hwy))+
+  geom_boxplot()+
+  stat_summary(fun=mean, geom="point", color="red")
+# Based on the vector type for color argument, discrete or continuous color scale is picked
+
+
+##### Scale
+mpg %>%
+  ggplot()+
+  geom_point(aes(x=displ, y=hwy, color=class))+
+  scale_color_brewer(type="qual")+  # color palettes   RColorBrewer::display.brewer.all()
+  scale_x_continuous(breaks=c(3,5,6))+
+  scale_y_continuous(trans="log10")     # x and y are also controlled with scales
+
+
+mpg %>%
+  ggplot()+
+  geom_point(aes(x=displ, y=hwy, color=class, size=cyl))+
+  scale_color_brewer(type="qual")+
+  scale_size(breaks=c(4,5,6,8))
+
+
+##### Facet
+mpg %>%
+  ggplot()+
+  geom_point(aes(x=displ, y=hwy))+
+  # facet_wrap(~class)                     # Facet is often the best way to avoid overplotting
+  # facet_wrap(~ drv, scales='free')       # free_y or free_x
+  # facet_grid(year ~ drv)                 # facet_grid graphic pivots
+  facet_wrap(~ drv+year)                 # Subsetting data
+
+mpg %>%
+  ggplot()+
+  geom_bar(aes(y=manufacturer))+
+  facet_grid(class ~ ., scale="free_y" , space="free_y")
+
+
+
+##### Coordinates
+mpg %>%
+  ggplot()+
+  geom_bar(aes(x=class))+
+  # coord_polar()
+  # scale_y_continuous(limits=c(0, 40))      # compact, midsize, suv, Removed...
+  coord_cartesian(ylim=c(0, 40))             # Zoom-in
+
+
+mpg %>%
+  ggplot()+
+  geom_point(aes(x=hwy, y=displ))+
+  # scale_y_continuous(trans="log")
+  coord_trans(y="log")
+
+# cartography?
+# w <- sf::st_as_sf(maps::map('world'), plot=F, fill=T)  
+# w %>%
+#   ggplot()+
+#   geom_sf()+
+#   coord_sf(crs="")
+
+### Theme
+# There are built-in themes
+mpg %>%
+  ggplot()+
+  geom_bar(aes(y=class))+
+  facet_wrap(~year)+
+  theme_minimal()+
+  labs(
+    title="this is a title",
+    caption="this is a caption",
+    x="this is x-axis label",
+    y="this is y-axis label"
+       )+
+  theme(
+    # text=element_text("times new roman"),                  # https://stackoverflow.com/questions/34522732/changing-fonts-in-ggplot2
+    axis.text = element_text(colour = "red", size = rel(1.5), family = "serif"),
+    panel.grid.major = element_line("steelblue"),
+    # panel.grid.major.y = element_blank(),
+    panel.grid.major.x = element_blank()
+  )
+```
+
+
+## ggplot2 topics
+https://r4ds.had.co.nz/data-visualisation.html
+facet_wrap / facet_grid
