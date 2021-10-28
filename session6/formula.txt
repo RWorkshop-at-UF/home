@@ -1,0 +1,22 @@
+The variable on the left-hand side of a tilde (~) is called the "dependent variable", while the variables on the right-hand side are called the "independent variables" and are joined by plus signs +
+
+general-purpose tools that allow you to capture the values of variables without evaluating them so that they can be interpreted by the function
+
+the sepal width is a function of petal width, conditioned on species
+Sepal.Width ~ Petal.Width | Species
+
+In addition to the + symbol, there are also other symbols that can add special meaning to your formulas:
+- for removing terms;
+: for interaction;
+* for crossing;
+%in% for nesting; And
+^ for limit crossing to the specified degree.
+. operator -- you refer to all other variables in the matrix that haven't yet been included in the model
+
+
+y ~ x1 * x2 == y ~ x1 + x2 + x1:x2
+
+y ~ a + a:b
+y ~ a + b %in% a
+
+y ~ x + I(x^2); I() "as-is" operator

@@ -1,0 +1,140 @@
+---
+title: Session 6
+output:
+  ioslides_presentation:
+    css: cust_css.css
+  slidy_presentation: default
+  beamer_presentation: default
+subtitle: Strings and Text Analytics in R
+author: "Tek Song"
+ratio: 16x10
+---
+```{r setup, include=F}
+knitr::opts_chunk$set(echo=T, eval=F, cache = T)
+```
+
+
+## Session outline
+
+```{r eval=T, echo=F, results='hide'}
+library(dplyr)
+```
+<ol>
+<li>String Manipulation in R</li>
+<li>Text Analytics methods</li>
+</ol>
+
+## String Manipulation in R
+<ol>
+<li>Single and double quotes</li>
+```{r}
+"This is a string"
+'This is also a string'
+'Single quote string with "double quote" inside'
+"Double quote string with 'single quote' inside"
+```
+<li>Size of a character vector -- <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/nchar">`nchar()`</a> function</li>
+```{r}
+chr <- "Hello World"; length(chr); nchar(chr)
+```
+
+<li>Combining Strings -- <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/paste">`paste()` and `paste0()`</a> functions</li>
+```{r}
+paste("1st", "2nd", "3rd", sep = ", ")
+paste(c("1st", "2nd", "3rd"), collapse = ", ")
+# paste() vs. paste0() -- The default sep arg is different
+paste("a", "b", "c")         # sep=" "
+paste0("a", "b", "c")        # sep=""
+```
+</ol>
+
+
+## String Manipulation in R | String Basics
+<li>Exercise: Combining Strings</li>
+<ul>
+<ol type="i">
+<li>`Yelp.com` has the following URL address</li>
+<p style="font-size:15px">"https://www.yelp.com/search?find_desc=Restaurants&find_loc=Gainesville%2C%20FL&ns=1&start="</p>
+<li>There are 24 restaurant information pages<br><p style="font-size:20px">10 reviews per page</p></li>
+<li>Create a list of 24 URL addresses</li>
+```{r}
+"...find_loc=Gainesville%2C%20FL&ns=1&start=1"   # page 1
+"...find_loc=Gainesville%2C%20FL&ns=1&start=10"  # page 2
+...
+"...find_loc=Gainesville%2C%20FL&ns=1&start=230" # page 240
+```
+<p class="pnote"><b>Hint</b>:<br>
+1. Create a sequence of numbers<br>
+2. Use `paste0()` to concatenate numbers to the address
+</p>
+</ul>
+
+
+## String Manipulation in R | String Basics
+<ol start="4">
+<li>Split strings -- <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/strsplit">`strsplit()`</a> functions</li>
+```{r}
+chr <- "alpha, bravo, charlie"
+strsplit(chr, ", ")  # Returns a list
+```
+
+<li>Identify the location of a pattern -- `gregexpr()`</li>
+```{r}
+gregexpr("a", "banana")
+regexpr("a", "banana") # Returns only the first location
+```
+
+<li>Extract substrings-- <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/substr">`substring()` and `substr()`</a></li>
+```{r}
+substring("garbage important trash special", c(9, 25), c(17, 31))
+substring(c(
+  "garbage important trash",
+  "garbage special trash"),
+  first=9, last=c(17, 15))
+```
+
+</ol>
+
+## String Manipulation in R | String Basics
+<li>Exercise: Extracting substrings</li>
+<br> 
+Extact "alpha", "bravo", "charlie", "delta", "echo" from
+```{r}
+chr="alpha, bravo, charlie, delta, echo"
+# Output: c("alpha", "bravo", "charlie", "delta", "echo")
+```
+
+<ol type="i">
+<li>Use `strsplit()`</li>
+<li>Use `gregexpr()` and `substring()`</li>
+```{r echo=F}
+begins <- c(1, gregexpr(" ", chr)[[1]]+1)
+ends <- c(gregexpr(",", chr)[[1]]-1, nchar(chr))
+substring(chr, begins, ends)
+```
+</ol>
+
+## String Manipulation in R | String Basics
+<ol start="7">
+<li>Substitute string -- <a href="">`gsub()`</a> function</li>
+```{r}
+# Syntax
+
+gsub("a", "i", "banana") # 
+sub("a", "i", "banana")
+```
+
+<li><a href="">`grep()` and `grepl()`</a> functions</li>
+</ol>
+
+## Regex
+<a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/regex">regex</a>
+
+
+## nest
+```{r}
+df<-read.csv("data/thermostat_amazon.csv")
+```
+
+
+
