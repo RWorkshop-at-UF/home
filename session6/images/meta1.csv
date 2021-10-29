@@ -1,0 +1,4 @@
+Metacharacter,Matches
+.,Matches any one character
+[...],Matches any one character listed inside []
+[^...],Matches any one character NOT listed inside []

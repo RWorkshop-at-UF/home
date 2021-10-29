@@ -13,7 +13,7 @@ Mastering Regular Expression
 $
 [^] negate
 gr(a|e)y vs. gra|ey
-pg. 16, 32
+pg. 16, 32, 126
 
 Quantifiers
 ?

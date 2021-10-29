@@ -5,7 +5,7 @@ output:
     css: cust_css.css
   slidy_presentation: default
   beamer_presentation: default
-subtitle: Strings and Text Analytics in R
+subtitle: How to handle strings in  R
 author: "Tek Song"
 ratio: 16x10
 ---
@@ -16,15 +16,18 @@ knitr::opts_chunk$set(echo=T, eval=F, cache = T)
 
 ## Session outline
 
-```{r eval=T, echo=F, results='hide'}
+```{r eval=T, include=F}
 library(dplyr)
+library(kableExtra)
+library(tm)
 ```
 <ol>
 <li>String Manipulation in R</li>
 <li>Text Analytics methods</li>
 </ol>
 
-## String Manipulation in R
+
+## String Manipulation in R | String Basics -- How to create a string?
 <ol>
 <li>Single and double quotes</li>
 ```{r}
@@ -33,6 +36,23 @@ library(dplyr)
 'Single quote string with "double quote" inside'
 "Double quote string with 'single quote' inside"
 ```
+
+<li>Review: Convert an object to a character type</li>
+```{r}
+# Example
+as.chracter()
+# is.character() # to check the type
+```
+</ol>
+
+## String Manipulation in R | String Basics -- String related base functions
+<ol>
+<li>Letter cases</li>
+```{r}
+toupper("change this to uppercase letters")
+tolower("CHANGE THIS TO LOWERCASE LETTERS")
+```
+
 <li>Size of a character vector -- <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/nchar">`nchar()`</a> function</li>
 ```{r}
 chr <- "Hello World"; length(chr); nchar(chr)
@@ -50,7 +70,7 @@ paste0("a", "b", "c")        # sep=""
 
 
 ## String Manipulation in R | String Basics
-<li>Exercise: Combining Strings</li>
+Exercise: Combining Strings
 <ul>
 <ol type="i">
 <li>`Yelp.com` has the following URL address</li>
@@ -96,9 +116,9 @@ substring(c(
 </ol>
 
 ## String Manipulation in R | String Basics
-<li>Exercise: Extracting substrings</li>
+Exercise: Extracting substrings
 <br> 
-Extact "alpha", "bravo", "charlie", "delta", "echo" from
+Extract "alpha", "bravo", "charlie", "delta", "echo" from
 ```{r}
 chr="alpha, bravo, charlie, delta, echo"
 # Output: c("alpha", "bravo", "charlie", "delta", "echo")
@@ -116,25 +136,435 @@ substring(chr, begins, ends)
 
 ## String Manipulation in R | String Basics
 <ol start="7">
-<li>Substitute string -- <a href="">`gsub()`</a> function</li>
+<li>Searches for a particular pattern of characters <br> -- <a href="">`grep()` and `grepl()`</a> functions</li>
 ```{r}
 # Syntax
-
-gsub("a", "i", "banana") # 
-sub("a", "i", "banana")
+grep(pattern, string/string vector,
+     Value=T, # for rep and grep
+     ignore.cases=F, perl=F, ...)
 ```
 
-<li><a href="">`grep()` and `grepl()`</a> functions</li>
+```{r}
+# Example
+chr <- c("I am learning", "How to handle characters")
+# Return Index
+grep("i", chr, ignore.case = T)
+# Return value
+grep("i", chr, ignore.case = T, value = T)
+# Return Boolean
+grepl("i", chr, ignore.case = T)
+```
 </ol>
 
-## Regex
-<a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/regex">regex</a>
 
-
-## nest
+## String Manipulation in R | String Basics
+<ol start="8">
+<li>Search and replace a particular pattern of characters <br> -- <a href="">`gsub()`</a> function</li>
 ```{r}
-df<-read.csv("data/thermostat_amazon.csv")
+# Syntax
+gsub(pattern, replacement, string/string vector, 
+     ignore.cases=F, perl=F, ...)
+```
+
+```{r}
+# Example
+chr <- c("bananA", "smoothie")
+gsub("a", "i", chr, ignore.case = T) # replaces all
+sub("a", "i", chr, ignore.case = T)  # replaces only the first
+```
+</ol>
+
+## Regular Expressions in R (<a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/regex">Regex</a>)
+What is a regular expression?
+<br>
+<br>
+<p style="font-size:20px"> -- Regular expressions are patterns used to match character combinations in strings</p>
+<p style="font-size:20px"> -- Regular expressions provides flexible and efficient text processing</p>
+<p style="font-size:20px"> -- Use regular expressions in combination with basic string-related functions</p>
+<br>
+<br>
+<p style="font-size:20px"> -- So far, we learned how to do literal character match</p>
+<p style="font-size:20px"> -- Use Regex to match patterns in a more concise and flexible way</p>
+
+## Regular Expressions | Character classes
+<img src="images/character_classes.png" style="width:95%"><br>
+<p class="pnote">R supports POSIX, Perl-like, and ASCII expressions</p>
+<p class="pnote">Source: <a href="https://en.wikipedia.org/wiki/Regular_expression">wikipedia</a></p>
+
+## Regular Expressions | Character classes -- Example
+
+```{r}
+# Example: Remove Numbers
+chr <- "RWorkshop2021@ufl.edu"
+gsub("[[:digit:]]", "",chr)
+gsub("\\d", "",chr)
+gsub("[0-9]", "",chr)
+```
+
+```{r}
+# Example: Alphabet
+gsub("[[:alpha:]]", "",chr)
+gsub("[A-Za-z]", "",chr)
+```
+
+## Regular Expressions | List of Metacharacters -- Single character match
+<ol>
+```{r echo=F}
+openxlsx::read.xlsx("images/meta1.xlsx") %>%
+  kable("html") #%>%
+  #kable_styling()
+  # kable_paper(bootstrap_options = "striped", full_width = F)
+  # kable_styling(bootstrap_options = c("striped", "hover"))
+```
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Metacharacter </th>
+   <th style="text-align:left;"> Matches </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> <b>.</b> </td>
+   <td style="text-align:left;"> Matches any one character </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> [...] </td>
+   <td style="text-align:left;"> Matches any one character listed inside [] </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> [^...] </td>
+   <td style="text-align:left;"> Matches any one character NOT listed inside [] </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> \\<i>char</i> </td>
+   <td style="text-align:left;"> Escape character. When char is a metacharacter, add \\ to match liternal <i>char</i> </td>
+  </tr>
+</tbody>
+</table>
+<br>
+
+```{r error=T}
+# Example
+gsub("[a-c]", "", "banan.")
+gsub("[^a-c]", "", "banan")
+gsub("a.", "", "banana")
+```
+
+```{r}
+# example
+gsub(".", "", "...banana", perl=T)  # Need to Escape!
+gsub("\\.", "", "...banana", perl=T)
+```
+</ol>
+
+## Regular Expressions | List of Metacharacters -- Quantifiers
+<ol>
+```{r echo=F}
+openxlsx::read.xlsx("images/meta2.xlsx") %>%
+  kable("html") #%>%
+  #kable_styling()
+  # kable_paper(bootstrap_options = "striped", full_width = F)
+  # kable_styling(bootstrap_options = c("striped", "hover"))
+```
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Metacharacter </th>
+   <th style="text-align:left;"> Matches </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> ? </td>
+   <td style="text-align:left;"> 0 or 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> \* </td>
+   <td style="text-align:left;"> Any number including 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> \+ </td>
+   <td style="text-align:left;"> At least one </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> {min, max} </td>
+   <td style="text-align:left;"> Min required, Max optional </td>
+  </tr>
+</tbody>
+</table>
+<br>
+```{r eval=F}
+# Example
+chr=c("ggle", "gogle", "google", "gooogle", "goooogle")
+grep("go?gle", chr, value=T)
+grep("go*gle", chr, value=T)
+grep("go+gle", chr, value=T)
+grep("go{2,}gle", chr, value=T)
+grep("go{1,3}gle", chr, value=T)
+```
+
+</ol>
+
+
+## Regular Expressions | List of Metacharacters -- Position Matching
+<ol>
+```{r echo=F}
+openxlsx::read.xlsx("images/meta3.xlsx") %>%
+  knitr::kable("html") #%>%
+  #kable_styling()
+  # kable_paper(bootstrap_options = "striped", full_width = F)
+  # kable
+```
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Metacharacter </th>
+   <th style="text-align:left;"> Matches </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> \^ </td>
+   <td style="text-align:left;"> Matches the position at the start of the line </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> $ </td>
+   <td style="text-align:left;"> Matches the position at the end of the line </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> \\b </td>
+   <td style="text-align:left;"> Matches the empty string at either edge of a word</td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> \\B </td>
+   <td style="text-align:left;"> Matches the string that is not at an edge of a word</td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> \\\< </td>
+   <td style="text-align:left;"> Matches the position at the start of a word </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> \\\> </td>
+   <td style="text-align:left;"> Matches the position at the end of a word </td>
+  </tr>
+</tbody>
+</table>
+<br> 
+```{r}
+# Example
+gsub("a", "A", "An anaconda living in the amazon area")
+gsub("^a", "A", "An anaconda living in the amazon area")
+gsub("a$", "A", "An anaconda living in the amazon area")
+gsub("\\<a", "A", "An anaconda living in the amazon area")
+gsub("a\\>", "A", "An anaconda living in the amazon area")
+gsub("\\ba", "A", "An anaconda living in the amazon area")
+gsub("\\Ba", "A", "An anaconda living in the amazon area")
 ```
 
 
+</ol>
+
+
+## Regular Expressions | List of Metacharacters -- Other
+<ol>
+```{r echo=F}
+openxlsx::read.xlsx("images/meta4.xlsx") %>%
+  knitr::kable("html") #%>%
+  #kable_styling()
+  # kable_paper(bootstrap_options = "striped", full_width = F)
+  # kable_styling(bootstrap_options = c("striped", "hover"))
+```
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Metacharacter </th>
+   <th style="text-align:left;"> Matches </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> | </td>
+   <td style="text-align:left;"> "or" </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> (...) </td>
+   <td style="text-align:left;"> (1) Limits Scope and (2) Capture for the backreferences</td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> \\1, \\2, ...</td>
+   <td style="text-align:left;"> Matches text within the parentheses </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> \\s (cf. \\S); \\t</td>
+   <td style="text-align:left;">  A single whitespace character; The tab character</td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> \\n</td>
+   <td style="text-align:left;">  The new line character</td>
+  </tr>
+</tbody>
+</table>
+
+
+```{r}
+# Example
+grep("ise", c("summarize", "summarise"), value=T)
+grep("i(s|z)e", c("summarize", "summarise"), value=T)
+gsub(".* (.*) but.*","\\1","I what \"this\" but not that")
+gsub("\\s{2,}", " ", "  please   remove empty   whitespaces  ")
+gsub("^ +| +$", "", "  please   remove empty   whitespaces  ")  # trimws()
+cat("This is line1\nThis is line2\n\tThis is a tab")
+```
+</ol>
+
+## Regular Expressions | Your Turn
+<ol>
+<li>Is this a valid price?</li>
+```{r}
+is_price=c("$100", "$10.7", "$.99", "10", "$7,77", "$9.999")
+# Only return $100, $10.7, $.99
+```
+
+<li>Return price</li>
+```{r}
+chr = "I've bought 6-pack beer on sale for 4.99 dollars"
+# Return 4.99
+```
+</ol>
+
+## Regular Expressions | Your Turn -- Amazon Data
+
+```{r}
+# Read the data
+df<-read.csv("data/thermostat_amazon.csv", stringsAsFactors = F)
+```
+<ol type="i">
+<li>Change the "star" column to integer value only</li>
+<p style="font-size:18px">"1.0 out of 5 stars" -> 1 </p>
+
+<li>Create three columns --  "year", "month", "day"<br>
+Assign values based on the "date" column</li>
+```{r echo=F}
+df$year=gsub(".*([0-9]{4})$", "\\1",df$date)
+df$month=gsub("on ([[:alpha:]]+) .*", "\\1", df$date)
+df$month=gsub("on (.*?) .*", "\\1", df$date)
+# R is greedy
+# .* will search for the longest pattern
+# .*? searches for the least number of repetitions
+df$day=gsub(".* ([0-9]+), .*", "\\1", df$date)
+```
+
+
+
+<li>Create a new column "verified"<br>
+Assign 1 if column "info_2" contains "Verified Purchase"<br>
+0 o.w.</li>
+```{r echo=F}
+unique(df$info_2)
+table(df$info_2)
+df$verified=ifelse(grepl("Verified Purchase",df$info_2),1,0)
+```
+</ol>
+
+## Regular Expressions | Your Turn -- Amazon Data
+<ol type="i" start = "4">
+<li>Clean reviews (column: info_3)
+<br><p style="font-size:18px">Reduce punctuation repeating more than 2 consecutive times to once</p></li>
+```{r}
+# Example
+df$info_3[2]; df$info_3[4]; df$info_3[8]; 
+```
+
+```{r echo=F}
+gsub("([[:punct:]])+", "\\1", df$info_3[8])
+```
+<li>More cleanings to consider... </li>
+<ul>
+<div class="row">
+<div class="column">
+<li><p>Spelling Errors</p></li>
+<li><p>Abbreviations</p></li>
+<li><p>Punctuations</p></li>
+```{r echo=F}
+df$info_3 <- gsub("[[:punct:]]", "", df$info_3)
+```
+</div>
+<div class="column">
+<li><p>Lower/Upper Cases</p></li>
+<li><p>Emoji</p></li>
+<li><p>Encoding issues</p></li>
+</div>
+```{r echo=F}
+df$info_3 <- iconv(df$info_3, "latin1", "ASCII")  # one example
+```
+</ul>
+</ol>
+
+<!-- ## Text Mining | package tm -->
+<!-- <ol> -->
+<!-- <li>Setup</li> -->
+<!-- ```{r} -->
+<!-- library(tm) -->
+<!-- df$info_3 %>% -->
+<!--   VectorSource() %>% -->
+<!--   Corpus() -> corp -->
+<!-- ``` -->
+
+<!-- <li>Remove stopwords, punctuation, and whitespace</li> -->
+<!-- ```{r} -->
+<!-- corp <- tm_map(corp, removeWords, stopwords("english")) -->
+<!-- # If you need to add custom stopwords -->
+<!-- corp <- tm_map(corp, removeWords, c("however")) -->
+<!-- corp <- tm_map(corp, removePunctuation) -->
+<!-- corp <- tm_map(corp, stripWhitespace) -->
+<!-- ``` -->
+
+<!-- <li>Stem words</li> -->
+<!-- ```{r} -->
+<!-- corp <- tm_map(corp, stemDocument) -->
+<!-- ``` -->
+
+
+<!-- <li>Word Frequency</li> -->
+<!-- ```{r} -->
+<!-- TermDocumentMatrix(corp) %>% -->
+<!--   as.matrix() %>% -->
+<!--   {sort(rowSums(.),decreasing=TRUE)} %>% -->
+<!--   {data.frame(word=names(.), freq=.)} %>% -->
+<!--   head() -->
+<!-- ``` -->
+
+
+<!-- </ol> -->
+
+<!-- # ```{r} -->
+<!-- # TermDocumentMatrix(corp) %>% -->
+<!-- #   findAssocs(terms = c("thermostat"), corlimit = 0.25) -->
+<!-- #  -->
+<!-- # TermDocumentMatrix(corp) %>% -->
+<!-- #   findAssocs(terms = findFreqTerms(TermDocumentMatrix(corp), lowfreq=100), corlimit = 0.25) -->
+<!-- # ``` -->
+
+
+```{r echo=F}
+df$info_3 %>%
+  as.character()
+  tibble() %>%
+  # data.frame(review=., stringsAsFactors = F) %>%
+  tidytext::unnest_tokens(word, `info_3`)
+```
+
+
+
+
+<!-- <li>Create a new column "program"<br> -->
+<!-- Extract the number between "Pattern:" and "Day"</li> -->
+<!-- </ol> -->
+
+<!-- ```{r echo=F} -->
+<!-- unique(df$info_2) -->
+<!-- table(df$info_2) -->
+<!-- df$verified=ifelse(grepl("Verified Purchase",df$info_2),1,0) -->
+<!-- ``` -->
 
