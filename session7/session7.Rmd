@@ -1,0 +1,115 @@
+---
+title: Session 7
+output:
+  ioslides_presentation:
+    css: cust_css.css
+  slidy_presentation: default
+  beamer_presentation: default
+subtitle: How to handle strings in  R
+author: "Tek Song"
+ratio: 16x10
+---
+```{r setup, include=F}
+knitr::opts_chunk$set(echo=T, eval=F, cache = F)
+```
+
+
+## Session outline
+
+```{r eval=T, include=F}
+library(dplyr)
+library(rvest)
+```
+<ol>
+<li>Web Scraping</li>
+<ul>
+<li>What is HTML?</li>
+<li>Path Selector</li>
+<li></li>
+</ul>
+<li>Text Analytics methods</li>
+</ol>
+
+
+## Web Scraping | What is HTML?
+
+- Standard markup language for constructing web pages
+- Document Object Model (DOM)
+- HTML Element
+- See also [`CSS`](https://www.w3schools.com/css/default.asp) and [`JavaScript`](https://www.w3schools.com/js/default.asp)
+
+## Web Scraping | Understanding the HTML Structure {.smaller}
+
+<div class="column">
+<img class="resize_90" src="images/DOM.png">
+<a href="https://commons.wikimedia.org/wiki/File:DOM-model.svg"><p style="font-size:10px">Image source</p></a>
+</div>
+
+<div class="column">
+```{r eval=F}
+<!DOCTYPE html>  # Declaration
+<HTML>           # Root of HTML doc
+    <HEAD>       # Metadata
+        <TITLE>My Title</TITLE> 
+    </HEAD>
+    <BODY>      # contents
+        <H1>A Heading</H1>
+        <a href="path">Link text</a>
+    </BODY>
+</HTML> 
+```
+</div>
+```{r echo=F}
+"example.html" %>%
+  rvest::read_html() %>%
+  html_nodes(xpath="//body//span [@id='time']")
+```
+
+```{r echo=F}
+"https://www.reddit.com/search/?q=emptiness" %>%
+  rvest::read_html() %>%
+  html_nodes(xpath='//div [@id="t3_qgfjd1"]/ancestor::div')
+```
+
+
+## Web Scraping | Tree Structure of HTML - Example {.smaller}
+<div style="margin-top:-30px;"></div>
+<div align="center">
+<img class="resize_80" src="images/Tree_gif.gif">
+<img class="resize_80" src="images/tree_example.png">
+</div>
+
+## Web Scraping | HTML Element
+<div style="margin-top:-30px;"></div>
+<div align="center">
+<img class="resize_80" src="images/html_element.PNG">
+<br>
+<br>
+<div align="left">
+[List of Common HTML Tags](https://www.w3schools.com/tags/tag_comment.asp)
+<img class="resize_90" src="images/tags.png">
+</div>
+</div>
+
+
+## Web Scraping | Path selector {.smaller}
+<div class="row">
+<div class="column" align="left">
+<img class="resize_100" src="images/path_eg.PNG">
+</div>
+<div class="column" align="left">
+<ul>
+<li> Path selector </li>
+<ul>
+<li> [`xpath`](https://www.w3schools.com/xml/xpath_intro.asp)</li>
+<li> [`css`](https://www.w3schools.com/css/default.asp) </li>
+</ul>
+<li> Finding the path </li>
+<ul>
+<li> Browser -> Inspect Element </li>
+<li> [`Selector Gadget`](https://selectorgadget.com/) </li>
+<li> [`firebug`](https://getfirebug.com/) </li>
+</ul>
+</ul>
+</div>
+</div>
