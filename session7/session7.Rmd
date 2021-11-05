@@ -5,7 +5,7 @@ output:
     css: cust_css.css
   slidy_presentation: default
   beamer_presentation: default
-subtitle: How to handle strings in  R
+subtitle: Web Scraping using  R
 author: "Tek Song"
 ratio: 16x10
 ---
