@@ -22,23 +22,40 @@ library(rvest)
 ```
 <ol>
 <li>Web Scraping</li>
-<ul>
+
+<ol type="i">
 <li>What is HTML?</li>
-<li>Path Selector</li>
-<li></li>
+<ul>
+<li>Basic HTML Structure</li>
+<li>HTML Elements</li>
+<li>How to select paths</li>
 </ul>
-<li>Text Analytics methods</li>
+</ol>
+
+<ol type="i">
+<li>Basic R packages for web scraping</li>
+<ul>
+<li>`rvest` package</li>
+<li>`RSelenium` package</li>
+<li>`httr` package</li>
+</ul>
+</ol>
+
+<li>Requesting Data from an API</li>
 </ol>
 
 
 ## Web Scraping | What is HTML?
 
 - Standard markup language for constructing web pages
-- Document Object Model (DOM)
-- HTML Element
-- See also [`CSS`](https://www.w3schools.com/css/default.asp) and [`JavaScript`](https://www.w3schools.com/js/default.asp)
+- HTML describes the `structure` of a Web page
+- HTML consists of a series of `elements`
+- HTML cam be enhanced by [`CSS`](https://www.w3schools.com/css/default.asp) and [`JavaScript`](https://www.w3schools.com/js/default.asp)
 
-## Web Scraping | Understanding the HTML Structure {.smaller}
+<p class="pnote">CSS is used to style an HTML document (e.g. presentation, formatting and layout)</p>
+<p class="pnote">JavaScript is the programming language of the web (controls the behavior of elements)</p>
+
+## Web Scraping | HTML Structure {.smaller}
 
 <div class="column">
 <img class="resize_90" src="images/DOM.png">
@@ -59,25 +76,6 @@ library(rvest)
 </HTML> 
 ```
 </div>
-```{r echo=F}
-"example.html" %>%
-  rvest::read_html() %>%
-  html_nodes(xpath="//body//span [@id='time']")
-```
-
-```{r echo=F}
-"https://www.reddit.com/search/?q=emptiness" %>%
-  rvest::read_html() %>%
-  html_nodes(xpath='//div [@id="t3_qgfjd1"]/ancestor::div')
-```
-
-
-## Web Scraping | Tree Structure of HTML - Example {.smaller}
-<div style="margin-top:-30px;"></div>
-<div align="center">
-<img class="resize_80" src="images/Tree_gif.gif">
-<img class="resize_80" src="images/tree_example.png">
-</div>
 
 ## Web Scraping | HTML Element
 <div style="margin-top:-30px;"></div>
@@ -91,25 +89,208 @@ library(rvest)
 </div>
 </div>
 
+<p class="pnote">Also check the `table` tag</p>
 
-## Web Scraping | Path selector {.smaller}
+## Web Scraping | Your Turn -- Create an HTML page
+<ol>
+<li>Open a text editor -- e.g. Windows Notepad</li>
+<li>Declare HTML document -- 1st line of your document</li>
+```{r}
+<!DOCTYPE html>
+```
+<li>Insert the following tags: html, head, and body</li>
+
+```{r}
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+  </body>
+</html>
+```
+
+<p class="pnote"><a href="https://rworkshop-at-uf.github.io/session7/html_example.html">Download the complete document</a></p>
+</ol>
+
+## Web Scraping | Your Turn -- Create an HTML page (Cont.)
+<ol start="4">
+<li>Insert `title` tag under `head` tag</li>
+```{r}
+<head>
+  <title>HTML Tutorial</title>
+</head>
+```
+<!-- <li>Create a heading with `H1` tag</li> -->
+<!-- ```{r} -->
+<!--   <body> -->
+<!--     <h1>This is H1 tag</h1> -->
+<!--   </body> -->
+<!-- ``` -->
+<!-- <li>Create a paragraph with `p` tag</li> -->
+<li>Create a division/section using `div` tag under the `body` tag</li>
+```{r}
+<body>
+  <h1>This is H1 tag</h1>
+  <p>This is a paragraph</p>
+  <div>
+    <h2>div H2 heading</h2>
+  </div>
+</body>
+```
+</ol>
+
+## Web Scraping | Your Turn -- Create an HTML page (Cont.)
+<ol start="6">
+<li>Create an anchor with `a` tag.<br> Use `href` attribute to hyperlink<br> "https://rworkshop-at-uf.github.io/schedule.html"</li>
+```{r}
+<body>
+  <a href="https://rworkshop-at-uf.github.io/schedule.html">Schedules</a>
+</body>
+```
+
+## Web Scraping | Your Turn -- Create an HTML page (Cont.)
+<ol start="7">
+<li>Create a table with `table` tag <p style="font-size:20px"> -- You may also define `thead` and `tbody`</p></li>
+```{r}
+<table>
+  <tr>                           # `tr`: table row
+    <th>COL<sub>1</sub></th>     # `th`: table header
+    <th>COL<sub>2</sub></th>
+  </tr>
+  <tr>
+    <td>cell<sub>11</sub></td>   # `td`: table data
+    <td>cell<sub>12</sub></td>
+  </tr>
+  <tr>
+    <td>cell<sub>21</sub></td>
+    <td>cell<sub>22</sub></td>
+  </tr>
+</table>
+```
+</ol>
+
+## Web Scraping | Your Turn -- Create an HTML page (Cont.)
+<ol start="8">
+<li>Add JavaScript with `script` tag</li>
+```{r}
+# JavaScript for displaying current time
+<script type="text/javascript">
+  function updateTime() {
+      var currentTime = new Date();
+      var hours = currentTime.getHours();
+      var minutes = currentTime.getMinutes();
+      var seconds = currentTime.getSeconds();
+      var v = hours + ":" + minutes + ":" + seconds + " ";
+      setTimeout("updateTime()",1000);
+      document.getElementById('time').innerHTML=v;
+  }
+</script>
+<button onclick="updateTime()">Click to get time</button>
+<h4>Current Time: <span id="time"></h4>
+```
+</ol>
+
+<!-- ## Web Scraping | Tree Structure of HTML - Example {.smaller} -->
+<!-- <div style="margin-top:-30px;"></div> -->
+<!-- <div align="center"> -->
+<!-- <img class="resize_80" src="images/Tree_gif.gif"> -->
+<!-- <img class="resize_80" src="images/tree_example.png"> -->
+<!-- </div> -->
+
+
+## Web Scraping | How to select paths -- xpath 
+
+<ol>
+<li>XPath uses "path like" syntax to identify and navigate node(s)</li>
+<li>There are 7 kind of nodes -- e.g. element, attribute, text, etc.</li>
+<li>Syntax -- Selecting Nodes</li>
+<img src="images/xpath_node.png">
+<p class="pnote"><a href="https://www.w3schools.com/xml/xpath_syntax.asp">Source</a></p>
+</ol>
+
+## Web Scraping | How to select paths -- xpath (Cont.)
+
+<ol start="2">
+<li>Syntax -- Predicates</li>
+<ul>
+<li>Predicates are used to find a specific node(s)</li>
+<li>Predicates are embedded in square brackets</li>
+</ul>
+<li>Syntax -- Axes</li>
+<ul>
+<li>Axes represents a relationship to the (current) node</li>
+<img src="images/xpath_axes.png" style="width:90%">
+</ul>
+</ol>
+
+## Web Scraping | How to select paths -- xpath (Cont.)
+
+Example
+<br>
+<img class="resize_90" src="images/html_element.png">
+<br>
+`//p [@class="foo"]`<br>
+`//p [contains(@class, "f")]`<br>
+`//p [contains(text(),'paragraph')]`
+
+
+## Web Scraping | rvest {.smaller}
+<div style="margin-top:-30px;"></div>
+<ol type="1">
+<li> Load `rvest` </li>
+```{r eval=F, echo=T}
+#install.packages("rvest")
+library(rvest)
+```
+<li> `read_html()`</li>
+Create an html document from a URL, a string, or a file containing html
+<br>
+```{r eval=F, echo=T}
+read_html("some url")
+```
+<li> `html_nodes()`</li>
+Two important arguments
+<ul>
+<li> Either a document or a node (set)</li>
+<li> Path in `xpath` or `css` </li>
+</ul>
+```{r eval=F, echo=T}
+html_nodes(document, css=path)
+html_nodes(document, xpath=path)
+```
+</ol>
+
+## Web Scraping | `rvest` (Cont.) {.smaller}
 <div class="row">
 <div class="column" align="left">
-<img class="resize_100" src="images/path_eg.PNG">
+<ol start="4">
+<li>Extract Components</li>
+<ul>
+<li> `html_text()`</li>
+Extract all text inside the tag
+<li> `html_attr()`</li>
+Extract contents of a single attribute
+<li> `html_attrs()`</li>
+Extract all attributes
+<li> `html_table()`</li>
+Parse tables into data frames
+<li> `html_name()`</li>
+Extract the name(s) of the tag(s)
+</ul>
+</ol>
 </div>
 <div class="column" align="left">
-<ul>
-<li> Path selector </li>
-<ul>
-<li> [`xpath`](https://www.w3schools.com/xml/xpath_intro.asp)</li>
-<li> [`css`](https://www.w3schools.com/css/default.asp) </li>
-</ul>
-<li> Finding the path </li>
-<ul>
-<li> Browser -> Inspect Element </li>
-<li> [`Selector Gadget`](https://selectorgadget.com/) </li>
-<li> [`firebug`](https://getfirebug.com/) </li>
-</ul>
-</ul>
+<ol start="5">
+<li> Combine the steps </li>
+```{}
+"some url" %>%
+  read_html() %>%
+  html_nodes(xpath="some path") %>%
+  html_`component`()
+```
+</ol>
 </div>
 </div>
+
+## Web Scraping | Your Turn!

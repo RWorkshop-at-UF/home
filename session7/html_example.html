@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HTML Tutorial</title>
+  </head>
+  <body>
+    <h1>This is H1 tag</h1>
+    <p>This is a paragraph</p>
+    <div name="anchor">
+      <h2>div H2 heading</h2>
+      <a href="https://rworkshop-at-uf.github.io/schedule.html">Schedules</a>
+    </div>
+    <br>
+    <div name="table">
+        <table>
+            <tr>                           
+              <th>COL<sub>1</sub></th>   
+              <th>COL<sub>2</sub></th>
+            </tr>
+            <tr>
+              <td>cell<sub>11</sub></td>
+              <td>cell<sub>12</sub></td>
+            </tr>
+            <tr>
+              <td>cell<sub>21</sub></td>
+              <td>cell<sub>22</sub></td>
+            </tr>
+          </table>
+    </div>
+    <br>
+    <div name="current time">
+        <!-- Display Current Time  -->
+        <script type="text/javascript">
+            function updateTime() {
+                var currentTime = new Date();
+                var hours = currentTime.getHours();
+                var minutes = currentTime.getMinutes();
+                var seconds = currentTime.getSeconds();
+                var v = hours + ":" + minutes + ":" + seconds + " ";
+                setTimeout("updateTime()",1000);
+                document.getElementById('time').innerHTML=v;
+            }
+        </script>
+        <button onclick="updateTime()">Click to get time</button>
+        <h4>Current Time: <span id="time"></h4>
+    </div>
+  </body>
+</html>
